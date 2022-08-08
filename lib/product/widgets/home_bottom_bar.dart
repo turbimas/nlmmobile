@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttericon/elusive_icons.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
+import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
 import 'package:nlmmobile/custom_icons_icons.dart';
-import 'package:nlmmobile/product/cubits/home_cubit/home_index_cubit.dart';
+import 'package:nlmmobile/product/cubits/home_index_cubit/home_index_cubit.dart';
 
 class HomeBottomBar extends StatelessWidget {
   static const double iconSize = 25;
@@ -31,8 +32,8 @@ class HomeBottomBar extends StatelessWidget {
       )),
       child: Container(
           color: Colors.transparent,
-          width: ScreenUtil.defaultSize.width.w,
-          height: 100.h,
+          width: ScreenUtil.defaultSize.width.smw,
+          height: 100.smh,
           child: Stack(
             children: [
               Positioned(
@@ -40,7 +41,7 @@ class HomeBottomBar extends StatelessWidget {
                 bottom: 0,
                 child: Container(
                   color: CustomThemeData.bottomBarBackgroundColor,
-                  height: 75.h,
+                  height: 75.smh,
                   width: ScreenUtil.defaultSize.width.w,
                 ),
               ),
@@ -81,8 +82,9 @@ class HomeBottomBar extends StatelessWidget {
   _iconContainer(BuildContext context, int index, double location, Icon icon) =>
       AnimatedPositioned(
         duration: _animationDuration,
-        bottom:
-            context.watch<HomeIndexCubit>().state.sayac == index ? 50.h : 15.h,
+        bottom: context.watch<HomeIndexCubit>().state.sayac == index
+            ? 50.smh
+            : 15.smh,
         left: location.w,
         child: InkWell(
           onTap: () {
@@ -90,8 +92,8 @@ class HomeBottomBar extends StatelessWidget {
           },
           child: AnimatedContainer(
               duration: _animationDuration,
-              width: 50.w,
-              height: 50.h,
+              width: 50.smh,
+              height: 50.smh,
               decoration: BoxDecoration(
                 color: context.watch<HomeIndexCubit>().state.sayac == index
                     ? CustomThemeData.bottomBarHighlightColor

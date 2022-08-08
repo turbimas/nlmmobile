@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nlmmobile/product/widgets/custom_safearea.dart';
+import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
+import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/searchbar/searchbar_view.dart';
-import 'package:nlmmobile/view/main/subpages/search/search_viewmodel.dart';
 
 class SearchView extends ConsumerStatefulWidget {
   const SearchView({Key? key}) : super(key: key);
@@ -13,43 +13,23 @@ class SearchView extends ConsumerStatefulWidget {
 }
 
 class SearchbarState extends ConsumerState<SearchView> {
-  late ScrollController _scrollController;
-  bool isVisible = true;
-
-  late ChangeNotifierProvider<SearchViewModel> provider;
-
-  @override
-  void initState() {
-    _scrollController = ScrollController();
-    provider = ChangeNotifierProvider<SearchViewModel>((ref) =>
-        SearchViewModel(categoriesScrollController: _scrollController));
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // ref.read(provider).dispose();
-    _scrollController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return CustomSafearea(
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Padding(
-          padding:
-              EdgeInsets.only(left: 15.w, right: 15.w, top: 10.h, bottom: 75.h),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SearchBarView(hint: "Ürün veya kategori ara"),
-              SizedBox(height: ref.watch(provider).sizedBoxHeight.h),
-              Expanded(
+    return Scaffold(
+      appBar: CustomAppBar.inactiveBack("Ürün kategorileri"),
+      body: Padding(
+        padding: EdgeInsets.only(
+            top: 10.smh, left: 15.smw, right: 15.smw, bottom: 75.smh),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SearchBarView(hint: "Ürün veya kategori ara"),
+            SizedBox(height: 15.smh),
+            Expanded(
+              child: Scrollbar(
+                trackVisibility: true,
+                radius: const Radius.circular(45),
                 child: GridView.builder(
-                  controller: _scrollController,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 30.w,
@@ -65,8 +45,8 @@ class SearchbarState extends ConsumerState<SearchView> {
                   },
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

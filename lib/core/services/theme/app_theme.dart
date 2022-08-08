@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 
 class AppTheme {
   static ThemeData? appTheme;
 
   static final themeData = ThemeData(
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      primaryColor: const Color(0xFFEEEEEE),
-      scaffoldBackgroundColor: const Color(0xFFEEEEEE),
+      primaryColor: CustomThemeData.primaryColor,
+      scaffoldBackgroundColor: Colors.transparent,
+      appBarTheme: AppBarTheme(
+          elevation: 0,
+          backgroundColor: const Color(0xFF0E5B28),
+          iconTheme: const IconThemeData(color: Colors.white),
+          titleTextStyle: GoogleFonts.inder(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w400,
+            color: Colors.white,
+          )),
       textTheme: TextTheme(
         headline6: GoogleFonts.inder().copyWith(
           fontSize: 36,
@@ -30,10 +40,10 @@ class AppTheme {
           fontSize: 14,
         ),
         subtitle2: GoogleFonts.inder().copyWith(
-          fontSize: ScreenUtil().setSp(12),
+          fontSize: 12,
         ),
         overline: GoogleFonts.inder().copyWith(
-          fontSize: ScreenUtil().setSp(12),
+          fontSize: 12,
         ),
       ));
 }

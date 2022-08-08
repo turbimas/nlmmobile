@@ -1,9 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/app_theme.dart';
-import 'package:nlmmobile/product/cubits/home_cubit/home_index_cubit.dart';
+import 'package:nlmmobile/product/constants/app_constants.dart';
+import 'package:nlmmobile/product/cubits/home_index_cubit/home_index_cubit.dart';
 import 'package:nlmmobile/view/auth/splash/splash_view.dart';
 
 void main(List<String> args) {
@@ -12,21 +17,42 @@ void main(List<String> args) {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.transparent, // navigation bar color
+      statusBarColor: Colors.transparent, // status bar color
+      systemNavigationBarDividerColor: Colors.transparent));
+
   runApp(const App());
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
 
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeIndexCubit(),
       child: ProviderScope(
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.appTheme,
-          home: const SplashView(),
+        child: ScreenUtilInit(
+          designSize: AppConstants.designSize,
+          builder: (context, child) => child!,
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.appTheme,
+            navigatorKey: NavigationService.instance.navigatorKey,
+            home: SplashView(setstate: () {
+              Future.delayed(const Duration(milliseconds: 500), () {
+                setState(() {
+                  log("setState");
+                });
+              });
+            }),
+          ),
         ),
       ),
     );

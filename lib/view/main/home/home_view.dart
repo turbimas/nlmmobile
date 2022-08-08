@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
+import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
 import 'package:nlmmobile/product/constants/asset_constants.dart';
-import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/product_overview/product_overview_view.dart';
 import 'package:nlmmobile/product/widgets/searchbar/searchbar_view.dart';
 
@@ -17,9 +17,6 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class _HomeViewState extends ConsumerState<HomeView> {
-  final ScrollController _scrollController = ScrollController();
-  Map<String, GlobalKey> productKeys = {};
-
   @override
   void initState() {
     super.initState();
@@ -27,46 +24,44 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomSafearea(
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(height: 20.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                child: const SearchBarView(hint: "Ürün veya kategori ara"),
-              ),
-              SizedBox(height: 10.h),
-              _fastCategories(),
-              SizedBox(height: 10.h),
-              _imageBanner(),
-              SizedBox(height: 10.h),
-              _productBanner(),
-              SizedBox(height: 85.h),
-            ],
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+                left: 15.smw, right: 15.smw, top: 10.smh, bottom: 15.smh),
+            child: const SearchBarView(hint: "Ürün veya kategori ara"),
           ),
-        ),
+          _fastCategories(),
+          SizedBox(height: 15.smh),
+          _imageBanner(),
+          SizedBox(height: 15.smh),
+          _productBanner(),
+          SizedBox(height: 75.smh),
+        ],
       ),
     );
   }
 
-  Container _bannerBackground(Widget child, {required double height}) {
+  Container _bannerBackground({required Widget child, required double height}) {
     return Container(
       height: height,
       width: double.infinity,
-      decoration:
-          const BoxDecoration(gradient: CustomThemeData.bannerCardGradient),
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: CustomThemeData.bannerCardGradientColors)),
       child: child,
     );
   }
 
   Widget _fastCategories() {
     return _bannerBackground(
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+        height: 100.smh,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 5.smh),
           child: Scrollbar(
             trackVisibility: true,
             radius: const Radius.circular(45),
@@ -76,8 +71,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
               itemBuilder: (context, index) {
                 if (index % 2 == 0) {
                   return SizedBox(
-                    height: 60.h,
-                    width: 60.w,
+                    height: 60.smh,
+                    width: 60.smw,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -87,7 +82,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.25),
                                 blurRadius: 10,
-                                offset: Offset(0, 5.h),
+                                offset: Offset(0, 5.smh),
                               ),
                             ],
                           ),
@@ -99,36 +94,38 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 5.h),
+                        SizedBox(height: 5.smh),
                         Text(
                           "Category category $index",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.inder(
-                              fontWeight: FontWeight.w400, fontSize: 9.w),
+                              fontWeight: FontWeight.w400, fontSize: 9.smw),
                         ),
                       ],
                     ),
                   );
                 } else {
-                  return SizedBox(width: 10.w);
+                  return SizedBox(width: 10.smw);
                 }
               },
             ),
           ),
-        ),
-        height: 100.h);
+        ));
   }
 
   _imageBanner() {
     return _bannerBackground(
-        Padding(
-          padding:
-              EdgeInsets.only(bottom: 15.h, top: 5.h, left: 15.w, right: 15.w),
+        height: 220.smh,
+        child: Padding(
+          padding: EdgeInsets.only(
+              bottom: 15.smh, top: 5.smh, left: 15.smw, right: 15.smw),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              _allRow(),
-              SizedBox(height: 5.h),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.smw),
+                  child: _allRow("Kampanyalar")),
+              SizedBox(height: 5.smh),
               Expanded(
                 child: Stack(
                   children: [
@@ -140,8 +137,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           itemCount: 20,
                           itemBuilder: (context, index) {
                             return SizedBox(
-                                height: 170.h,
-                                width: 330.w,
+                                height: 170.smh,
+                                width: 330.smw,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(30),
                                   child: Image.network(
@@ -154,11 +151,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       ),
                     ),
                     Positioned(
-                      top: 15.h,
-                      right: 15.w,
+                      top: 15.smh,
+                      right: 15.smw,
                       child: Container(
-                        width: 40.w,
-                        height: 20.h,
+                        width: 40.smw,
+                        height: 20.smh,
                         decoration: BoxDecoration(
                           color: CustomThemeData.bannerChipColor,
                           borderRadius: BorderRadius.circular(80),
@@ -175,52 +172,53 @@ class _HomeViewState extends ConsumerState<HomeView> {
               )
             ],
           ),
-        ),
-        height: 220.h);
+        ));
   }
 
   _productBanner() {
     return _bannerBackground(
-        Padding(
-          padding:
-              EdgeInsets.only(top: 5.h, left: 15.w, right: 15.w, bottom: 10.h),
+        height: 305.smh,
+        child: Padding(
+          padding: EdgeInsets.only(
+              top: 5.smh, left: 15.smw, right: 15.smw, bottom: 25.smh),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              _allRow(),
-              SizedBox(height: 5.h),
-              Expanded(
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.smw),
+                  child: _allRow("En çok satılanlar")),
+              SizedBox(height: 5.smh),
+              SizedBox(
+                width: 330.smw,
+                height: 250.smh,
                 child: ListView.builder(
-                  controller: _scrollController,
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemCount: 20,
                   itemBuilder: (context, index) {
                     if (index % 2 == 0) {
-                      productKeys["$index"] = GlobalKey();
-                      return ProductOverviewView(key: productKeys["$index"]);
+                      return const ProductOverviewView();
                     } else {
-                      return SizedBox(width: 10.w);
+                      return SizedBox(width: 10.smw);
                     }
                   },
                 ),
-              )
+              ),
             ],
           ),
-        ),
-        height: 290.h);
+        ));
   }
 
-  Row _allRow() {
+  Row _allRow(String title) {
     return Row(
       // kampyanyalar ve tümü
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text("Kampanyalar"),
+        Text(title),
         Container(
-          height: 20.h,
-          width: 90.w,
-          padding: EdgeInsets.symmetric(vertical: 2.5.h, horizontal: 10.w),
+          height: 20.smh,
+          width: 90.smw,
+          padding: EdgeInsets.symmetric(vertical: 2.5.smh, horizontal: 10.smw),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(80),

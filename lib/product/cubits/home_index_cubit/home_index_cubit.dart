@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -10,6 +8,5 @@ class HomeIndexCubit extends Cubit<HomeIndexState> {
 
   void set(int sayac) {
     emit(HomeIndexInitial(sayac));
-    log('HomeIndexCubit: set: $sayac');
   }
 }
