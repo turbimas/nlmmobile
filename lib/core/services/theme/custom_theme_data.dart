@@ -13,14 +13,14 @@ class CustomThemeData {
   // basics
   static const Color primaryColor = Color(0XFF0E5B28);
   static const Color secondaryColor = Color(0XFF0F8235);
+  static const Color detailTitleColor = Color(0xFF807E7E);
 
   // widgets
   static const Color safeAreaColor = primaryColor;
   static const Color appBarColor = primaryColor;
   static const List<Color> scaffoldBackgroundGradientColors = [
+    Color.fromRGBO(173, 249, 200, 1),
     Colors.white,
-    Color.fromRGBO(222, 254, 233, 1),
-    Colors.yellow
   ];
 
   // custom widgets
@@ -40,4 +40,6 @@ class CustomThemeData {
   static const Color bottomBarIconColor = Color(0xFFE9F3D0);
 
   static const Color profileCardColor = Color(0xffB5D7C0);
+
+  static const Color orderCompletedCancelColor = Color(0xFF820F0F);
 }

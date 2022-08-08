@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
 import 'package:nlmmobile/product/constants/asset_constants.dart';
+import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 
 class PromotionsView extends StatefulWidget {
@@ -17,25 +18,11 @@ class _PromotionsViewState extends State<PromotionsView> {
   Widget build(BuildContext context) {
     return CustomSafeArea(
       child: Scaffold(
+        appBar: CustomAppBar.activeBack("Promosyonlar"),
         body: Column(
           children: [
-            SizedBox(
-              height: 60.smh,
-              child: Center(
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      IconButton(
-                          icon: const Icon(Icons.arrow_back_ios_new),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }),
-                      const Text("Uygulanabilecek promosyonlar")
-                    ]),
-              ),
-            ),
             Divider(thickness: 1.smh, height: 0.smh),
-            SizedBox(height: 20.smh),
+            SizedBox(height: 10.smh),
             SizedBox(
               height: 200.smh,
               child: Column(

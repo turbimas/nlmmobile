@@ -21,6 +21,7 @@ class CustomAppBar {
         child: AppBar(
           title: Text(title),
           centerTitle: true,
+          leading: const SizedBox(),
         ),
       );
 }

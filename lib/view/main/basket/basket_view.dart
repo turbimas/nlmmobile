@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
@@ -24,24 +27,42 @@ class _BasketViewState extends ConsumerState<BasketView> {
   ChangeNotifierProvider<BasketViewModel> provider =
       ChangeNotifierProvider((ref) => BasketViewModel());
 
+  final ScrollController _scrollController = ScrollController();
+  double _expandedHeight = 200;
+
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent -
+              _scrollController.position.pixels >
+          200) {
+        setState(() {
+          _expandedHeight = 200;
+        });
+      } else {
+        setState(() {
+          _expandedHeight = _scrollController.position.maxScrollExtent -
+              _scrollController.position.pixels;
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _body(),
+      // appBar: CustomAppBar.inactiveBack("Sepetim"),
     );
   }
 
   Widget _body() {
-    // if (false) {
-    //   return _notEmpty();
-    // } else {
-    return _notEmpty();
-    // }
+    if (Random().nextInt(2) == 0) {
+      return _empty();
+    } else {
+      return _notEmpty();
+    }
   }
 
   Widget _notEmpty() {
@@ -51,13 +72,15 @@ class _BasketViewState extends ConsumerState<BasketView> {
           top: 10.smh,
           left: 15.smw,
           right: 15.smw,
+          bottom: 75.smh,
           child: Column(children: [
             const SearchBarView(hint: "Sepette ürün ara"),
             SizedBox(height: 10.smh),
             SizedBox(
-              height: 790.smh,
+              height: 600.smh,
               child: GridView.builder(
                 shrinkWrap: true,
+                controller: _scrollController,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisExtent: 250.smh,
@@ -69,7 +92,7 @@ class _BasketViewState extends ConsumerState<BasketView> {
             ),
           ]),
         ),
-        _detail()
+        _detailExpanded()
       ],
     );
   }
@@ -100,7 +123,7 @@ class _BasketViewState extends ConsumerState<BasketView> {
                 height: 70.smh,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(90),
-                    color: Colors.green),
+                    color: CustomThemeData.secondaryColor),
                 child: Center(
                   child: Text("Hemen alışverişe başlayın",
                       textAlign: TextAlign.center,
@@ -116,121 +139,9 @@ class _BasketViewState extends ConsumerState<BasketView> {
     );
   }
 
-  Widget _detail() {
-    return Positioned(
-      bottom: 75.smh,
-      child: SizedBox(
-        height: 125.smh,
-        child: Column(
-          children: [
-            _kampanyaMessage(),
-            Container(
-              height: 100.smh,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF50745C).withOpacity(0.5),
-                    blurRadius: 25,
-                    blurStyle: BlurStyle.inner,
-                  )
-                ],
-                gradient: CustomThemeData.paymentDetailGradient,
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10.smw),
-                    height: 59.5.smh,
-                    color: Colors.transparent,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const OrderDetail();
-                            }));
-                          },
-                          child: Container(
-                              height: 40.smh,
-                              width: 175.smw,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: Colors.green),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  SvgPicture.asset(AssetConstants.coupon,
-                                      color: Colors.white,
-                                      height: 20.smh,
-                                      width: 20.smw),
-                                  const Text("Promosyon kullan",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ))
-                                ],
-                              )),
-                        ),
-                        SizedBox(width: 20.smw),
-                        InkWell(
-                          onTap: () {},
-                          child: Container(
-                            height: 40.smh,
-                            width: 145.smw,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(90),
-                                boxShadow: [
-                                  BoxShadow(
-                                      blurRadius: 10,
-                                      spreadRadius: 3,
-                                      offset: Offset(0, 4.smh),
-                                      color: Colors.black.withOpacity(0.25))
-                                ],
-                                color: Colors.white),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                SvgPicture.asset(
-                                    AssetConstants.shopping_card_arrow_down,
-                                    height: 20.smh,
-                                    width: 20.smw,
-                                    color: Colors.black),
-                                const Text("Sepeti onayla")
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Divider(thickness: 1.smh, height: 1.smh),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10.smw),
-                    height: 39.5.smh,
-                    width: AppConstants.designWidth.smw,
-                    color: Colors.transparent,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text("Toplam tutar"),
-                        Text("32 TL"),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _detailExpanded() {
     return Positioned(
-      bottom: 75.smh,
+      bottom: (75 - 200 + _expandedHeight).smh,
       child: Container(
         color: Colors.transparent,
         height: 225.smh,
@@ -258,7 +169,12 @@ class _BasketViewState extends ConsumerState<BasketView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const OrderDetailView()));
+                    },
                     child: Container(
                       // ödemeye git
                       height: 50.smh,
@@ -271,11 +187,11 @@ class _BasketViewState extends ConsumerState<BasketView> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SvgPicture.asset(AssetConstants.coupon,
+                          SvgPicture.asset(AssetConstants.payment_card,
                               color: Colors.black,
                               height: 22.smh,
                               width: 32.smw),
-                          const Text("Ödemeye git")
+                          const Text("Sepete devam et")
                         ],
                       ),
                     ),
@@ -292,21 +208,27 @@ class _BasketViewState extends ConsumerState<BasketView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
-                            Text("... Miktarı"),
+                            Text("Ara toplam",
+                                style: TextStyle(
+                                    color: CustomThemeData.detailTitleColor)),
                             Text("23,65 TL")
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
-                            Text("... Miktarı"),
+                            Text("Teslimat Tutarı",
+                                style: TextStyle(
+                                    color: CustomThemeData.detailTitleColor)),
                             Text("53.23 TL")
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
-                            Text("... Miktarı"),
+                            Text("İndirim tutarı",
+                                style: TextStyle(
+                                    color: CustomThemeData.detailTitleColor)),
                             Text("76.42 TL")
                           ],
                         )
@@ -321,9 +243,12 @@ class _BasketViewState extends ConsumerState<BasketView> {
                     width: AppConstants.designWidth.smw,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text("TOPLAM TUTAR"),
-                        Text("1652.42 TL")
+                      children: [
+                        Text("TOPLAM TUTAR",
+                            style: GoogleFonts.leagueSpartan(
+                                color: CustomThemeData.detailTitleColor,
+                                fontSize: 18.sp)),
+                        const Text("1652.42 TL")
                       ],
                     ),
                   )
@@ -339,9 +264,9 @@ class _BasketViewState extends ConsumerState<BasketView> {
   Container _kampanyaMessage() {
     return Container(
         width: 260.smw,
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.9),
+            borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20))),
         height: 25.smh,
         alignment: Alignment.center,

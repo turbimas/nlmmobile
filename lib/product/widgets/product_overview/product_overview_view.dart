@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
-import 'package:nlmmobile/custom_icons_icons.dart';
+import 'package:nlmmobile/product/constants/asset_constants.dart';
 import 'package:nlmmobile/view/product/product_detail/product_detail_view.dart';
 
 class ProductOverviewView extends ConsumerStatefulWidget {
@@ -101,19 +103,19 @@ class _ProductOverviewViewState extends ConsumerState<ProductOverviewView> {
                   Text("Göral",
                       overflow: TextOverflow.fade,
                       style: GoogleFonts.inder(
-                          fontSize: 12.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                           color: const Color(0Xff646363))),
                   Text("Gaziantep fıstığı",
                       overflow: TextOverflow.fade,
                       style: GoogleFonts.inder(
-                          fontSize: 10.sp,
+                          fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
                           color: const Color(0xff1a1a1a))),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      _weigthChip(),
+                    children: const [
+                      // _weigthChip(),
                       //  _starChip(),
                       //   _favoriteChip()
                     ],
@@ -129,7 +131,7 @@ class _ProductOverviewViewState extends ConsumerState<ProductOverviewView> {
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20),
                 ),
-                color: Colors.green,
+                color: CustomThemeData.secondaryColor,
               ),
               padding:
                   EdgeInsets.symmetric(horizontal: 10.smw, vertical: 5.smh),
@@ -139,7 +141,8 @@ class _ProductOverviewViewState extends ConsumerState<ProductOverviewView> {
                   Text("100 TL",
                       style: GoogleFonts.inder()
                           .copyWith(fontSize: 16.sp, color: Colors.white)),
-                  const Icon(CustomIcons.cart_plus)
+                  SvgPicture.asset(AssetConstants.shopping_card_plus,
+                      color: Colors.white, height: 20.smh, width: 20.smw),
                 ],
               ),
             )
@@ -149,33 +152,34 @@ class _ProductOverviewViewState extends ConsumerState<ProductOverviewView> {
     );
   }
 
-  _weigthChip() {
-    return Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 5.smw,
-          vertical: 5.smh,
-        ),
-        height: 15.smh,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: Colors.green,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.green.withOpacity(0.3),
-              blurRadius: 10,
-              spreadRadius: 5,
-              offset: const Offset(0, 5),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Icon(Icons.scale, size: 8.smh),
-            SizedBox(width: 2.smw),
-            const Text("1 KG")
-          ],
-        ));
-  }
+  // _weigthChip() {
+  //   return Container(
+  //       padding: EdgeInsets.symmetric(
+  //         horizontal: 5.smw,
+  //         vertical: 5.smh,
+  //       ),
+  //       height: 15.smh,
+  //       decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.circular(5),
+  //         color: CustomThemeData.primaryColor,
+  //         boxShadow: [
+  //           BoxShadow(
+  //             color: Colors.green.withOpacity(0.3),
+  //             blurRadius: 10,
+  //             spreadRadius: 5,
+  //             offset: const Offset(0, 5),
+  //           ),
+  //         ],
+  //       ),
+  //       child: Row(
+  //         children: [
+  //           SvgPicture.asset(AssetConstants.scale,
+  //               color: Colors.white, height: 16.smh, width: 16.smh),
+  //           SizedBox(width: 2.smw),
+  //           const Text("1 KG")
+  //         ],
+  //       ));
+  // }
 
   _starChip() {
     return const Chip(label: Text("1.5KG"));

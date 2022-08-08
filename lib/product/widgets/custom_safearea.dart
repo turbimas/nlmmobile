@@ -8,7 +8,7 @@ class CustomSafeArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFF0E5B28),
+      color: CustomThemeData.primaryColor,
       child: SafeArea(
         child: Stack(
           children: [

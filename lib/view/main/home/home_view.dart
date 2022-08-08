@@ -95,11 +95,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           ),
                         ),
                         SizedBox(height: 5.smh),
-                        Text(
-                          "Category category $index",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.inder(
-                              fontWeight: FontWeight.w400, fontSize: 9.smw),
+                        Expanded(
+                          child: Text(
+                            "Category $index",
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.fade,
+                            style: GoogleFonts.inder(
+                                fontWeight: FontWeight.w400, fontSize: 12.sp),
+                          ),
                         ),
                       ],
                     ),
@@ -227,7 +230,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text("Tümü",
-                  style: TextStyle(color: Colors.black, fontSize: 10.sp)),
+                  style: TextStyle(color: Colors.black, fontSize: 12.sp)),
               SvgPicture.asset(AssetConstants.arrow_rigth_circle,
                   color: Colors.green),
             ],

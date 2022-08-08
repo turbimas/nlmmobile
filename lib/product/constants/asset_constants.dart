@@ -13,7 +13,7 @@ class AssetConstants {
   static const String shopping_card_arrow_down =
       "${_svgIconDirectory}shopping_card_arrow_down.svg";
 
-  static const String payment = "${_svgIconDirectory}payment.svg";
+  static const String payment_card = "${_svgIconDirectory}payment_card.svg";
 
   static const String check_circle = "${_svgIconDirectory}check_circle.svg";
 
@@ -23,4 +23,22 @@ class AssetConstants {
   static const String radio_button_unchecked =
       "${_svgIconDirectory}radio_button_unchecked.svg";
   static const String mastercard = "${_svgIconDirectory}mastercard.svg";
+
+  static const String login_image = "${_svgIconDirectory}login_image.svg";
+
+  static const String username_icon = "${_svgIconDirectory}username_icon.svg";
+  static const String password_icon = "${_svgIconDirectory}password_icon.svg";
+  static const String basket_complete =
+      "${_svgIconDirectory}basket_complete.svg";
+
+  static const String checkbox_checked =
+      "${_svgIconDirectory}checkbox_checked.svg";
+  static const String checkbox_unchecked =
+      "${_svgIconDirectory}checkbox_unchecked.svg";
+
+  static const String scale = "${_svgIconDirectory}scale.svg";
+  static const String shopping_card_plus =
+      "${_svgIconDirectory}shopping_card_plus.svg";
+
+  static const String basket_done = "${_svgIconDirectory}basket_done.svg";
 }

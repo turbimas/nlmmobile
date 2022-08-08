@@ -6,6 +6,7 @@ import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
+import 'package:nlmmobile/view/auth/login/login_view.dart';
 
 class ProfileView extends ConsumerStatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -38,10 +39,15 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
             _option("Cüzdanım"),
             _option("Favorilerim"),
             _option("Kullanıcı ayarlarım"),
-            _option("Kullanıcı ayarlarım"),
-            _option("Kullanıcı ayarlarım"),
-            _option("Kullanıcı ayarlarım"),
-            _option("Kullanıcı ayarlarım"),
+            InkWell(
+                child: _option("Çıkış yap"),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginView()));
+                }),
+            SizedBox(height: 75.smh),
           ],
         ),
       ),
@@ -83,7 +89,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     );
   }
 
-  _option(String title) {
+  Widget _option(String title) {
     return Container(
         margin: EdgeInsets.only(bottom: 10.smh),
         height: 60.smh,

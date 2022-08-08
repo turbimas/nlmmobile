@@ -2,21 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/constants/asset_constants.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
+import 'package:nlmmobile/view/order/delivery_times/delivery_times.dart';
+import 'package:nlmmobile/view/order/order_success/order_success.dart';
+import 'package:nlmmobile/view/order/promotions/promotions_view.dart';
 
-class OrderDetail extends ConsumerStatefulWidget {
-  const OrderDetail({Key? key}) : super(key: key);
+class OrderDetailView extends ConsumerStatefulWidget {
+  const OrderDetailView({Key? key}) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _OrderDetailState();
 }
 
-class _OrderDetailState extends ConsumerState<OrderDetail> {
+class _OrderDetailState extends ConsumerState<OrderDetailView> {
   @override
   Widget build(BuildContext context) {
     return CustomSafeArea(
@@ -24,24 +28,32 @@ class _OrderDetailState extends ConsumerState<OrderDetail> {
       appBar: CustomAppBar.activeBack("Sipariş Detayı"),
       body: Stack(
         children: [
-          _detailExpanded(),
           Positioned(
             top: 0,
             left: 15.smw,
             right: 15.smw,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Divider(thickness: 1.smh, height: 0.smh),
-                SizedBox(height: 10.smh),
-                _deliveryAddress(),
-                SizedBox(height: 15.smh),
-                _deliveryTime(),
-                SizedBox(height: 15.smh),
-                _paymentType()
-              ],
+            bottom: 0,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Divider(thickness: 1.smh, height: 0.smh),
+                  SizedBox(height: 10.smh),
+                  _deliveryAddress(),
+                  SizedBox(height: 15.smh),
+                  _deliveryTime(),
+                  SizedBox(height: 15.smh),
+                  _paymentType(),
+                  SizedBox(height: 15.smh),
+                  _promotions(),
+                  SizedBox(height: 15.smh),
+                  ..._optionsList(),
+                  SizedBox(height: 225.smh),
+                ],
+              ),
             ),
-          )
+          ),
+          _detailExpanded(),
         ],
       ),
     ));
@@ -59,7 +71,13 @@ class _OrderDetailState extends ConsumerState<OrderDetail> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [const Text("Teslimat adresini seçin"), _duzenleCard()],
+              children: [
+                Text("Teslimat adresini seçin",
+                    style: TextStyle(
+                        color: CustomThemeData.detailTitleColor,
+                        fontSize: 18.sp)),
+                _duzenleCard()
+              ],
             ),
           ),
           SizedBox(height: 10.smh),
@@ -83,7 +101,7 @@ class _OrderDetailState extends ConsumerState<OrderDetail> {
 
   _deliveryTime() {
     return SizedBox(
-      height: 110.smh,
+      height: 160.smh,
       width: 330.smw,
       child: Column(
         children: [
@@ -93,15 +111,24 @@ class _OrderDetailState extends ConsumerState<OrderDetail> {
               alignment: Alignment.centerLeft,
               child: Text("Teslimat süresi seçin",
                   style: TextStyle(
-                      fontSize: 15.sp, color: CustomThemeData.primaryColor)),
+                      color: CustomThemeData.detailTitleColor,
+                      fontSize: 18.sp)),
             ),
           ),
           SizedBox(height: 5.smh),
           _radioContainer(
-              height: 35, title: "Hemen teslim al", isSelected: false),
+              height: 60, title: "Hemen teslim al", isSelected: false),
           SizedBox(height: 15.smh),
-          _radioContainer(
-              height: 35, title: "Daha sonra teslim al", isSelected: true),
+          InkWell(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const DeliveryTimesView(),
+              ),
+            ),
+            child: _radioContainer(
+                height: 60, title: "Daha sonra teslim al", isSelected: true),
+          ),
         ],
       ),
     );
@@ -117,7 +144,13 @@ class _OrderDetailState extends ConsumerState<OrderDetail> {
               height: 20.smh,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [const Text("Ödeme Tipini Seçin"), _duzenleCard()],
+                children: [
+                  Text("Ödeme Tipini Seçin",
+                      style: TextStyle(
+                          color: CustomThemeData.detailTitleColor,
+                          fontSize: 18.sp)),
+                  _duzenleCard()
+                ],
               )),
           SizedBox(height: 5.smh),
           _radioContainer(
@@ -150,8 +183,9 @@ class _OrderDetailState extends ConsumerState<OrderDetail> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           SvgPicture.asset(AssetConstants.edit,
-              height: 10.smh, width: 10.smh, color: Colors.white),
-          Text("Düzenle", style: TextStyle(fontSize: 8.sp, color: Colors.white))
+              height: 15.smh, width: 15.smh, color: Colors.white),
+          Text("Düzenle",
+              style: TextStyle(fontSize: 10.sp, color: Colors.white))
         ],
       ),
     );
@@ -159,7 +193,7 @@ class _OrderDetailState extends ConsumerState<OrderDetail> {
 
   Widget _detailExpanded() {
     return Positioned(
-      bottom: 0,
+      bottom: 0.smh,
       child: Container(
         color: Colors.transparent,
         height: 225.smh,
@@ -187,9 +221,13 @@ class _OrderDetailState extends ConsumerState<OrderDetail> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const OrderSuccessView()));
+                    },
                     child: Container(
-                      // ödemeye git
                       height: 50.smh,
                       width: 300.smw,
                       decoration: BoxDecoration(
@@ -200,11 +238,11 @@ class _OrderDetailState extends ConsumerState<OrderDetail> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SvgPicture.asset(AssetConstants.coupon,
+                          SvgPicture.asset(AssetConstants.basket_complete,
                               color: Colors.black,
-                              height: 22.smh,
-                              width: 32.smw),
-                          const Text("Ödemeye git")
+                              height: 30.smh,
+                              width: 28.smw),
+                          const Text("Siparişi bitir")
                         ],
                       ),
                     ),
@@ -221,21 +259,27 @@ class _OrderDetailState extends ConsumerState<OrderDetail> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
-                            Text("... Miktarı"),
+                            Text("Ara toplam",
+                                style: TextStyle(
+                                    color: CustomThemeData.detailTitleColor)),
                             Text("23,65 TL")
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
-                            Text("... Miktarı"),
+                            Text("Teslimat Tutarı",
+                                style: TextStyle(
+                                    color: CustomThemeData.detailTitleColor)),
                             Text("53.23 TL")
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
-                            Text("... Miktarı"),
+                            Text("İndirim tutarı",
+                                style: TextStyle(
+                                    color: CustomThemeData.detailTitleColor)),
                             Text("76.42 TL")
                           ],
                         )
@@ -250,9 +294,12 @@ class _OrderDetailState extends ConsumerState<OrderDetail> {
                     width: AppConstants.designWidth.smw,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text("TOPLAM TUTAR"),
-                        Text("1652.42 TL")
+                      children: [
+                        Text("TOPLAM TUTAR",
+                            style: GoogleFonts.leagueSpartan(
+                                color: CustomThemeData.detailTitleColor,
+                                fontSize: 18.sp)),
+                        const Text("1652.42 TL")
                       ],
                     ),
                   )
@@ -268,9 +315,9 @@ class _OrderDetailState extends ConsumerState<OrderDetail> {
   Container _kampanyaMessage() {
     return Container(
         width: 260.smw,
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.9),
+            borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20))),
         height: 25.smh,
         alignment: Alignment.center,
@@ -286,7 +333,7 @@ class _OrderDetailState extends ConsumerState<OrderDetail> {
         ));
   }
 
-  _radioContainer(
+  Widget _radioContainer(
       {required double height,
       required String title,
       Widget? trailing,
@@ -331,6 +378,93 @@ class _OrderDetailState extends ConsumerState<OrderDetail> {
             Expanded(flex: 1, child: trailing ?? Container()),
           ],
         ),
+      ),
+    );
+  }
+
+  List<Widget> _optionsList() {
+    List<Widget> options = [];
+    options.add(_optionTile(title: "Zili Çalma", checked: true));
+    options.add(SizedBox(height: 15.smh));
+    options.add(_optionTile(
+        title: "Temassız alışveriş",
+        subtitle: "Ürünlerinizi kapınıza bırakıp sizi arıyacağız",
+        checked: false));
+    options.add(SizedBox(height: 15.smh));
+    options.add(_optionTile(
+        title: "Kullanım koşullarını okudum ve kabul ediyorum.",
+        checked: true));
+
+    return options;
+  }
+
+  _optionTile(
+      {required String title, required bool checked, String? subtitle}) {
+    return SizedBox(
+      height: 50,
+      width: 330.smw,
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+                checked
+                    ? AssetConstants.checkbox_checked
+                    : AssetConstants.checkbox_unchecked,
+                color: Colors.black,
+                height: 30.smh,
+                width: 30.smw),
+            SizedBox(width: 10.smw),
+            subtitle == null
+                ? Text(title,
+                    style: TextStyle(color: Colors.black, fontSize: 14.sp))
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title,
+                          style: GoogleFonts.inder(
+                              fontSize: 14.sp, color: Colors.black)),
+                      Text(subtitle,
+                          style: GoogleFonts.mina(
+                              fontSize: 10.sp, color: Colors.black))
+                    ],
+                  )
+          ]),
+    );
+  }
+
+  Widget _promotions() {
+    return SizedBox(
+      height: 85.smh,
+      width: 330.smw,
+      child: Column(
+        children: [
+          SizedBox(
+              height: 20.smh,
+              width: 330.smw,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Promosyonlar",
+                    style: TextStyle(
+                        color: CustomThemeData.detailTitleColor,
+                        fontSize: 18.sp)),
+              )),
+          SizedBox(height: 5.smh, width: 330.smw),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const PromotionsView()));
+            },
+            child: _radioContainer(
+                height: 60,
+                title:
+                    "Tüm kuruyemiş ürünlerinde 50 TL üzeri alışverişlerinizde %10 indirim",
+                isSelected: true),
+          )
+        ],
       ),
     );
   }

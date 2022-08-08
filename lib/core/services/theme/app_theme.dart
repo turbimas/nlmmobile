@@ -12,7 +12,7 @@ class AppTheme {
       scaffoldBackgroundColor: Colors.transparent,
       appBarTheme: AppBarTheme(
           elevation: 0,
-          backgroundColor: const Color(0xFF0E5B28),
+          backgroundColor: CustomThemeData.appBarColor,
           iconTheme: const IconThemeData(color: Colors.white),
           titleTextStyle: GoogleFonts.inder(
             fontSize: 16.sp,
