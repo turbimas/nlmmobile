@@ -44,6 +44,8 @@ dependencies:
   bloc: ^8.0.3
   pixel_perfect: ^1.1.1
   shared_preferences: ^2.0.15
+  easy_localization: ^3.0.1
+  rating_bar: ^0.2.0
 
 dev_dependencies:
   flutter_test:

@@ -6,14 +6,14 @@ import 'package:nlmmobile/product/constants/asset_constants.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 
-class PromotionsView extends StatefulWidget {
-  const PromotionsView({Key? key}) : super(key: key);
+class UserPromotionsView extends StatefulWidget {
+  const UserPromotionsView({Key? key}) : super(key: key);
 
   @override
-  State<PromotionsView> createState() => _PromotionsViewState();
+  State<UserPromotionsView> createState() => _UserPromotionsViewState();
 }
 
-class _PromotionsViewState extends State<PromotionsView> {
+class _UserPromotionsViewState extends State<UserPromotionsView> {
   @override
   Widget build(BuildContext context) {
     return CustomSafeArea(

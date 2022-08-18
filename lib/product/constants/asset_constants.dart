@@ -25,6 +25,7 @@ class AssetConstants {
   static const String mastercard = "${_svgIconDirectory}mastercard.svg";
 
   static const String login_image = "${_svgIconDirectory}login_image.svg";
+  static const String register_image = "${_svgIconDirectory}register_image.svg";
 
   static const String username_icon = "${_svgIconDirectory}username_icon.svg";
   static const String password_icon = "${_svgIconDirectory}password_icon.svg";
@@ -41,4 +42,5 @@ class AssetConstants {
       "${_svgIconDirectory}shopping_card_plus.svg";
 
   static const String basket_done = "${_svgIconDirectory}basket_done.svg";
+  static const String home_menu = "${_svgIconDirectory}home_menu.svg";
 }

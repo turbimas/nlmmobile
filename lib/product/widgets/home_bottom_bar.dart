@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttericon/elusive_icons.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
 import 'package:nlmmobile/custom_icons_icons.dart';
+import 'package:nlmmobile/product/constants/asset_constants.dart';
 import 'package:nlmmobile/product/cubits/home_index_cubit/home_index_cubit.dart';
 
 class HomeBottomBar extends StatelessWidget {
@@ -63,7 +65,8 @@ class HomeBottomBar extends StatelessWidget {
                   context,
                   2,
                   startPixel + (gapPixel * 2) + (iconSize * 2),
-                  const Icon(Elusive.home, color: iconColor)),
+                  SvgPicture.asset(AssetConstants.home_menu,
+                      height: 25.smh, width: 25.smh)),
               _iconContainer(
                   context,
                   3,
@@ -73,13 +76,14 @@ class HomeBottomBar extends StatelessWidget {
                   context,
                   4,
                   startPixel + (gapPixel * 4) + (iconSize * 4),
-                  const Icon(Elusive.user, color: iconColor)),
+                  const Icon(Icons.person, color: iconColor)),
             ],
           )),
     );
   }
 
-  _iconContainer(BuildContext context, int index, double location, Icon icon) =>
+  _iconContainer(
+          BuildContext context, int index, double location, Widget icon) =>
       AnimatedPositioned(
         duration: _animationDuration,
         bottom: context.watch<HomeIndexCubit>().state.sayac == index

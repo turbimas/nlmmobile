@@ -39,6 +39,8 @@ class CacheManager {
   Future<bool> setStringList(String key, List<String> value) async =>
       await _preferences!.setStringList(key, value);
 
+  Future<bool> remove(String key) async => await _preferences!.remove(key);
+
   // Future<void> clearAll() async {
   //   await _preferences!.clear();
   // }

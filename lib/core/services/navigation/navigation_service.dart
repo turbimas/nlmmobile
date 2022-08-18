@@ -1,22 +1,38 @@
 import 'package:flutter/material.dart';
 
-class NavigationService {
-  static final NavigationService _instance = NavigationService._init();
-  static NavigationService get instance => _instance;
+abstract class NavigationService {
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+  static BuildContext get context =>
+      navigatorKey.currentState!.overlay!.context;
 
-  NavigationService._init();
-
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-  final removeAllOldRoutes = (Route<dynamic> route) => false;
-
-  @override
-  Future<void> navigateToPage({String? path, Object? data}) async {
-    await navigatorKey.currentState!.pushNamed(path!, arguments: data);
+  static Future navigateToName(String route) async {
+    await navigatorKey.currentState!.pushNamed(route);
   }
 
-  @override
-  Future<void> navigateToPageClear({String? path, Object? data}) async {
+  static Future navigateToNameReplace(String route) async {
+    await navigatorKey.currentState!.pushReplacementNamed(route);
+  }
+
+  static Future navigateToNameAndRemoveUntil(String route) async {
     await navigatorKey.currentState!
-        .pushNamedAndRemoveUntil(path!, removeAllOldRoutes, arguments: data);
+        .pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false);
   }
+
+  static Future navigateToPage(Widget page) async {
+    await navigatorKey.currentState!
+        .push(MaterialPageRoute(builder: (context) => page));
+  }
+
+  static Future navigateToPageReplace(Widget page) async {
+    await navigatorKey.currentState!
+        .pushReplacement(MaterialPageRoute(builder: (context) => page));
+  }
+
+  static Future navigateToPageAndRemoveUntil(Widget page) async {
+    await navigatorKey.currentState!.pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => page),
+        (Route<dynamic> route) => false);
+  }
+
+  static Future back() async {}
 }

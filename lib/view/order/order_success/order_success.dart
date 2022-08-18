@@ -106,7 +106,7 @@ class _OrderSuccessViewState extends ConsumerState<OrderSuccessView> {
                 height: 60.smh,
                 width: 200.smw,
                 decoration: const BoxDecoration(
-                    color: CustomThemeData.orderCompletedCancelColor,
+                    color: CustomThemeData.cancelColor,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
                         bottomLeft: Radius.circular(30))),

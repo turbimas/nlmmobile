@@ -1,0 +1,3 @@
+class CategoriesViewModel {
+  CategoriesViewModel();
+}

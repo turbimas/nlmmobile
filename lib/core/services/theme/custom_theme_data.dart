@@ -41,5 +41,5 @@ class CustomThemeData {
 
   static const Color profileCardColor = Color(0xffB5D7C0);
 
-  static const Color orderCompletedCancelColor = Color(0xFF820F0F);
+  static const Color cancelColor = Color(0xFF820F0F);
 }

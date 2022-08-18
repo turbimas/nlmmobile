@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +9,7 @@ import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/constants/asset_constants.dart';
 import 'package:nlmmobile/product/cubits/home_index_cubit/home_index_cubit.dart';
+import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/product_overview/product_overview_view.dart';
 import 'package:nlmmobile/product/widgets/searchbar/searchbar_view.dart';
 import 'package:nlmmobile/view/main/basket/basket_viewmodel.dart';
@@ -23,28 +22,38 @@ class BasketView extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _BasketViewState();
 }
 
-class _BasketViewState extends ConsumerState<BasketView> {
+class _BasketViewState extends ConsumerState<BasketView>
+    with SingleTickerProviderStateMixin {
   ChangeNotifierProvider<BasketViewModel> provider =
       ChangeNotifierProvider((ref) => BasketViewModel());
 
   final ScrollController _scrollController = ScrollController();
-  double _expandedHeight = 200;
+  late AnimationController _animationController;
+  bool isExpanded = true;
 
   @override
   void initState() {
     super.initState();
+    _animationController = AnimationController(vsync: this, value: 1);
+
     _scrollController.addListener(() {
       if (_scrollController.position.maxScrollExtent -
               _scrollController.position.pixels >
-          200) {
-        setState(() {
-          _expandedHeight = 200;
-        });
+          250) {
+        if (!isExpanded) {
+          _animationController.animateTo(1,
+              duration: const Duration(milliseconds: 800),
+              curve: Curves.linearToEaseOut);
+
+          isExpanded = true;
+        }
       } else {
-        setState(() {
-          _expandedHeight = _scrollController.position.maxScrollExtent -
-              _scrollController.position.pixels;
-        });
+        if (isExpanded) {
+          _animationController.animateTo(0,
+              duration: const Duration(milliseconds: 800),
+              curve: Curves.linearToEaseOut);
+          isExpanded = false;
+        }
       }
     });
   }
@@ -53,16 +62,12 @@ class _BasketViewState extends ConsumerState<BasketView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _body(),
-      // appBar: CustomAppBar.inactiveBack("Sepetim"),
+      appBar: CustomAppBar.inactiveBack("Sepetim"),
     );
   }
 
   Widget _body() {
-    if (Random().nextInt(2) == 0) {
-      return _empty();
-    } else {
-      return _notEmpty();
-    }
+    return _notEmpty();
   }
 
   Widget _notEmpty() {
@@ -98,6 +103,7 @@ class _BasketViewState extends ConsumerState<BasketView> {
   }
 
   Widget _empty() {
+    // kullanacağım
     return Padding(
       padding: EdgeInsets.only(
           left: 14.smw, right: 14.smw, top: 185.smh, bottom: 237.smh),
@@ -140,122 +146,125 @@ class _BasketViewState extends ConsumerState<BasketView> {
   }
 
   Widget _detailExpanded() {
-    return Positioned(
-      bottom: (75 - 200 + _expandedHeight).smh,
-      child: Container(
-        color: Colors.transparent,
-        height: 225.smh,
-        width: AppConstants.designWidth.smw,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            _kampanyaMessage(),
-            Container(
-              height: 200.smh,
-              width: AppConstants.designWidth.smw,
-              decoration: BoxDecoration(
-                gradient: CustomThemeData.paymentDetailGradient,
-                boxShadow: [
-                  BoxShadow(
-                      color: const Color(0xFF50745C).withOpacity(0.5),
-                      blurRadius: 25,
-                      blurStyle: BlurStyle.inner)
-                ],
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30)),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const OrderDetailView()));
-                    },
-                    child: Container(
-                      // ödemeye git
-                      height: 50.smh,
-                      width: 300.smw,
-                      decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                              bottomLeft: Radius.circular(30),
-                              bottomRight: Radius.circular(30)),
-                          gradient: CustomThemeData.paymentDetailGradient),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) => Positioned(
+        bottom: (75 - 250 + _animationController.value * 250).smh,
+        child: Container(
+          color: Colors.transparent,
+          height: 250.smh,
+          width: AppConstants.designWidth.smw,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              _kampanyaMessage(),
+              Container(
+                height: 225.smh,
+                width: AppConstants.designWidth.smw,
+                decoration: BoxDecoration(
+                  gradient: CustomThemeData.paymentDetailGradient,
+                  boxShadow: [
+                    BoxShadow(
+                        color: const Color(0xFF50745C).withOpacity(0.5),
+                        blurRadius: 25,
+                        blurStyle: BlurStyle.inner)
+                  ],
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30)),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const OrderDetailView()));
+                      },
+                      child: Container(
+                        // ödemeye git
+                        height: 50.smh,
+                        width: 300.smw,
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(30),
+                                bottomRight: Radius.circular(30)),
+                            gradient: CustomThemeData.paymentDetailGradient),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SvgPicture.asset(AssetConstants.payment_card,
+                                color: Colors.black,
+                                height: 22.smh,
+                                width: 32.smw),
+                            const Text("Sepete devam et")
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: Colors.transparent,
+                      margin: EdgeInsets.symmetric(
+                          horizontal: 25.smw, vertical: 10.smh),
+                      height: 80.smh,
+                      width: AppConstants.designWidth.smw,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SvgPicture.asset(AssetConstants.payment_card,
-                              color: Colors.black,
-                              height: 22.smh,
-                              width: 32.smw),
-                          const Text("Sepete devam et")
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              Text("Ara toplam",
+                                  style: TextStyle(
+                                      color: CustomThemeData.detailTitleColor)),
+                              Text("23,65 TL")
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              Text("Teslimat Tutarı",
+                                  style: TextStyle(
+                                      color: CustomThemeData.detailTitleColor)),
+                              Text("53.23 TL")
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              Text("İndirim tutarı",
+                                  style: TextStyle(
+                                      color: CustomThemeData.detailTitleColor)),
+                              Text("76.42 TL")
+                            ],
+                          )
                         ],
                       ),
                     ),
-                  ),
-                  Container(
-                    color: Colors.transparent,
-                    margin: EdgeInsets.symmetric(
-                        horizontal: 25.smw, vertical: 10.smh),
-                    height: 80.smh,
-                    width: AppConstants.designWidth.smw,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text("Ara toplam",
-                                style: TextStyle(
-                                    color: CustomThemeData.detailTitleColor)),
-                            Text("23,65 TL")
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text("Teslimat Tutarı",
-                                style: TextStyle(
-                                    color: CustomThemeData.detailTitleColor)),
-                            Text("53.23 TL")
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text("İndirim tutarı",
-                                style: TextStyle(
-                                    color: CustomThemeData.detailTitleColor)),
-                            Text("76.42 TL")
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Divider(thickness: 1.smh, height: 1.smh),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 25.smw),
-                    color: Colors.transparent,
-                    height: 49.smh,
-                    width: AppConstants.designWidth.smw,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("TOPLAM TUTAR",
-                            style: GoogleFonts.leagueSpartan(
-                                color: CustomThemeData.detailTitleColor,
-                                fontSize: 18.sp)),
-                        const Text("1652.42 TL")
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
+                    Divider(thickness: 1.smh, height: 1.smh),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 25.smw),
+                      color: Colors.transparent,
+                      height: 49.smh,
+                      width: AppConstants.designWidth.smw,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("TOPLAM TUTAR",
+                              style: GoogleFonts.leagueSpartan(
+                                  color: CustomThemeData.detailTitleColor,
+                                  fontSize: 18.sp)),
+                          const Text("1652.42 TL")
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

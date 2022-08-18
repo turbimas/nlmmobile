@@ -11,7 +11,7 @@ import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/view/order/delivery_times/delivery_times.dart';
 import 'package:nlmmobile/view/order/order_success/order_success.dart';
-import 'package:nlmmobile/view/order/promotions/promotions_view.dart';
+import 'package:nlmmobile/view/user/user_promotions/promotions_view.dart';
 
 class OrderDetailView extends ConsumerStatefulWidget {
   const OrderDetailView({Key? key}) : super(key: key);
@@ -456,7 +456,7 @@ class _OrderDetailState extends ConsumerState<OrderDetailView> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const PromotionsView()));
+                      builder: (context) => const UserPromotionsView()));
             },
             child: _radioContainer(
                 height: 60,

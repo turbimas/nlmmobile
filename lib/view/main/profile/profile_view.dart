@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nlmmobile/core/services/auth/authservice.dart';
+import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
+import 'package:nlmmobile/product/constants/navigation_constants.dart';
+import 'package:nlmmobile/product/cubits/home_index_cubit/home_index_cubit.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
-import 'package:nlmmobile/view/auth/login/login_view.dart';
 
 class ProfileView extends ConsumerStatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -34,19 +38,16 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
             _notificationRow(),
             _profilePhoto(),
             _greeting(),
-            _option("Siparişlerim"),
-            _option("Kuponlarım"),
-            _option("Cüzdanım"),
-            _option("Favorilerim"),
-            _option("Kullanıcı ayarlarım"),
+            _option("Siparişlerim", NavigationConstants.userOrders),
+            _option("Kuponlarım", NavigationConstants.userPromotions),
+            _option("Adreslerim", NavigationConstants.userAddresses),
+            _option("Kartlarım", NavigationConstants.userCards),
+            _option("Değerlendirmelerim", NavigationConstants.userRatings),
+            _option("Sorularım", NavigationConstants.userQuestions),
             InkWell(
-                child: _option("Çıkış yap"),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginView()));
-                }),
+                onTap: _logout,
+                child: _option("Çıkış yap", NavigationConstants.login,
+                    noBack: true)),
             SizedBox(height: 75.smh),
           ],
         ),
@@ -54,7 +55,12 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     );
   }
 
-  _greeting() {
+  void _logout() {
+    context.read<HomeIndexCubit>().set(2);
+    AuthService.logout();
+  }
+
+  Widget _greeting() {
     return SizedBox(
       height: 80.smh,
       width: AppConstants.designWidth.smw,
@@ -66,7 +72,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     );
   }
 
-  _notificationRow() {
+  Widget _notificationRow() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.smw),
       child: Align(
@@ -89,27 +95,36 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     );
   }
 
-  Widget _option(String title) {
-    return Container(
-        margin: EdgeInsets.only(bottom: 10.smh),
-        height: 60.smh,
-        width: 330.smw,
-        decoration: BoxDecoration(
-            color: CustomThemeData.profileCardColor,
-            borderRadius: BorderRadius.circular(15)),
-        child: Padding(
-          padding: EdgeInsets.only(left: 20.smw),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              title,
-              style: GoogleFonts.leagueSpartan(fontSize: 20.sp),
+  Widget _option(String title, String path, {bool noBack = false}) {
+    return InkWell(
+      onTap: () {
+        if (noBack) {
+          NavigationService.navigateToNameAndRemoveUntil(path);
+        } else {
+          NavigationService.navigateToName(path);
+        }
+      },
+      child: Container(
+          margin: EdgeInsets.only(bottom: 10.smh),
+          height: 60.smh,
+          width: 330.smw,
+          decoration: BoxDecoration(
+              color: CustomThemeData.profileCardColor,
+              borderRadius: BorderRadius.circular(15)),
+          child: Padding(
+            padding: EdgeInsets.only(left: 20.smw),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                title,
+                style: GoogleFonts.leagueSpartan(fontSize: 20.sp),
+              ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 
-  _profilePhoto() {
+  Widget _profilePhoto() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(220.smh),
       child: Image.network(

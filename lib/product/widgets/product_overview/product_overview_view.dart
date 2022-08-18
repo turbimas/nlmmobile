@@ -181,11 +181,4 @@ class _ProductOverviewViewState extends ConsumerState<ProductOverviewView> {
   //       ));
   // }
 
-  _starChip() {
-    return const Chip(label: Text("1.5KG"));
-  }
-
-  _favoriteChip() {
-    return const Chip(label: Text("1.5KG"));
-  }
 }

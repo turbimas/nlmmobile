@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nlmmobile/core/services/theme/app_theme.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/home_bottom_bar.dart';
 import 'package:nlmmobile/view/main/main_viewmodel.dart';
@@ -23,13 +22,13 @@ class _MainViewState extends ConsumerState<MainView> {
 
   @override
   Widget build(BuildContext context) {
-    if (mounted) {
-      if (AppTheme.appTheme == null) {
-        setState(() {
-          AppTheme.appTheme = AppTheme.themeData;
-        });
-      }
-    }
+    // if (mounted) {
+    //   if (AppTheme.appTheme == null) {
+    //     setState(() {
+    //       AppTheme.appTheme = AppTheme.themeData;
+    //     });
+    //   }
+    // }
     return CustomSafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
