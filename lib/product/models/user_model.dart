@@ -1,21 +1,21 @@
-import 'dart:math';
-
 class UserModel {
-  String id = Random().nextInt(200).toString();
-  // String nameSurname;
-  // String mail;
-  // String phone;
-  // String password;
-  String? gender;
-  DateTime? birthDate;
-  String? imageUrl;
+  late int id;
+  late String nameSurname;
+  late String email;
+  var phone;
+  var password;
+  var gender;
+  var birthDate;
+  var imageUrl;
 
-  // UserModel.fromJson(Map<String, dynamic> json) {
-  // id = json['id'];
-  // nameSurname = json['nameSurname'];
-  // mail = json['mail'];
-  // phone = json['phone'];
-  // password = json['password'];
-  // }
-  UserModel();
+  UserModel.fromJson(Map<String, dynamic> json) {
+    id = json['ID'];
+    nameSurname = json['Name'];
+    email = json['Email'];
+    phone = json['MobilePhone'];
+    password = json["Password"];
+    gender = json["Cinsiyet"];
+    birthDate = json["BornDate"];
+    imageUrl = json["imageUrl"];
+  }
 }

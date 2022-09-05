@@ -1,10 +1,46 @@
-class CategoryModel {
-  String id;
-  String get name => 'Category $id';
-  List<String> subCategories =
-      List.generate(10, (index) => (index * 100).toString());
-  String imgUrl = 'https://picsum.photos/200';
-  String get masterCategoryId => 'MasterCategory ${id * 10}';
+// ignore_for_file: hash_and_equals
 
-  CategoryModel(this.id);
+import 'package:flutter/material.dart';
+import 'package:nlmmobile/core/services/theme/custom_images.dart';
+
+class CategoryModel {
+  late final int id;
+  late final int upperGroupId;
+  late final String groupName;
+  late final int? siraNo;
+  late final String? _imageUrl;
+  Widget image({required double height, required double width}) =>
+      _imageUrl != null
+          ? Image.network(
+              "http://${_imageUrl!.replaceAll("\\", "/").replaceAll("//", "/")}",
+              height: height,
+              width: width,
+              fit: BoxFit.fill,
+            )
+          : SizedBox(
+              height: height,
+              width: width,
+              child: CustomImages.image_not_found,
+            );
+
+  CategoryModel.fromJson(Map<String, dynamic> json)
+      : id = json['ID'],
+        upperGroupId = json['UpperGroupID'],
+        groupName = json['GroupName'],
+        siraNo = json['SiraNo'],
+        _imageUrl = json['ImageUrl'];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'ID': id,
+      'UpperGroupID': upperGroupId,
+      'GroupName': groupName,
+      'SiraNo': siraNo,
+      'ImageUrl': _imageUrl
+    };
+  }
+
+  // equal operator
+  @override
+  bool operator ==(other) => other is CategoryModel && other.id == id;
 }

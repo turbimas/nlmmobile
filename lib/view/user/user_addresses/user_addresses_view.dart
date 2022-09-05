@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
-import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
-import 'package:nlmmobile/product/constants/asset_constants.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
+import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
+import 'package:nlmmobile/core/services/theme/custom_colors.dart';
+import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
+import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
-import 'package:nlmmobile/view/user/user_addresses/user_address_view.dart';
+import 'package:nlmmobile/view/user/user_address_detail/user_address_detail_view.dart';
 
 class UserAddressesView extends ConsumerStatefulWidget {
   const UserAddressesView({Key? key}) : super(key: key);
@@ -24,7 +24,7 @@ class _UserAddressesViewState extends ConsumerState<UserAddressesView> {
     return CustomSafeArea(
       child: Scaffold(
         floatingActionButton: _fab(context),
-        appBar: CustomAppBar.activeBack("Adreslerim"),
+        appBar: CustomAppBar.activeBack(LocaleKeys.UserAddresses_add_address),
         body: Padding(
           padding: EdgeInsets.only(
               bottom: 15.smh, right: 15.smw, left: 15.smw, top: 25.smh),
@@ -48,8 +48,10 @@ class _UserAddressesViewState extends ConsumerState<UserAddressesView> {
   InkWell _fab(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const UserAddressView()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const UserAddressDetailView()));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
@@ -57,7 +59,7 @@ class _UserAddressesViewState extends ConsumerState<UserAddressesView> {
         height: 50.smh,
         width: 165.smw,
         decoration: BoxDecoration(
-            color: CustomThemeData.primaryColor,
+            color: CustomColors.primary,
             borderRadius: BorderRadius.circular(15)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -73,7 +75,8 @@ class _UserAddressesViewState extends ConsumerState<UserAddressesView> {
                 height: 25.smh,
                 width: 25.smw,
                 child: const Icon(Icons.add)),
-            const Text("Yeni Adres Ekle", style: TextStyle(color: Colors.white))
+            Text(LocaleKeys.UserAddresses_add_address,
+                style: CustomFonts.bodyText4(CustomColors.primaryText))
           ],
         ),
       ),
@@ -85,44 +88,40 @@ class _UserAddressesViewState extends ConsumerState<UserAddressesView> {
       required String subtitle,
       required bool isSelected}) {
     return Container(
+      padding: EdgeInsets.symmetric(vertical: 5.smh),
       margin: EdgeInsets.only(bottom: 10.smh),
-      height: 65.smh,
       width: 330.smw,
       decoration: BoxDecoration(
-          color: CustomThemeData.primaryColor,
-          borderRadius: BorderRadius.circular(15)),
+          color: CustomColors.primary, borderRadius: BorderRadius.circular(15)),
       child: Row(
         children: [
           SizedBox(
               width: 70.smw,
-              height: 65.smh,
               child: Center(
-                  child: SvgPicture.asset(
-                      isSelected
-                          ? AssetConstants.radio_button_checked
-                          : AssetConstants.radio_button_unchecked,
-                      height: 25.smh,
-                      width: 25.smw,
-                      color: Colors.white))),
+                child: isSelected
+                    ? CustomIcons.radio_checked_light_icon
+                    : CustomIcons.radio_unchecked_light_icon,
+              )),
           Container(
               padding: EdgeInsets.symmetric(vertical: 5.smh),
               width: 210.smw,
-              height: 65.smh,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title,
-                      style: GoogleFonts.inder(
-                          fontSize: 12.sp, color: Colors.white)),
+                      style: CustomFonts.bodyText3(CustomColors.primaryText)),
                   Text(subtitle,
-                      style: GoogleFonts.inder(
-                          fontSize: 12.sp, color: Colors.white))
+                      style: CustomFonts.bodyText4(CustomColors.primaryText))
                 ],
               )),
-          SizedBox(
-            width: 50.smw,
-            height: 65.smh,
-            child: const Icon(Icons.edit, color: Colors.white),
+          InkWell(
+            onTap: () {
+              NavigationService.navigateToPage(const UserAddressDetailView());
+            },
+            child: SizedBox(
+              width: 50.smw,
+              child: CustomIcons.edit_icon__medium,
+            ),
           )
         ],
       ),

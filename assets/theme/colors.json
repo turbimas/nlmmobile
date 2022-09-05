@@ -1,0 +1,32 @@
+{
+    "Basic": {
+        "primary": "FF0E5B28",
+        "secondary": "FF0F8235",
+        "background": [
+            "FFCAFFE9",
+            "FFFFFFFF"
+        ]
+    },
+    "Text": {
+        "primaryText": "FFFFFFFF",
+        "secondaryText": "FFFFFFFF",
+        "backgroundText": "FF000000",
+        "backgroundTextPale": "FF787878",
+        "cancelText": "FFFFFFFF",
+        "approveText": "FFFFFFFF",
+        "cardText": "FF000000",
+        "cardTextPale": "FF717171",
+        "card2Text":"FF000000",
+        "card2TextPale":"FF717171",
+        "cardInnerText": "FF000000",
+        "cardInnerTextPale": "FF787878"
+    },
+    "Widget": {
+        "card": "FFCEECDB",
+        "card2":"FFDFFFEB",
+        "cardInner":"FFFFFFFF",
+        "cancel": "FF820F0F",
+        "approve": "FF0E5B28",
+        "paymentCard": ["4BFFFFFF","FFCAFFE9"]
+    }
+}

@@ -1,0 +1,13 @@
+
+entegre olayı biticek
+network sistemi yapılıcak
+localization biticek
+resimler upload edilmeye başlanıcak
+
+mac kurulucak
+apiler aktarılmaya başlanıcak
+ios build alınıcak
+kalan tasarımlar yapılacak
+
+google play hesabına bakılıcak
+appstore hesabına bakılıcak

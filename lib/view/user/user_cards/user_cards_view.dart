@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
-import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
-import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
-import 'package:nlmmobile/product/constants/asset_constants.dart';
+import 'package:nlmmobile/core/services/theme/custom_colors.dart';
+import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
-import 'package:nlmmobile/view/user/user_cards/user_card_view.dart';
+import 'package:nlmmobile/view/user/user_card_detail/user_card_detail_view.dart';
 
 class UserCardsView extends ConsumerStatefulWidget {
   const UserCardsView({Key? key}) : super(key: key);
@@ -49,9 +48,9 @@ class _UserCardsViewState extends ConsumerState<UserCardsView> {
       margin: EdgeInsets.only(bottom: 10.smh),
       height: 65.smh,
       width: 330.smw,
-      decoration: const BoxDecoration(
-        color: CustomThemeData.primaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+      decoration: BoxDecoration(
+        color: CustomColors.primary,
+        borderRadius: const BorderRadius.all(Radius.circular(15.0)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,8 +59,7 @@ class _UserCardsViewState extends ConsumerState<UserCardsView> {
               height: 65.smh,
               width: 65.smw,
               child: Center(
-                child: SvgPicture.asset(AssetConstants.mastercard,
-                    height: 25.smh, width: 30.smw),
+                child: CustomIcons.credit_card_icon_light,
               )),
           Center(
               child: Column(
@@ -73,12 +71,13 @@ class _UserCardsViewState extends ConsumerState<UserCardsView> {
               ])),
           InkWell(
             onTap: () {
-              NavigationService.navigateToPage(const UserCardView());
+              NavigationService.navigateToPage(const UserCardDetailView());
             },
             child: Container(
-                decoration: const BoxDecoration(
-                    color: CustomThemeData.secondaryColor,
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                decoration: BoxDecoration(
+                    color: CustomColors.secondary,
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(15.0))),
                 height: 65.smh,
                 width: 65.smw,
                 child:
@@ -92,8 +91,10 @@ class _UserCardsViewState extends ConsumerState<UserCardsView> {
   InkWell _fab(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const UserCardView()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const UserCardDetailView()));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
@@ -101,7 +102,7 @@ class _UserCardsViewState extends ConsumerState<UserCardsView> {
         height: 50.smh,
         width: 165.smw,
         decoration: BoxDecoration(
-            color: CustomThemeData.primaryColor,
+            color: CustomColors.primary,
             borderRadius: BorderRadius.circular(15)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

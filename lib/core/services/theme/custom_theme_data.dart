@@ -1,45 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 
-class CustomThemeData {
-  static final paymentDetailGradient = LinearGradient(
-    end: Alignment.topCenter,
-    begin: Alignment.bottomCenter,
-    colors: [
-      const Color.fromRGBO(202, 255, 233, 1),
-      Colors.white.withOpacity(0.75)
-    ],
-  );
+abstract class CustomThemeData {
+  static double roundness = 15;
+  static BorderRadius get fullInfiniteRounded => BorderRadius.circular(9999);
+  static BorderRadius get leftInfiniteRounded => const BorderRadius.only(
+        topLeft: Radius.circular(9999),
+        bottomLeft: Radius.circular(9999),
+      );
+  static BorderRadius get rightInfiniteRounded => const BorderRadius.only(
+        topRight: Radius.circular(9999),
+        bottomRight: Radius.circular(9999),
+      );
+  static BorderRadius get topInfiniteRounded => const BorderRadius.only(
+        topLeft: Radius.circular(9999),
+        topRight: Radius.circular(9999),
+      );
+  static BorderRadius get bottomInfiniteRounded => const BorderRadius.only(
+        bottomLeft: Radius.circular(9999),
+        bottomRight: Radius.circular(9999),
+      );
 
-  // basics
-  static const Color primaryColor = Color(0XFF0E5B28);
-  static const Color secondaryColor = Color(0XFF0F8235);
-  static const Color detailTitleColor = Color(0xFF807E7E);
+  static BorderRadius get fullRounded => BorderRadius.circular(roundness);
+  static BorderRadius get leftRounded => BorderRadius.only(
+        topLeft: Radius.circular(roundness),
+        bottomLeft: Radius.circular(roundness),
+      );
+  static BorderRadius get rightRounded => BorderRadius.only(
+        topRight: Radius.circular(roundness),
+        bottomRight: Radius.circular(roundness),
+      );
+  static BorderRadius get topRounded => BorderRadius.only(
+        topLeft: Radius.circular(roundness),
+        topRight: Radius.circular(roundness),
+      );
+  static BorderRadius get bottomRounded => BorderRadius.only(
+        bottomLeft: Radius.circular(roundness),
+        bottomRight: Radius.circular(roundness),
+      );
 
-  // widgets
-  static const Color safeAreaColor = primaryColor;
-  static const Color appBarColor = primaryColor;
-  static const List<Color> scaffoldBackgroundGradientColors = [
-    Color.fromRGBO(173, 249, 200, 1),
-    Colors.white,
-  ];
-
-  // custom widgets
-
-  static const List<Color> bannerCardGradientColors = [
-    Color.fromRGBO(14, 91, 40, 0.15),
-    Color.fromRGBO(15, 130, 53, 0.15),
-  ];
-  static const Color bannerChipColor = Color(0xffd9d9d9);
-
-  static const Color searchBarBackgroundColor = Color(0xFF0F8235);
-  static const Color searchBarTextColor = Color(0xFFFFFFFF);
-  static const Color searchBarIconColor = Color(0xFFFFFFFF);
-
-  static const Color bottomBarBackgroundColor = Color(0xFF0F8235);
-  static const Color bottomBarHighlightColor = Color(0xFF0E5B28);
-  static const Color bottomBarIconColor = Color(0xFFE9F3D0);
-
-  static const Color profileCardColor = Color(0xffB5D7C0);
-
-  static const Color cancelColor = Color(0xFF820F0F);
+  static List<BoxShadow> get shadow1 => [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.75),
+          blurRadius: 15,
+          offset: Offset(0, 5.smh),
+        ),
+      ];
+  static List<BoxShadow> get shadow2 => [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.50),
+          blurRadius: 10,
+          offset: Offset(0, 5.smh),
+        ),
+      ];
+  static List<BoxShadow> get shadow3 => [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.25),
+          blurRadius: 5,
+          offset: Offset(0, 5.smh),
+        ),
+      ];
 }

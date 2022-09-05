@@ -1,89 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
-import 'package:nlmmobile/product/constants/asset_constants.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
+import 'package:nlmmobile/core/services/theme/custom_colors.dart';
+import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
+import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
+import 'package:nlmmobile/view/user/user_promotions/user_promotions_view_model.dart';
 
-class UserPromotionsView extends StatefulWidget {
+class UserPromotionsView extends ConsumerStatefulWidget {
   const UserPromotionsView({Key? key}) : super(key: key);
 
   @override
-  State<UserPromotionsView> createState() => _UserPromotionsViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _UserPromotionsViewState();
 }
 
-class _UserPromotionsViewState extends State<UserPromotionsView> {
+class _UserPromotionsViewState extends ConsumerState<UserPromotionsView> {
+  late final ChangeNotifierProvider<UserPromotionsViewModel> provider;
+
+  @override
+  void initState() {
+    provider = ChangeNotifierProvider((ref) => UserPromotionsViewModel());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomSafeArea(
       child: Scaffold(
-        appBar: CustomAppBar.activeBack("Promosyonlar"),
-        body: Column(
-          children: [
-            Divider(thickness: 1.smh, height: 0.smh),
-            SizedBox(height: 10.smh),
-            SizedBox(
-              height: 200.smh,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _promotionCard(
-                      isSelected: true, prompt: "Promosyon kullanmayacağım"),
-                  _promotionCard(
-                      isSelected: false,
-                      prompt:
-                          "Tüm kuruyemiş ürünlerinde 50 TL üzeri alışverişlerinizde %10 indirim"),
-                  _promotionCard(
-                      isSelected: true,
-                      prompt: "Tüm alışverişlerinizde geçerli %5 indirim"),
-                ],
-              ),
-            )
-          ],
+        appBar: CustomAppBar.activeBack(LocaleKeys.UserPromotions_appbar_title),
+        body: ListView.builder(
+          itemCount: ref.watch(provider).promotionMessages.length,
+          itemBuilder: (context, index) => _promotionCard(index),
         ),
       ),
     );
   }
 
-  _promotionCard({required bool isSelected, required String prompt}) {
+  _promotionCard(index) {
+    String promotionMessage = ref.watch(provider).promotionMessages[index];
     return Container(
-      height: 60.smh,
+      margin: EdgeInsets.symmetric(horizontal: 20.smw, vertical: 10.smh),
+      padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
       width: 320.smw,
       decoration: BoxDecoration(
-        color: const Color(0xFFB5D7C0),
+        color: CustomColors.card,
         borderRadius: BorderRadius.circular(15),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Expanded(
-              flex: 3,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.smw),
-                child: Center(
-                    child: Text(prompt,
-                        style: TextStyle(fontSize: 12.sp),
-                        textAlign: TextAlign.center)),
-              )),
-          Expanded(
-              flex: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? const Color(0XFF22BE56)
-                      : const Color(0XFF0E5B28),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Center(
-                  child: isSelected
-                      ? const Text("Seç", style: TextStyle(color: Colors.white))
-                      : SvgPicture.asset(AssetConstants.check_circle,
-                          color: Colors.white, width: 25.smh, height: 25.smh),
-                ),
-              ))
-        ],
-      ),
+      child: Text(promotionMessage,
+          style: CustomFonts.bodyText4(CustomColors.cardText)),
     );
   }
 }

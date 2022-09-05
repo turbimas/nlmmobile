@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
-import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
+import 'package:nlmmobile/core/services/theme/custom_colors.dart';
+import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
+import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
@@ -165,7 +167,7 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
       height: 60.smh,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Container(
-            color: CustomThemeData.primaryColor,
+            color: CustomColors.primary,
             width: 150.smw,
             child: Center(
                 child: Text(
@@ -175,23 +177,23 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
         InkWell(
           onTap: _addBasket,
           child: Container(
-              color: CustomThemeData.secondaryColor,
+              color: CustomColors.secondary,
               width: 155.smw,
               child: Center(
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const Icon(Icons.shopping_basket, color: Colors.white),
+                      CustomIcons.add_basket_icon,
                       Text("Sepete Ekle",
-                          style: GoogleFonts.inder(
-                              fontSize: 20.sp, color: Colors.white))
+                          style:
+                              CustomFonts.bodyText1(CustomColors.secondaryText))
                     ]),
               )),
         ),
         InkWell(
           onTap: _addFavorite,
           child: Container(
-              color: CustomThemeData.primaryColor,
+              color: CustomColors.primary,
               width: 55.smw,
               child: Center(
                   child: Container(
@@ -202,7 +204,7 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
                     borderRadius: BorderRadius.all(Radius.circular(50))),
                 child: Center(
                   child: Icon(Icons.favorite,
-                      size: 20.smh, color: CustomThemeData.primaryColor),
+                      size: 20.smh, color: CustomColors.primary),
                 ),
               ))),
         ),

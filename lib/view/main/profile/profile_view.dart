@@ -1,16 +1,23 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:nlmmobile/core/services/auth/authservice.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
+import 'package:nlmmobile/core/services/theme/custom_colors.dart';
+import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
+import 'package:nlmmobile/core/services/theme/custom_icons.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
-import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
+import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
-import 'package:nlmmobile/product/constants/navigation_constants.dart';
-import 'package:nlmmobile/product/cubits/home_index_cubit/home_index_cubit.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
+import 'package:nlmmobile/product/widgets/custom_text.dart';
+import 'package:nlmmobile/view/auth/login/login_view.dart';
+import 'package:nlmmobile/view/user/user_addresses/user_addresses_view.dart';
+import 'package:nlmmobile/view/user/user_orders/user_orders_view.dart';
+import 'package:nlmmobile/view/user/user_profile/user_profile_view.dart';
+import 'package:nlmmobile/view/user/user_questions/user_questions_view.dart';
+import 'package:nlmmobile/view/user/user_ratings/user_ratings_view.dart';
 
 class ProfileView extends ConsumerStatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -28,111 +35,158 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.inactiveBack("Profilim"),
+      appBar: CustomAppBar.inactiveBack(LocaleKeys.Profile_appbar_title.tr()),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 30.smh),
             _notificationRow(),
             _profilePhoto(),
             _greeting(),
-            _option("Siparişlerim", NavigationConstants.userOrders),
-            _option("Kuponlarım", NavigationConstants.userPromotions),
-            _option("Adreslerim", NavigationConstants.userAddresses),
-            _option("Kartlarım", NavigationConstants.userCards),
-            _option("Değerlendirmelerim", NavigationConstants.userRatings),
-            _option("Sorularım", NavigationConstants.userQuestions),
-            InkWell(
-                onTap: _logout,
-                child: _option("Çıkış yap", NavigationConstants.login,
-                    noBack: true)),
-            SizedBox(height: 75.smh),
+            _options(),
+            SizedBox(height: 85.smh)
           ],
         ),
       ),
     );
   }
 
-  void _logout() {
-    context.read<HomeIndexCubit>().set(2);
-    AuthService.logout();
-  }
-
   Widget _greeting() {
-    return SizedBox(
-      height: 80.smh,
-      width: AppConstants.designWidth.smw,
-      child: Center(
-          child: Text("Merhaba\nErtuğrul Çakıcı",
-              style: GoogleFonts.leagueSpartan(fontSize: 20.sp),
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.clip)),
-    );
+    return Container(
+        margin: EdgeInsets.only(bottom: 10.smw),
+        width: AppConstants.designWidth.smw,
+        child: Center(
+            child: CustomTextLocale(LocaleKeys.Profile_greeting,
+                args: const ["Ertuğrul Çakıcı"],
+                style: CustomFonts.bodyText1(CustomColors.backgroundText),
+                textAlign: TextAlign.center)));
   }
 
   Widget _notificationRow() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.smw),
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Container(
-          width: 80.smw,
-          height: 30.smh,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: CustomThemeData.secondaryColor),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-            Text("22",
-                style: GoogleFonts.leagueSpartan(
-                    fontSize: 16.sp, color: Colors.white)),
-            const Icon(Icons.notifications_active, color: Colors.white),
-          ]),
-        ),
+      padding: EdgeInsets.only(left: 20.smw, right: 20.smw, top: 10.smh),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+            onTap: () {
+              NavigationService.navigateToPage(const UserProfileView());
+            },
+            child: Container(
+              constraints: BoxConstraints(minWidth: 185.smw, minHeight: 40.smh),
+              decoration: BoxDecoration(
+                  color: CustomColors.secondary,
+                  borderRadius: CustomThemeData.fullInfiniteRounded),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  CustomIcons.edit_icon__medium,
+                  CustomText(LocaleKeys.Profile_edit_profile.tr(),
+                      style: CustomFonts.bodyText2(CustomColors.secondaryText))
+                ],
+              ),
+            ),
+          ),
+          // Container(
+          //   constraints: BoxConstraints(minWidth: 80.smw, minHeight: 40.smh),
+          //   decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(10),
+          //       color: CustomColors.secondary),
+          //   child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //       children: [
+          //         CustomText("0",
+          //             style: CustomFonts.bodyText2(CustomColors.secondaryText)),
+          //         CustomIcons.notification_icon
+          //       ]),
+          // )
+        ],
       ),
     );
   }
 
-  Widget _option(String title, String path, {bool noBack = false}) {
+  Widget _option(
+      {required String title,
+      required Widget page,
+      required Widget icon,
+      bool noBack = false}) {
     return InkWell(
       onTap: () {
         if (noBack) {
-          NavigationService.navigateToNameAndRemoveUntil(path);
+          AuthService.logout();
         } else {
-          NavigationService.navigateToName(path);
+          NavigationService.navigateToPage(page);
         }
       },
       child: Container(
           margin: EdgeInsets.only(bottom: 10.smh),
-          height: 60.smh,
+          padding: EdgeInsets.symmetric(vertical: 10.smh, horizontal: 20.smw),
+          constraints: BoxConstraints(minHeight: 60.smh),
           width: 330.smw,
           decoration: BoxDecoration(
-              color: CustomThemeData.profileCardColor,
-              borderRadius: BorderRadius.circular(15)),
-          child: Padding(
-            padding: EdgeInsets.only(left: 20.smw),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                title,
-                style: GoogleFonts.leagueSpartan(fontSize: 20.sp),
-              ),
-            ),
+              color: CustomColors.card,
+              borderRadius: CustomThemeData.fullRounded),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              icon,
+              SizedBox(width: 20.smw),
+              CustomText(title,
+                  style: CustomFonts.bodyText1(CustomColors.cardText))
+            ],
           )),
     );
   }
 
   Widget _profilePhoto() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(220.smh),
-      child: Image.network(
-        "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-        fit: BoxFit.cover,
-        height: 220.smh,
-        width: 220.smh,
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 20.smh, horizontal: 70.smw),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(220.smh),
+        child: Image.network(
+          "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+          fit: BoxFit.cover,
+          height: 220.smh,
+          width: 220.smh,
+        ),
       ),
+    );
+  }
+
+  Widget _options() {
+    return Column(
+      children: [
+        _option(
+            title: LocaleKeys.Profile_orders.tr(),
+            page: const UserOrdersView(),
+            icon: CustomIcons.profile_delivery),
+        // _option(
+        //     title: LocaleKeys.Profile_promotions.tr(),
+        //     path: NavigationConstants.userPromotions,
+        //     icon: CustomIcons.profile_gift),
+        _option(
+            title: LocaleKeys.Profile_addresses.tr(),
+            page: const UserAddressesView(),
+            icon: CustomIcons.profile_address),
+        // _option(
+        //     title: LocaleKeys.Profile_saved_cards.tr(),
+        //     path: NavigationConstants.userCards,
+        //     icon: CustomIcons.profile_cards),
+        _option(
+            title: LocaleKeys.Profile_ratings.tr(),
+            page: const UserRatingsView(),
+            icon: CustomIcons.profile_ratings),
+        _option(
+            title: LocaleKeys.Profile_questions.tr(),
+            page: const UserQuestionsView(),
+            icon: CustomIcons.profile_questions),
+        _option(
+            title: LocaleKeys.Profile_logout.tr(),
+            page: const LoginView(),
+            icon: CustomIcons.profile_logout,
+            noBack: true)
+      ],
     );
   }
 }

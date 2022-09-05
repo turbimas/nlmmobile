@@ -5,19 +5,6 @@ abstract class NavigationService {
   static BuildContext get context =>
       navigatorKey.currentState!.overlay!.context;
 
-  static Future navigateToName(String route) async {
-    await navigatorKey.currentState!.pushNamed(route);
-  }
-
-  static Future navigateToNameReplace(String route) async {
-    await navigatorKey.currentState!.pushReplacementNamed(route);
-  }
-
-  static Future navigateToNameAndRemoveUntil(String route) async {
-    await navigatorKey.currentState!
-        .pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false);
-  }
-
   static Future navigateToPage(Widget page) async {
     await navigatorKey.currentState!
         .push(MaterialPageRoute(builder: (context) => page));
@@ -34,5 +21,9 @@ abstract class NavigationService {
         (Route<dynamic> route) => false);
   }
 
-  static Future back() async {}
+  static Future back<T extends Object?>({T? data, int times = 1}) async {
+    for (int i = 0; i < times; i++) {
+      await navigatorKey.currentState!.maybePop<T>(data);
+    }
+  }
 }

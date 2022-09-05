@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
-import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
-import 'package:nlmmobile/product/constants/asset_constants.dart';
+import 'package:nlmmobile/core/services/theme/custom_colors.dart';
+import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 
 class OrderSuccessView extends ConsumerStatefulWidget {
@@ -24,18 +22,18 @@ class _OrderSuccessViewState extends ConsumerState<OrderSuccessView> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 320.smh,
-              width: 250.smw,
-              child: SvgPicture.asset(AssetConstants.basket_done,
-                  height: 320.smh, width: 250.smw),
-            ),
+            // SizedBox(
+            //   height: 320.smh,
+            //   width: 250.smw,
+            //   child: SvgPicture.asset(AssetEnums.basket_done.svg,
+            //       height: 320.smh, width: 250.smw),
+            // ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               Container(
                   height: 40.smh,
                   width: 60.smw,
                   decoration: BoxDecoration(
-                      color: CustomThemeData.secondaryColor,
+                      color: CustomColors.secondary,
                       borderRadius: BorderRadius.circular(5)),
                   child: Center(
                       child: Icon(Icons.check,
@@ -63,7 +61,7 @@ class _OrderSuccessViewState extends ConsumerState<OrderSuccessView> {
               width: 290.smw,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  color: CustomThemeData.secondaryColor),
+                  color: CustomColors.secondary),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -88,9 +86,9 @@ class _OrderSuccessViewState extends ConsumerState<OrderSuccessView> {
               child: Container(
                 height: 60.smh,
                 width: 300.smw,
-                decoration: const BoxDecoration(
-                    color: CustomThemeData.primaryColor,
-                    borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                    color: CustomColors.primary,
+                    borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(30),
                         bottomLeft: Radius.circular(30))),
                 child: Center(
@@ -105,9 +103,9 @@ class _OrderSuccessViewState extends ConsumerState<OrderSuccessView> {
               child: Container(
                 height: 60.smh,
                 width: 200.smw,
-                decoration: const BoxDecoration(
-                    color: CustomThemeData.cancelColor,
-                    borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                    color: CustomColors.cancel,
+                    borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(30),
                         bottomLeft: Radius.circular(30))),
                 child: Center(

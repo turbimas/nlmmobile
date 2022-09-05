@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
+import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 
 class CustomSafeArea extends StatelessWidget {
   final Widget child;
@@ -8,7 +8,7 @@ class CustomSafeArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: CustomThemeData.primaryColor,
+      color: CustomColors.primary,
       child: SafeArea(
         child: Stack(
           children: [
@@ -18,11 +18,11 @@ class CustomSafeArea extends StatelessWidget {
               top: 0,
               right: 0,
               child: Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
-                      colors: CustomThemeData.scaffoldBackgroundGradientColors,
+                      colors: CustomColors.background,
                     ),
                   ),
                   child: child),

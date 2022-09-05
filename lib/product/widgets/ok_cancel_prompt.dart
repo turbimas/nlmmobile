@@ -1,13 +1,16 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
-import 'package:nlmmobile/core/utils/extentions/ui_extention.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
+import 'package:nlmmobile/core/services/theme/custom_colors.dart';
+import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
+import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
+import 'package:nlmmobile/product/widgets/custom_text.dart';
 
 class OkCancelPrompt extends StatelessWidget {
-  final Function okCallBack;
-  final Function cancelCallBack;
+  final void Function() okCallBack;
+  final void Function() cancelCallBack;
   const OkCancelPrompt(
       {Key? key, required this.okCallBack, required this.cancelCallBack})
       : super(key: key);
@@ -19,32 +22,40 @@ class OkCancelPrompt extends StatelessWidget {
       height: 50.smh,
       child: Row(
         children: [
-          Container(
-            height: 50.smh,
-            width: (AppConstants.designWidth / 2).smw,
-            color: CustomThemeData.cancelColor,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Icon(Icons.cancel, color: Colors.white),
-                Text("İptal",
-                    style: GoogleFonts.inder(
-                        color: Colors.white, fontSize: 20.sp)),
-              ],
+          InkWell(
+            onTap: () {
+              cancelCallBack.call();
+            },
+            child: Container(
+              height: 50.smh,
+              width: (AppConstants.designWidth / 2).smw,
+              color: CustomColors.cancel,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CustomIcons.cancel_icon__medium,
+                  CustomText(LocaleKeys.Components_ok_cancel_prompt_cancel.tr(),
+                      style: CustomFonts.bigButton(CustomColors.secondaryText)),
+                ],
+              ),
             ),
           ),
-          Container(
-            height: 50.smh,
-            width: (AppConstants.designWidth / 2).smw,
-            color: CustomThemeData.primaryColor,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Icon(Icons.check, color: Colors.white),
-                Text("Onayla",
-                    style: GoogleFonts.inder(
-                        color: Colors.white, fontSize: 20.sp)),
-              ],
+          InkWell(
+            onTap: () {
+              okCallBack.call();
+            },
+            child: Container(
+              height: 50.smh,
+              width: (AppConstants.designWidth / 2).smw,
+              color: CustomColors.primary,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CustomIcons.check_icon,
+                  CustomText(LocaleKeys.Components_ok_cancel_prompt_ok.tr(),
+                      style: CustomFonts.bigButton(CustomColors.secondaryText)),
+                ],
+              ),
             ),
           )
         ],
