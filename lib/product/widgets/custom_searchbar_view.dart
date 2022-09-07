@@ -7,7 +7,16 @@ import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 
 class CustomSearchBarView extends ConsumerStatefulWidget {
   final String hint;
-  const CustomSearchBarView({Key? key, required this.hint}) : super(key: key);
+  final TextEditingController? controller;
+  final Function(String)? onSubmit;
+  final bool autofocus;
+  const CustomSearchBarView(
+      {Key? key,
+      required this.hint,
+      this.controller,
+      this.onSubmit,
+      this.autofocus = false})
+      : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -27,6 +36,9 @@ class _CustomSearchBarViewState extends ConsumerState<CustomSearchBarView> {
       height: 45.smh,
       child: Center(
         child: TextField(
+          autofocus: widget.autofocus,
+          controller: widget.controller,
+          onSubmitted: widget.onSubmit,
           textAlignVertical: TextAlignVertical.center,
           style: CustomFonts.defaultField(CustomColors.secondaryText),
           decoration: InputDecoration(

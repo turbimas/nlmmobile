@@ -42,8 +42,7 @@ abstract class NetworkService {
   }
 
   static Future<ResponseModel<T>> post<T>(String url,
-      {Map<String, dynamic>? queryParameters,
-      Map<String, dynamic>? body}) async {
+      {Map<String, dynamic>? queryParameters, dynamic body}) async {
     try {
       if (debug) {
         log("POST: $url");

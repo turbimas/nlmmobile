@@ -244,6 +244,20 @@
     "order_done_icon": {
         "path":"assets/icons/svg/order_done_icon.svg",
         "size":30
+    },
+    "star_chip_icon": {
+        "path":"assets/icons/svg/star_chip_icon.svg",
+        "size":12
+    },
+    "garbage_icon_dark": {
+        "path":"assets/icons/svg/garbage_icon_dark.svg",
+        "width":15,
+        "height":20
+    },
+    "garbage_icon_light": {
+        "path":"assets/icons/svg/garbage_icon_light.svg",
+        "width":15,
+        "height":20
     }
 
 }

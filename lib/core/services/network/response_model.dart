@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 
-typedef ResponseModelMap = ResponseModel<Map<dynamic, dynamic>>;
-typedef ResponseModelList = ResponseModel<List<dynamic>>;
+typedef ResponseModelMap<K, V> = ResponseModel<Map<K, V>>;
+typedef ResponseModelList<T> = ResponseModel<List<T>>;
 typedef ResponseModelString = ResponseModel<String>;
 typedef ResponseModelBoolean = ResponseModel<bool>;
 typedef ResponseModelInt = ResponseModel<int>;
@@ -12,7 +12,7 @@ class ResponseModel<T> {
   dynamic _data;
   T get data => _data;
   bool get success => code == "SUCCESS";
-  String get message => "ErrorCodes.$code".tr();
+  String get errorMessage => "ErrorCodes.$code".tr();
 
   ResponseModel(this.code, [this._data]);
 

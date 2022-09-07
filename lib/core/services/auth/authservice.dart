@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nlmmobile/core/services/cache/cache_manager.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
@@ -29,5 +30,31 @@ class AuthService {
     currentUser = null;
     NavigationService.context.read<HomeIndexCubit>().set(2);
     NavigationService.navigateToPageAndRemoveUntil(const LoginView());
+  }
+
+  static Widget userImage({required double height, required double width}) {
+    if (AuthService.currentUser!.imageUrl != null) {
+      return Image.network(
+        AuthService.currentUser!.imageUrl!,
+        height: height,
+        width: width,
+      );
+    } else {
+      return Container(
+        height: height,
+        width: width,
+        decoration: const BoxDecoration(
+          color: Colors.grey,
+          shape: BoxShape.circle,
+        ),
+        child: Center(
+          child: Icon(
+            Icons.person,
+            color: Colors.white,
+            size: height,
+          ),
+        ),
+      );
+    }
   }
 }

@@ -4,12 +4,16 @@ import 'package:nlmmobile/core/services/network/network_service.dart';
 import 'package:nlmmobile/core/services/network/response_model.dart';
 import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
 import 'package:nlmmobile/product/models/order/basket_data_model.dart';
+import 'package:nlmmobile/product/models/order/basket_total_model.dart';
 import 'package:nlmmobile/product/models/product_over_view_model.dart';
 
 class BasketViewModel extends ChangeNotifier {
   BasketViewModel();
 
   List<ProductOverViewModel> products = [];
+
+  BasketTotalModel? basketTotal;
+
   ProductOverViewModel? delivery;
 
   bool _retrieving = false;
@@ -22,18 +26,30 @@ class BasketViewModel extends ChangeNotifier {
   Future<void> getBasket() async {
     retrieving = true;
     try {
-      ResponseModelList response = await NetworkService.get<List>(
+      ResponseModelList basketResponse = await NetworkService.get<List>(
           "api/orders/getbasket/${AuthService.currentUser!.id}");
-      if (response.success) {
-        products = response.data
-            .map((e) => BasketDataModel.fromJson(e))
+      ResponseModel totalResponse = await NetworkService.get(
+          "api/orders/calculatetotals/${AuthService.currentUser!.id}");
+
+      if (basketResponse.success && totalResponse.success) {
+        products = basketResponse.data
+            .map((e) => BasketDataModel.fromJson(e).product)
             .toList()
-            .where((element) => element.product.barcode != "DELIVERY")
-            .map((e) => e.product)
+            .where((element) => element.barcode != "DELIVERY")
+            .map((e) => e)
             .toList();
+
+        basketTotal = BasketTotalModel.fromJson(totalResponse.data);
       } else {
-        PopupHelper.showError(message: response.message);
+        if (!totalResponse.success) {
+          PopupHelper.showError(errorMessage: totalResponse.errorMessage);
+        }
+        if (!basketResponse.success) {
+          PopupHelper.showError(errorMessage: basketResponse.errorMessage);
+        }
       }
+    } catch (e) {
+      PopupHelper.showErrorWithCode(e);
     } finally {
       retrieving = false;
     }

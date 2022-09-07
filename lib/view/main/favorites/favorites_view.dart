@@ -31,7 +31,6 @@ class _FavoritesViewState extends ConsumerState<FavoritesView> {
             children: [
               CustomSearchBarView(hint: LocaleKeys.Favorites_search_hint.tr()),
               SizedBox(height: 15.smh),
-              const Text("Yapılıyor")
             ],
           ),
         ));

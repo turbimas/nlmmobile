@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nlmmobile/product/cubits/home_index_cubit/home_index_cubit.dart';
+import 'package:nlmmobile/view/auth/login/login_view.dart';
 import 'package:nlmmobile/view/main/categories/categories_view.dart';
 import 'package:nlmmobile/view/main/favorites/favorites_view.dart';
 import 'package:nlmmobile/view/main/home/home_view.dart';
@@ -21,7 +22,7 @@ class MainViewModel extends ChangeNotifier {
       case 4:
         return const ProfileView();
       default:
-        return null;
+        return const LoginView();
     }
   }
 }

@@ -1,11 +1,18 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nlmmobile/core/services/auth/authservice.dart';
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
+import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmmobile/product/models/user/user_question_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
+import 'package:nlmmobile/product/widgets/custom_text.dart';
+import 'package:nlmmobile/product/widgets/product_overview_view.dart';
 import 'package:nlmmobile/view/user/user_questions/user_questions_view_model.dart';
 
 class UserQuestionsView extends ConsumerStatefulWidget {
@@ -18,18 +25,28 @@ class UserQuestionsView extends ConsumerStatefulWidget {
 
 class _UserQuestionsViewState extends ConsumerState<UserQuestionsView> {
   late final ChangeNotifierProvider<UserQuestionsViewModel> provider;
+
   @override
   void initState() {
     provider = ChangeNotifierProvider<UserQuestionsViewModel>(
         ((ref) => UserQuestionsViewModel()));
+    Future.delayed(Duration.zero, () {
+      ref.read(provider).getQuestions();
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomSafeArea(
       child: Scaffold(
-        appBar: CustomAppBar.activeBack(LocaleKeys.UserQuestions_appbar_title),
+        appBar:
+            CustomAppBar.activeBack(LocaleKeys.UserQuestions_appbar_title.tr()),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -41,46 +58,55 @@ class _UserQuestionsViewState extends ConsumerState<UserQuestionsView> {
 
   Widget _filters() {
     return Container(
-      decoration: BoxDecoration(
-          color: CustomColors.card,
-          border: Border.symmetric(
-            horizontal: BorderSide(color: CustomColors.primary, width: 1),
-          )),
       margin: EdgeInsets.symmetric(vertical: 10.smh),
       height: 60.smh,
+      width: 360.smw,
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(color: CustomColors.primary, width: 1),
+          bottom: BorderSide(color: CustomColors.primary, width: 1),
+        ),
+      ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-              child: InkWell(
-            onTap: () => ref.read(provider).index = 0,
-            child: Container(
+            child: InkWell(
+              onTap: () => ref.read(provider).index = 0,
+              child: AnimatedContainer(
+                duration: CustomThemeData.animationDurationShort,
+                curve: Curves.easeInOut,
                 color: ref.watch(provider).index == 0
                     ? CustomColors.primary
                     : CustomColors.card,
                 child: Center(
-                    child: Text(LocaleKeys.UserQuestions_answered,
-                        style: CustomFonts.bodyText1(
+                  child: CustomTextLocale(LocaleKeys.UserQuestions_answered,
+                      style: CustomFonts.bigButton(
                           ref.watch(provider).index == 0
                               ? CustomColors.primaryText
-                              : CustomColors.cardText,
-                        )))),
-          )),
+                              : CustomColors.cardText)),
+                ),
+              ),
+            ),
+          ),
           Expanded(
-              child: InkWell(
-            onTap: () => ref.read(provider).index = 1,
-            child: Container(
+            child: InkWell(
+              onTap: () => ref.read(provider).index = 1,
+              child: AnimatedContainer(
+                duration: CustomThemeData.animationDurationShort,
+                curve: Curves.easeInOut,
                 color: ref.watch(provider).index == 1
                     ? CustomColors.primary
                     : CustomColors.card,
                 child: Center(
-                    child: Text(LocaleKeys.UserQuestions_unanswered,
-                        style: CustomFonts.bodyText1(
+                  child: CustomTextLocale(LocaleKeys.UserQuestions_unanswered,
+                      style: CustomFonts.bigButton(
                           ref.watch(provider).index == 1
                               ? CustomColors.primaryText
-                              : CustomColors.cardText,
-                        )))),
-          ))
+                              : CustomColors.cardText)),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -90,94 +116,91 @@ class _UserQuestionsViewState extends ConsumerState<UserQuestionsView> {
     return SizedBox(
       height: 670.smh,
       width: 340.smw,
-      child: const Text("_cards"),
-      // child: ListView.builder(
-      //   addAutomaticKeepAlives: true,
-      //   itemCount: ref.watch(provider).index == 0
-      //       ? ref.watch(provider).answered.length
-      //       : ref.watch(provider).unanswered.length,
-      //   itemBuilder: (context, index) => ref.watch(provider).index == 0
-      //       ? _answeredCard(index)
-      //       : _unansweredCard(index),
-      // ),
+      child: ref.watch(provider).index == 0
+          ? ListView.builder(
+              shrinkWrap: true,
+              addAutomaticKeepAlives: true,
+              itemCount: ref.watch(provider).answered.length,
+              itemBuilder: (context, index) => _answeredCard(index),
+            )
+          : ListView.builder(
+              shrinkWrap: true,
+              addAutomaticKeepAlives: true,
+              itemCount: ref.watch(provider).unanswered.length,
+              itemBuilder: (context, index) => _unansweredCard(index),
+            ),
     );
   }
 
-  // Widget _answeredCard(index) {
-  //   QuestionModel questionModel = ref.watch(provider).answered[index];
-  //   return Container(
-  //     padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
-  //     margin: EdgeInsets.only(bottom: 10.smh),
-  //     decoration: BoxDecoration(
-  //         border: Border.all(color: CustomColors.primary, width: 1.smw),
-  //         borderRadius: CustomThemeData.fullRounded,
-  //         color: CustomColors.card),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         ProductOverViewHorizontal(
-  //             product: questionModel.productOverViewModel),
-  //         SizedBox(height: 15.smh),
-  //         Row(children: [
-  //           Image.network(questionModel.userImageUrl,
-  //                   fit: BoxFit.fill, width: 25.smh, height: 25.smh)
-  //               .frd,
-  //           SizedBox(width: 10.smw),
-  //           Text(questionModel.userName,
-  //               style: CustomFonts.bodyText3(CustomColors.cardText))
-  //         ]),
-  //         SizedBox(height: 5.smh),
-  //         Text(
-  //           questionModel.question,
-  //           style: CustomFonts.bodyText4(CustomColors.cardText),
-  //         ),
-  //         SizedBox(height: 15.smh),
-  //         Row(children: [
-  //           CustomIcons.answer_icon,
-  //           SizedBox(width: 10.smw),
-  //           Text(LocaleKeys.UserQuestions_seller_answer,
-  //               style: CustomFonts.bodyText3(CustomColors.cardText))
-  //         ]),
-  //         SizedBox(height: 5.smh),
-  //         Text(
-  //           questionModel.answer!,
-  //           style: CustomFonts.bodyText4(CustomColors.cardText),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget _answeredCard(index) {
+    UserQuestionModel questionModel = ref.watch(provider).answered[index];
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
+      margin: EdgeInsets.only(bottom: 10.smh),
+      decoration: BoxDecoration(
+          border: Border.all(color: CustomColors.primary, width: 1.smw),
+          borderRadius: CustomThemeData.fullRounded,
+          color: CustomColors.card),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ProductOverViewHorizontal(product: questionModel.product),
+          SizedBox(height: 15.smh),
+          Row(children: [
+            AuthService.userImage(height: 25.smh, width: 25.smh),
+            SizedBox(width: 10.smw),
+            Text(AuthService.currentUser!.nameSurname,
+                style: CustomFonts.bodyText3(CustomColors.cardText))
+          ]),
+          SizedBox(height: 5.smh),
+          Text(
+            questionModel.contentValue,
+            style: CustomFonts.bodyText4(CustomColors.cardText),
+          ),
+          SizedBox(height: 15.smh),
+          Row(children: [
+            CustomIcons.answer_icon,
+            SizedBox(width: 10.smw),
+            CustomTextLocale(LocaleKeys.UserQuestions_seller_answer,
+                style: CustomFonts.bodyText3(CustomColors.cardText))
+          ]),
+          SizedBox(height: 5.smh),
+          Text(
+            questionModel.answer!.contentValue,
+            style: CustomFonts.bodyText4(CustomColors.cardText),
+          ),
+        ],
+      ),
+    );
+  }
 
-  // Widget _unansweredCard(index) {
-  //   QuestionModel questionModel = ref.watch(provider).unanswered[index];
-  //   return Container(
-  //     padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
-  //     margin: EdgeInsets.only(bottom: 10.smh),
-  //     decoration: BoxDecoration(
-  //         border: Border.all(color: CustomColors.primary, width: 1.smw),
-  //         borderRadius: CustomThemeData.fullRounded,
-  //         color: CustomColors.card),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         ProductOverViewHorizontal(
-  //             product: questionModel.productOverViewModel),
-  //         SizedBox(height: 15.smh),
-  //         Row(children: [
-  //           Image.network(questionModel.userImageUrl,
-  //                   fit: BoxFit.fill, width: 25.smh, height: 25.smh)
-  //               .frd,
-  //           SizedBox(width: 10.smw),
-  //           Text(questionModel.userName,
-  //               style: CustomFonts.bodyText3(CustomColors.cardText))
-  //         ]),
-  //         SizedBox(height: 5.smh),
-  //         Text(
-  //           questionModel.question,
-  //           style: CustomFonts.bodyText4(CustomColors.cardText),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget _unansweredCard(index) {
+    UserQuestionModel questionModel = ref.watch(provider).unanswered[index];
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
+      margin: EdgeInsets.only(bottom: 10.smh),
+      decoration: BoxDecoration(
+          border: Border.all(color: CustomColors.primary, width: 1.smw),
+          borderRadius: CustomThemeData.fullRounded,
+          color: CustomColors.card),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ProductOverViewHorizontal(product: questionModel.product),
+          SizedBox(height: 15.smh),
+          Row(children: [
+            AuthService.userImage(height: 25.smh, width: 25.smh),
+            SizedBox(width: 10.smw),
+            Text(AuthService.currentUser!.nameSurname,
+                style: CustomFonts.bodyText3(CustomColors.cardText))
+          ]),
+          SizedBox(height: 5.smh),
+          Text(
+            questionModel.contentValue,
+            style: CustomFonts.bodyText4(CustomColors.cardText),
+          ),
+        ],
+      ),
+    );
+  }
 }

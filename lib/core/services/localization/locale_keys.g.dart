@@ -45,6 +45,8 @@ abstract class LocaleKeys {
   static const Search_last_searches = 'Search.last_searches';
   static const Search_clear_all = 'Search.clear_all';
   static const Search_last_seen = 'Search.last_seen';
+  static const Search_no_last_seen = 'Search.no_last_seen';
+  static const Search_no_searched = 'Search.no_searched';
   static const Search = 'Search';
   static const SearchResult_appbar_title = 'SearchResult.appbar_title';
   static const SearchResult_order = 'SearchResult.order';
@@ -107,11 +109,14 @@ abstract class LocaleKeys {
   static const ProductDetail_product_properties =
       'ProductDetail.product_properties';
   static const ProductDetail_show_more = 'ProductDetail.show_more';
+  static const ProductDetail_show_less = 'ProductDetail.show_less';
   static const ProductDetail_show_all_ratings =
       'ProductDetail.show_all_ratings';
   static const ProductDetail_show_all_questions =
       'ProductDetail.show_all_questions';
   static const ProductDetail_add_to_basket = 'ProductDetail.add_to_basket';
+  static const ProductDetail_rating_avg_count =
+      'ProductDetail.rating_avg_count';
   static const ProductDetail = 'ProductDetail';
   static const ProductImage_appbar_title = 'ProductImage.appbar_title';
   static const ProductImage = 'ProductImage';
@@ -154,6 +159,11 @@ abstract class LocaleKeys {
   static const UserCards_add_card = 'UserCards.add_card';
   static const UserCards = 'UserCards';
   static const UserOrders_appbar_title = 'UserOrders.appbar_title';
+  static const UserOrders_no = 'UserOrders.no';
+  static const UserOrders_date = 'UserOrders.date';
+  static const UserOrders_status = 'UserOrders.status';
+  static const UserOrders_order_total = 'UserOrders.order_total';
+  static const UserOrders_total_product = 'UserOrders.total_product';
   static const UserOrders = 'UserOrders';
   static const UserSettings_appbar_title = 'UserSettings.appbar_title';
   static const UserSettings_personal_info = 'UserSettings.personal_info';
@@ -168,24 +178,27 @@ abstract class LocaleKeys {
       'UserSettings.old_password_hint';
   static const UserSettings_forgot_password = 'UserSettings.forgot_password';
   static const UserSettings = 'UserSettings';
-  static const OrderDetails_appbar_title = 'OrderDetails.appbar_title';
-  static const OrderDetails_order_info = 'OrderDetails.order_info';
-  static const OrderDetails_no = 'OrderDetails.no';
-  static const OrderDetails_date = 'OrderDetails.date';
-  static const OrderDetails_status = 'OrderDetails.status';
-  static const OrderDetails_order_total = 'OrderDetails.order_total';
-  static const OrderDetails_delivery_info = 'OrderDetails.delivery_info';
-  static const OrderDetails_name = 'OrderDetails.name';
-  static const OrderDetails_address = 'OrderDetails.address';
-  static const OrderDetails_phone = 'OrderDetails.phone';
-  static const OrderDetails_payment_info = 'OrderDetails.payment_info';
-  static const OrderDetails_subtotal = 'OrderDetails.subtotal';
-  static const OrderDetails_delivery_cost = 'OrderDetails.delivery_cost';
-  static const OrderDetails_discount_cost = 'OrderDetails.discount_cost';
-  static const OrderDetails_total = 'OrderDetails.total';
-  static const OrderDetails_products = 'OrderDetails.products';
-  static const OrderDetails_amount = 'OrderDetails.amount';
-  static const OrderDetails = 'OrderDetails';
+  static const UserOrderDetails_appbar_title = 'UserOrderDetails.appbar_title';
+  static const UserOrderDetails_order_info = 'UserOrderDetails.order_info';
+  static const UserOrderDetails_no = 'UserOrderDetails.no';
+  static const UserOrderDetails_date = 'UserOrderDetails.date';
+  static const UserOrderDetails_status = 'UserOrderDetails.status';
+  static const UserOrderDetails_order_total = 'UserOrderDetails.order_total';
+  static const UserOrderDetails_delivery_info =
+      'UserOrderDetails.delivery_info';
+  static const UserOrderDetails_name = 'UserOrderDetails.name';
+  static const UserOrderDetails_address = 'UserOrderDetails.address';
+  static const UserOrderDetails_phone = 'UserOrderDetails.phone';
+  static const UserOrderDetails_payment_info = 'UserOrderDetails.payment_info';
+  static const UserOrderDetails_subtotal = 'UserOrderDetails.subtotal';
+  static const UserOrderDetails_delivery_cost =
+      'UserOrderDetails.delivery_cost';
+  static const UserOrderDetails_discount_cost =
+      'UserOrderDetails.discount_cost';
+  static const UserOrderDetails_total = 'UserOrderDetails.total';
+  static const UserOrderDetails_products = 'UserOrderDetails.products';
+  static const UserOrderDetails_amount = 'UserOrderDetails.amount';
+  static const UserOrderDetails = 'UserOrderDetails';
   static const UserPromotions_appbar_title = 'UserPromotions.appbar_title';
   static const UserPromotions = 'UserPromotions';
   static const UserAddressDetail_appbar_title =

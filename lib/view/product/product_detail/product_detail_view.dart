@@ -1,17 +1,25 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
+import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
+import 'package:nlmmobile/product/models/product_detail_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
+import 'package:nlmmobile/product/widgets/custom_text.dart';
+import 'package:nlmmobile/view/product/product_detail/product_detail_view_model.dart';
+import 'package:nlmmobile/view/product/product_questions/product_questions_view.dart';
+import 'package:nlmmobile/view/product/product_ratings/product_ratings_view.dart';
 
 class ProductDetailView extends ConsumerStatefulWidget {
-  const ProductDetailView({Key? key}) : super(key: key);
+  final String barcode;
+  const ProductDetailView({Key? key, required this.barcode}) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -19,146 +27,64 @@ class ProductDetailView extends ConsumerStatefulWidget {
 }
 
 class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
-  List<String> imgUrls = [
-    "https://picsum.photos/id/1/250/400",
-    "https://picsum.photos/id/2/250/400",
-    "https://picsum.photos/id/3/250/400",
-    "https://picsum.photos/id/4/250/400",
-    "https://picsum.photos/id/5/250/400",
-    "https://picsum.photos/id/6/250/400"
-  ];
-
-  late PageController _pageController;
+  late final PageController _pageController;
+  late final ScrollController _scrollController;
+  late final ChangeNotifierProvider<ProductDetailViewModel> provider;
 
   @override
   void initState() {
     _pageController = PageController(initialPage: 0);
+    _scrollController = ScrollController();
+    provider = ChangeNotifierProvider((ref) => ProductDetailViewModel());
+
+    Future.delayed(Duration.zero, () {
+      ref.read(provider).getProductDetail(widget.barcode);
+    });
     super.initState();
   }
 
-  int index = 0;
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return CustomSafeArea(
         child: Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: CustomAppBar.activeBack("Ürün Detay"),
-      body: Stack(
+            backgroundColor: Colors.transparent,
+            appBar: CustomAppBar.activeBack(
+                LocaleKeys.ProductDetail_appbar_title.tr()),
+            body: Stack(
+              children: [
+                Positioned(
+                    top: 0, left: 0, right: 0, bottom: 50.smh, child: _body()),
+                Positioned(bottom: 0, child: _productBottomBar())
+              ],
+            )));
+  }
+
+  Widget _body() {
+    ProductDetailModel product = ref.watch(provider).productDetail!;
+    return SingleChildScrollView(
+      controller: _scrollController,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Positioned(top: 0, child: _body()),
-          Positioned(bottom: 0, child: _productBottomBar())
+          _productImages(product),
+          _imageIndex(product),
+          _nameInfo(product),
+          _chips(product),
+          _description(),
+          _options(),
+          _productDetails(product),
+          _showAllRatings(product),
+          _showAllQuestions(product)
         ],
       ),
-    ));
-  }
-
-  Column _body() {
-    return Column(children: [
-      SizedBox(height: 10.smh),
-      Container(
-          decoration: const BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.black))),
-          child: _images()),
-      SizedBox(
-          height: 40.smh,
-          width: 360.smw,
-          child: Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: 20.smw, vertical: 30.smh),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Göral",
-                        style: GoogleFonts.lexendDeca(
-                            fontSize: 15.sp, color: Colors.grey)),
-                    SizedBox(height: 0.smh),
-                    Text("Gaziantep fıstığı",
-                        style: GoogleFonts.lexendDeca(fontSize: 20.sp))
-                  ])))
-    ]);
-  }
-
-  Widget _images() {
-    return SizedBox(
-      height: 440.smh,
-      width: AppConstants.designWidth.smw,
-      child: Column(children: [
-        SizedBox(
-            width: AppConstants.designWidth.smw,
-            height: 400.smh,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  InkWell(
-                    onTap: _previousImage,
-                    child: SizedBox(
-                      height: 400.smh,
-                      width: 55.smw,
-                      child: const Center(child: Icon(Icons.arrow_back_ios)),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 400.smh,
-                    width: 250.smw,
-                    child: PageView.builder(
-                      controller: _pageController,
-                      itemCount: imgUrls.length,
-                      itemBuilder: (context, index) => Image.network(
-                        imgUrls[index],
-                        fit: BoxFit.cover,
-                        height: 400.smh,
-                        width: 250.smw,
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: _nextImage,
-                    child: SizedBox(
-                      height: 400.smh,
-                      width: 55.smw,
-                      child: const Center(child: Icon(Icons.arrow_forward_ios)),
-                    ),
-                  )
-                ])),
-        SizedBox(
-          width: AppConstants.designWidth.smw,
-          height: 40.smh,
-          child: Center(
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                      imgUrls.length,
-                      (imgIndex) => Container(
-                          margin: EdgeInsets.symmetric(horizontal: 5.smw),
-                          height: 10.smh,
-                          width: 10.smh,
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5)),
-                              color: imgIndex == index
-                                  ? Colors.black
-                                  : Colors.grey))))),
-        )
-      ]),
     );
-  }
-
-  void _previousImage() {
-    setState(() {
-      if (index > 0) {
-        index--;
-      }
-    });
-  }
-
-  void _nextImage() {
-    setState(() {
-      if (index <= imgUrls.length - 1) {
-        index++;
-      }
-    });
   }
 
   Widget _productBottomBar() {
@@ -170,9 +96,9 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
             color: CustomColors.primary,
             width: 150.smw,
             child: Center(
-                child: Text(
-              "155 TL",
-              style: GoogleFonts.inder(fontSize: 20.sp, color: Colors.white),
+                child: CustomText(
+              "${ref.watch(provider).productDetail!.unitPrice.toStringAsFixed(2)} TL",
+              style: CustomFonts.bodyText1(CustomColors.primaryText),
             ))),
         InkWell(
           onTap: _addBasket,
@@ -184,7 +110,7 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       CustomIcons.add_basket_icon,
-                      Text("Sepete Ekle",
+                      CustomTextLocale(LocaleKeys.ProductDetail_add_to_basket,
                           style:
                               CustomFonts.bodyText1(CustomColors.secondaryText))
                     ]),
@@ -195,18 +121,7 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
           child: Container(
               color: CustomColors.primary,
               width: 55.smw,
-              child: Center(
-                  child: Container(
-                width: 30.smh,
-                height: 30.smh,
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(50))),
-                child: Center(
-                  child: Icon(Icons.favorite,
-                      size: 20.smh, color: CustomColors.primary),
-                ),
-              ))),
+              child: Center(child: CustomIcons.favorite_circle_icon)),
         ),
       ]),
     );
@@ -215,4 +130,308 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
   void _addFavorite() {}
 
   void _addBasket() {}
+
+  Widget _productImages(ProductDetailModel product) {
+    return Container(
+      height: 360.smw,
+      width: AppConstants.designWidth.smw,
+      margin: EdgeInsets.symmetric(vertical: 10.smh),
+      child: PageView.builder(
+        onPageChanged: _pageListener,
+        controller: _pageController,
+        itemCount: ref.watch(provider).productDetail!.images.length,
+        itemBuilder: (context, index) => Image.network(
+          product.images[index],
+          fit: BoxFit.fill,
+          cacheWidth: 360.smw.toInt(),
+          cacheHeight: 360.smw.toInt(),
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Image.network(product.thumbNails[index],
+                fit: BoxFit.fill,
+                cacheWidth: 360.smw.toInt(),
+                cacheHeight: 360.smw.toInt(),
+                loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: CustomColors.primaryText,
+                  color: CustomColors.primary,
+                  strokeWidth: 5,
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                      : null,
+                ),
+              );
+            });
+          },
+          height: 360.smw,
+          width: AppConstants.designWidth.smw,
+        ),
+      ),
+    );
+  }
+
+  Widget _imageIndex(ProductDetailModel product) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 10.smh),
+      height: 10.smh,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(
+            product.images.length,
+            (index) => Container(
+                  margin: EdgeInsets.symmetric(horizontal: 5.smw),
+                  height: 10.smh,
+                  width: 10.smh,
+                  decoration: BoxDecoration(
+                      color: ref.watch(provider).imageIndex == index
+                          ? CustomColors.primary
+                          : CustomColors.primaryText,
+                      borderRadius: CustomThemeData.fullInfiniteRounded),
+                )),
+      ),
+    );
+  }
+
+  void _pageListener(int index) {
+    ref.watch(provider).imageIndex = index;
+  }
+
+  Widget _nameInfo(ProductDetailModel product) {
+    return Container(
+        margin: EdgeInsets.only(bottom: 5.smh),
+        width: 330.smw,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            product.tradeMark == null
+                ? Container()
+                : CustomText(
+                    ref.watch(provider).productDetail!.tradeMark ?? "",
+                    style:
+                        CustomFonts.bodyText3(CustomColors.backgroundTextPale),
+                  ),
+            CustomText(product.name,
+                style: CustomFonts.bodyText2(CustomColors.backgroundText),
+                maxLines: 2)
+          ],
+        ));
+  }
+
+  Widget _chips(ProductDetailModel product) {
+    return SizedBox(
+      width: 330.smw,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          _starChip(product.evaluationAverage, product.evaluationCount),
+          _unitCodeChip(product.unitCode)
+        ],
+      ),
+    );
+  }
+
+  Widget _starChip(num avg, num total) {
+    return Container(
+      height: 30.smh,
+      margin: EdgeInsets.only(right: 5.smw),
+      padding: EdgeInsets.symmetric(horizontal: 5.smw, vertical: 5.smh),
+      decoration: BoxDecoration(
+          color: CustomColors.primary,
+          borderRadius: CustomThemeData.fullInfiniteRounded),
+      child: Row(children: [
+        CustomIcons.star_chip_icon,
+        SizedBox(width: 5.smw),
+        CustomTextLocale(LocaleKeys.ProductDetail_rating_avg_count,
+            args: [avg.toStringAsFixed(1), total.toStringAsFixed(0)],
+            style: CustomFonts.bodyText5(CustomColors.primaryText))
+      ]),
+    );
+  }
+
+  Widget _unitCodeChip(String unitCode) {
+    return Container(
+      decoration: BoxDecoration(
+          color: CustomColors.primary,
+          borderRadius: CustomThemeData.fullInfiniteRounded),
+      constraints: BoxConstraints(minWidth: 30.smw),
+      height: 30.smh,
+      child: Center(
+        child: CustomText(unitCode,
+            style: CustomFonts.bodyText4(CustomColors.primaryText)),
+      ),
+    );
+  }
+
+  Widget _description() {
+    return SizedBox(
+      height: 45.smh,
+      width: 360.smw,
+      child: Center(
+        child: CustomTextLocale(LocaleKeys.ProductDetail_product_info,
+            style: CustomFonts.bodyText2(CustomColors.backgroundText)),
+      ),
+    );
+  }
+
+  _options() {
+    return Container(
+      height: 60.smh,
+      width: 360.smw,
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(color: CustomColors.primary, width: 1),
+          bottom: BorderSide(color: CustomColors.primary, width: 1),
+        ),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: InkWell(
+              onTap: () => ref.read(provider).selectedPropertyIndex = 0,
+              child: AnimatedContainer(
+                duration: CustomThemeData.animationDurationShort,
+                curve: Curves.easeInOut,
+                color: ref.watch(provider).selectedPropertyIndex == 0
+                    ? CustomColors.primary
+                    : CustomColors.card,
+                child: Center(
+                  child: CustomTextLocale(LocaleKeys.ProductDetail_product_info,
+                      style: CustomFonts.bigButton(
+                          ref.watch(provider).selectedPropertyIndex == 0
+                              ? CustomColors.primaryText
+                              : CustomColors.cardText)),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: InkWell(
+              onTap: () => ref.read(provider).selectedPropertyIndex = 1,
+              child: AnimatedContainer(
+                duration: CustomThemeData.animationDurationShort,
+                curve: Curves.easeInOut,
+                color: ref.watch(provider).selectedPropertyIndex == 1
+                    ? CustomColors.primary
+                    : CustomColors.card,
+                child: Center(
+                  child: CustomTextLocale(
+                      LocaleKeys.ProductDetail_product_properties,
+                      style: CustomFonts.bigButton(
+                          ref.watch(provider).selectedPropertyIndex == 1
+                              ? CustomColors.primaryText
+                              : CustomColors.cardText)),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _productDetails(ProductDetailModel product) {
+    return AnimatedContainer(
+      margin: EdgeInsets.only(bottom: 25.smh),
+      duration: CustomThemeData.animationDurationShort,
+      color: CustomColors.card,
+      width: 360.smw,
+      height: ref.watch(provider).infoExpanded ? 300.smh : 150.smh,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomText(
+            product.name,
+            style: CustomFonts.bodyText2(CustomColors.backgroundTextPale),
+            maxLines: ref.watch(provider).infoExpanded ? 10 : 5,
+          ),
+          InkWell(
+            onTap: () {
+              ref.read(provider).infoExpanded =
+                  !ref.watch(provider).infoExpanded;
+              if (ref.watch(provider).infoExpanded) {
+                _scrollController.jumpTo(_scrollController.offset - 5);
+                _scrollController.animateTo(_scrollController.offset + 300.smh,
+                    duration: CustomThemeData.animationDurationLong,
+                    curve: Curves.easeInOut);
+              }
+            },
+            child: AnimatedContainer(
+              height: 60.smh,
+              duration: CustomThemeData.animationDurationMedium,
+              decoration: BoxDecoration(
+                  color: CustomColors.secondary,
+                  border: Border(
+                      top: BorderSide(
+                          color: CustomColors.primary, width: 1.smw))),
+              child: Center(
+                child: CustomTextLocale(
+                  ref.watch(provider).infoExpanded
+                      ? LocaleKeys.ProductDetail_show_less
+                      : LocaleKeys.ProductDetail_show_more,
+                  style: CustomFonts.bodyText2(CustomColors.secondaryText),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _showAllRatings(ProductDetailModel product) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: InkWell(
+        onTap: () => NavigationService.navigateToPage(
+            ProductRatingsView(product: product)),
+        child: Container(
+          height: 60.smh,
+          width: 300.smw,
+          decoration: BoxDecoration(
+              color: CustomColors.primary,
+              borderRadius: CustomThemeData.rightRounded),
+          margin: EdgeInsets.only(bottom: 30.smh),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              CustomIcons.evaluations,
+              CustomTextLocale(LocaleKeys.ProductDetail_show_all_ratings,
+                  style: CustomFonts.bodyText1(CustomColors.primaryText)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _showAllQuestions(ProductDetailModel product) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: InkWell(
+        onTap: () => NavigationService.navigateToPage(
+            ProductQuestionsView(product: product)),
+        child: Container(
+          height: 60.smh,
+          width: 300.smw,
+          decoration: BoxDecoration(
+              color: CustomColors.primary,
+              borderRadius: CustomThemeData.leftRounded),
+          margin: EdgeInsets.only(bottom: 30.smh),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              CustomIcons.questions,
+              CustomTextLocale(LocaleKeys.ProductDetail_show_all_questions,
+                  style: CustomFonts.bodyText1(CustomColors.primaryText)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

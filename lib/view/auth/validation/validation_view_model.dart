@@ -48,7 +48,7 @@ class ValidationViewModel extends ChangeNotifier {
         return true;
       } else {
         PopupHelper.showError(
-            message: response.message,
+            errorMessage: response.errorMessage,
             dismissible: false,
             actions: [
               {
@@ -61,6 +61,7 @@ class ValidationViewModel extends ChangeNotifier {
         return false;
       }
     } catch (e) {
+      PopupHelper.showErrorWithCode(e);
       return false;
     }
   }
@@ -80,16 +81,17 @@ class ValidationViewModel extends ChangeNotifier {
           ResponseModel userInfo = await NetworkService.get(
               "api/users/user_info/${registerData["Email"]}");
           if (userInfo.success) {
-            formKey.currentState?.dispose();
+            // formKey.currentState?.dispose();
             await AuthService.login(UserModel.fromJson(userInfo.data));
           } else {
-            PopupHelper.showError(message: userInfo.message);
+            PopupHelper.showError(errorMessage: userInfo.errorMessage);
           }
         } else {
-          PopupHelper.showError(message: response.message);
+          PopupHelper.showError(errorMessage: response.errorMessage);
         }
       } else {
-        PopupHelper.showError(message: LocaleKeys.Validation_wrong_code.tr());
+        PopupHelper.showError(
+            errorMessage: LocaleKeys.Validation_wrong_code.tr());
       }
     }
   }

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
@@ -8,9 +9,11 @@ import 'package:nlmmobile/core/services/theme/custom_icons.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
+import 'package:nlmmobile/product/models/user/user_orders_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
-import 'package:nlmmobile/view/order/order_detail/order_detail_view.dart';
+import 'package:nlmmobile/product/widgets/custom_text.dart';
+import 'package:nlmmobile/view/user/user_order_details/user_order_details_view.dart';
 import 'package:nlmmobile/view/user/user_orders/user_orders_view_model.dart';
 
 class UserOrdersView extends ConsumerStatefulWidget {
@@ -21,11 +24,14 @@ class UserOrdersView extends ConsumerStatefulWidget {
 }
 
 class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
-  late ChangeNotifierProvider<UserOrdersViewModel> provider;
+  late final ChangeNotifierProvider<UserOrdersViewModel> provider;
 
   @override
   void initState() {
     provider = ChangeNotifierProvider((ref) => UserOrdersViewModel());
+    Future.delayed(Duration.zero, () {
+      ref.read(provider).getOrders();
+    });
     super.initState();
   }
 
@@ -33,7 +39,8 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
   Widget build(BuildContext context) {
     return CustomSafeArea(
       child: Scaffold(
-        appBar: CustomAppBar.activeBack(LocaleKeys.UserOrders_appbar_title),
+        appBar:
+            CustomAppBar.activeBack(LocaleKeys.UserOrders_appbar_title.tr()),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [_filters(), _cards()],
@@ -43,7 +50,56 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
   }
 
   Widget _filters() {
-    return const SizedBox(height: 0, width: 0);
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10.smh),
+      height: 60.smh,
+      width: AppConstants.designWidth.smw,
+      child: ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: ref.watch(provider).statuses.length,
+        itemBuilder: (context, index) => InkWell(
+          onTap: () => ref
+              .watch(provider)
+              .addRemoveFilter(ref.watch(provider).statuses[index]),
+          child: AnimatedContainer(
+            duration: CustomThemeData.animationDurationShort,
+            curve: Curves.easeInOut,
+            margin: EdgeInsets.symmetric(horizontal: 10.smw),
+            height: 60.smh,
+            constraints: BoxConstraints(
+                minWidth: ref.watch(provider).statuses.length > 1
+                    ? (AppConstants.designWidth /
+                                ref.watch(provider).statuses.length -
+                            0.5)
+                        .smw
+                    : 360.smw),
+            decoration: BoxDecoration(
+              borderRadius: CustomThemeData.fullInfiniteRounded,
+              border: Border.all(color: CustomColors.primary, width: 1),
+              color: ref
+                      .watch(provider)
+                      .filterStatuses
+                      .contains(ref.watch(provider).statuses[index])
+                  ? CustomColors.primary
+                  : CustomColors.card,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 5.smh),
+            child: Center(
+              child: CustomText(
+                ref.watch(provider).statuses[index],
+                style: CustomFonts.bigButton(ref
+                        .watch(provider)
+                        .filterStatuses
+                        .contains(ref.watch(provider).statuses[index])
+                    ? CustomColors.primaryText
+                    : CustomColors.cardText),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _cards() {
@@ -54,9 +110,10 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
   }
 
   Widget _card(int index) {
+    UserOrdersModel order = ref.watch(provider).filtered[index];
     return InkWell(
       onTap: () {
-        NavigationService.navigateToPage(const OrderDetailsView());
+        NavigationService.navigateToPage(const UserOrderDetailsView());
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
@@ -77,44 +134,50 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text.rich(TextSpan(
-                          text: "No: ",
-                          style:
-                              CustomFonts.bodyText4(CustomColors.card2TextPale),
-                          children: [
-                            TextSpan(
-                                text: "123456789",
-                                style: CustomFonts.bodyText4(
-                                    CustomColors.card2Text))
-                          ])),
-                      Text.rich(TextSpan(
-                          text: "Tarih: ",
-                          style:
-                              CustomFonts.bodyText4(CustomColors.card2TextPale),
-                          children: [
-                            TextSpan(
-                                text: "12/12/2020",
-                                style: CustomFonts.bodyText4(
-                                    CustomColors.card2Text))
-                          ])),
-                      Text.rich(TextSpan(
-                          text: "Durum: ",
-                          style:
-                              CustomFonts.bodyText4(CustomColors.card2TextPale),
-                          children: [
-                            TextSpan(
-                                text: "Onaylandı",
-                                style: CustomFonts.bodyText4(
-                                    CustomColors.card2Text))
-                          ])),
+                      Row(
+                        children: [
+                          CustomTextLocale(
+                            LocaleKeys.UserOrders_no,
+                            style: CustomFonts.bodyText4(
+                                CustomColors.card2TextPale),
+                          ),
+                          CustomText(order.ficheNo,
+                              style:
+                                  CustomFonts.bodyText4(CustomColors.card2Text))
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          CustomTextLocale(
+                            LocaleKeys.UserOrders_date,
+                            style: CustomFonts.bodyText4(
+                                CustomColors.card2TextPale),
+                          ),
+                          CustomText(order.orderDate.toString(),
+                              style:
+                                  CustomFonts.bodyText4(CustomColors.card2Text))
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          CustomTextLocale(
+                            LocaleKeys.UserOrders_status,
+                            style: CustomFonts.bodyText4(
+                                CustomColors.card2TextPale),
+                          ),
+                          CustomText(order.statusName,
+                              style:
+                                  CustomFonts.bodyText4(CustomColors.card2Text))
+                        ],
+                      )
                     ],
                   ),
                   Column(// resim ve ürün sayısı
                       children: [
-                    Text("Sipariş tutarı",
+                    CustomTextLocale(LocaleKeys.UserOrders_order_total,
                         style:
                             CustomFonts.bodyText4(CustomColors.card2TextPale)),
-                    Text("400,00 TL",
+                    CustomText("${order.total} TL",
                         style: CustomFonts.bodyText3(CustomColors.card2Text)),
                   ])
                 ],
@@ -147,7 +210,10 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
                   ),
                   Row(
                     children: [
-                      Text("+ 8\nÜrün\nDaha",
+                      CustomTextLocale(LocaleKeys.UserOrders_total_product,
+                          args: [order.lineCount.toString()],
+                          maxLines: 3,
+                          textAlign: TextAlign.center,
                           style: CustomFonts.bodyText1(CustomColors.card2Text)),
                       SizedBox(width: 20.smw),
                       CustomIcons.forward_icon_dark

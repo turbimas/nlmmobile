@@ -12,6 +12,7 @@ import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
+import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/view/auth/forgot_password/forgot_password_view.dart';
 import 'package:nlmmobile/view/auth/login/login_view_model.dart';
 import 'package:nlmmobile/view/auth/register/register_view.dart';
@@ -73,7 +74,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
             height: 25.smh,
             child: Align(
                 alignment: Alignment.centerRight,
-                child: CustomText(LocaleKeys.Login_forgot_password.tr(),
+                child: CustomTextLocale(LocaleKeys.Login_forgot_password,
                     style:
                         CustomFonts.bodyText4(CustomColors.backgroundText)))),
       ),
@@ -106,7 +107,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   color: CustomColors.primary,
                   borderRadius: CustomThemeData.leftInfiniteRounded),
               child: Center(
-                  child: CustomText(LocaleKeys.Login_register_button.tr(),
+                  child: CustomTextLocale(LocaleKeys.Login_register_button,
                       style: CustomFonts.bigButton(CustomColors.primaryText))),
             ),
           ),
@@ -136,7 +137,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: CustomText(LocaleKeys.Login_login_button.tr(),
+                  child: CustomTextLocale(LocaleKeys.Login_login_button,
                       style: CustomFonts.bigButton(CustomColors.secondaryText)),
                 ),
                 Expanded(
@@ -248,7 +249,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   Container(height: 1, color: CustomColors.backgroundTextPale)),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.smw),
-              child: CustomText(LocaleKeys.Login_not_registered_yet.tr(),
+              child: CustomTextLocale(LocaleKeys.Login_not_registered_yet,
                   style:
                       CustomFonts.bodyText4(CustomColors.backgroundTextPale))),
           Expanded(

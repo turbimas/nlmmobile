@@ -1,4 +1,4 @@
-class ProductModel {
+class ProductDetailModel {
   final int id;
   final String barcode;
   final String name;
@@ -14,13 +14,22 @@ class ProductModel {
   final int
       _favoriteId; // 0 ise favori değil, 0> ise favori buna göre getter oluşturulacak
   bool get isFavorite => _favoriteId > 0;
-  final Map<String, double>? _evaluationData;
-  double get evaluationCount => _evaluationData?["EvaluationsCount"] ?? 0;
-  double get evaluationAvg => _evaluationData?["EvaluationsAvg"] ?? 0;
-  final List<String> images;
-  final List<String> thumbNails;
+  final Map<String, dynamic>? _evaluationData;
+  num get evaluationCount =>
+      _evaluationData != null ? _evaluationData!["EvaluationsCount"] ?? 0 : 0;
+  num get evaluationAverage =>
+      _evaluationData != null ? _evaluationData!["EvaluationsAverage"] ?? 0 : 0;
 
-  ProductModel.fromJson(Map<String, dynamic> json)
+  final List<String> _images;
+  final List<String> _thumbNails;
+  List<String> get images => _images
+      .map((e) => "http://${e.replaceAll("\\", "/").replaceAll("//", "/")}")
+      .toList();
+  List<String> get thumbNails => _thumbNails
+      .map((e) => "http://${e.replaceAll("\\", "/").replaceAll("//", "/")}")
+      .toList();
+
+  ProductDetailModel.fromJson(Map<String, dynamic> json)
       : id = json['ID'],
         barcode = json['Barcode'],
         name = json['Name'],
@@ -35,6 +44,27 @@ class ProductModel {
         basketQuantity = json['BasketQty'],
         _favoriteId = json['FavoriteID'],
         _evaluationData = json['Evaluation'],
-        images = json['Images'].cast<String>(),
-        thumbNails = json['Thumbnails'].cast<String>();
+        _images = json['Images'].cast<String>(),
+        _thumbNails = json['Thumbnails'].cast<String>();
+
+  toJson() {
+    return {
+      'ID': id,
+      'Barcode': barcode,
+      'Name': name,
+      'TradeMark': tradeMark,
+      'UnitPrice': unitPrice,
+      // 'VaryantID': varyantId,
+      // 'ColorName': colorName,
+      // 'Beden': beden,
+      // 'Miktar': miktar,
+      'Aciklama': aciklama,
+      'UnitCode': unitCode,
+      'BasketQty': basketQuantity,
+      'FavoriteID': _favoriteId,
+      'Evaluation': _evaluationData,
+      'Images': images,
+      'Thumbnails': thumbNails,
+    };
+  }
 }

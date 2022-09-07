@@ -1,7 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:nlmmobile/core/services/auth/authservice.dart';
-import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/network/network_service.dart';
 import 'package:nlmmobile/core/services/network/response_model.dart';
@@ -47,10 +45,10 @@ class SubCategoriesViewModel extends ChangeNotifier {
         masterCategories =
             response.data.map((e) => CategoryModel.fromJson(e)).toList();
       } else {
-        PopupHelper.showError(message: response.message);
+        PopupHelper.showError(errorMessage: response.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showError(message: LocaleKeys.ErrorCodes_ERROR);
+      PopupHelper.showErrorWithCode(e);
     } finally {
       retrieving = false;
     }
@@ -73,11 +71,10 @@ class SubCategoriesViewModel extends ChangeNotifier {
         subCategories.add(responseList);
         selectedCategories.add(model);
       } else {
-        PopupHelper.showError(message: response.message);
+        PopupHelper.showError(errorMessage: response.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showError(
-          message: LocaleKeys.ErrorCodes_ERROR.tr() + e.toString());
+      PopupHelper.showErrorWithCode(e);
     } finally {
       retrieving = false;
       Future.delayed(const Duration(milliseconds: 100), () {
@@ -99,12 +96,14 @@ class SubCategoriesViewModel extends ChangeNotifier {
           return ProductOverViewModel.fromJson(e["Product"]);
         }).toList();
         NavigationService.navigateToPage(SearchResultView(
-            products: products, categoryModel: selectedCategories.last));
+            products: products,
+            categoryModel: masterCategory,
+            masterCategories: masterCategories));
       } else {
-        PopupHelper.showError(message: responseModel.message);
+        PopupHelper.showError(errorMessage: responseModel.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showError(message: "${LocaleKeys.ErrorCodes_ERROR.tr()}\n$e");
+      PopupHelper.showErrorWithCode(e);
     } finally {
       retrieving = false;
     }

@@ -1,3 +1,0 @@
-class QuestionModel {
-  QuestionModel();
-}

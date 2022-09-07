@@ -20,9 +20,11 @@ class ProductOverViewModel {
     _favoriteId = id;
   }
 
-  final Map<String, double>? _evaluationData;
-  double get evaluationCount => _evaluationData?["EvaluationsCount"] ?? 0;
-  double get evaluationAvg => _evaluationData?["EvaluationsAvg"] ?? 0;
+  final Map<String, dynamic>? _evaluationData;
+  num get evaluationCount =>
+      _evaluationData != null ? _evaluationData!["EvaluationsCount"] ?? 0 : 0;
+  num get evaluationAverage =>
+      _evaluationData != null ? _evaluationData!["EvaluationsAverage"] ?? 0 : 0;
 
   Widget image({required double height, required double width}) =>
       _thumbnail != null

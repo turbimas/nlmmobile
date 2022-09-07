@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
+import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
@@ -14,6 +15,7 @@ import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_searchbar_view.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/view/main/home/home_view_model.dart';
+import 'package:nlmmobile/view/main/search/search_view.dart';
 import 'package:nlmmobile/view/main/sub_categories/sub_categories_view.dart';
 
 class HomeView extends ConsumerStatefulWidget {
@@ -44,11 +46,17 @@ class _HomeViewState extends ConsumerState<HomeView> {
           Padding(
             padding: EdgeInsets.only(
                 left: 15.smw, right: 15.smw, top: 10.smh, bottom: 15.smh),
-            child: CustomSearchBarView(hint: LocaleKeys.Home_search_hint.tr()),
+            child: InkWell(
+                onTap: () {
+                  NavigationService.navigateToPage(const SearchView());
+                },
+                child: AbsorbPointer(
+                    child: CustomSearchBarView(
+                        hint: LocaleKeys.Home_search_hint.tr()))),
           ),
           _fastCategories(),
           SizedBox(height: 15.smh),
-          _imageBanner(),
+          // _imageBanner(),
           // SizedBox(height: 15.smh),
           // _productBanner(),
           // SizedBox(height: 75.smh),
@@ -68,7 +76,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   Widget _fastCategories() {
     return Container(
-      height: 100.smh,
+      height: 120.smh,
       color: CustomColors.card,
       width: AppConstants.designWidth.smw,
       padding: EdgeInsets.symmetric(vertical: 5.smh),
@@ -116,9 +124,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                   category.groupName,
                                   maxLines: 2,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: CustomColors.cardText,
-                                      fontSize: 12),
+                                  style: CustomFonts.bodyText4(
+                                      CustomColors.cardText),
                                 ),
                               ),
                             ),
@@ -179,7 +186,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           borderRadius: BorderRadius.circular(80),
                         ),
                         child: Center(
-                          child: Text("2/16",
+                          child: CustomText("2/16",
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 10.sp)),
                         ),
@@ -230,10 +237,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   Row _allRow(String title) {
     return Row(
-      // kampyanyalar ve tümü
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title),
+        CustomText(title),
         Container(
           height: 20.smh,
           width: 90.smw,
@@ -245,7 +251,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(LocaleKeys.Home_all.tr(),
+              CustomTextLocale(LocaleKeys.Home_all,
                   style: TextStyle(color: Colors.black, fontSize: 12.sp)),
               CustomIcons.arrow_right_circle_icon
             ],

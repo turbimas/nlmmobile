@@ -7,21 +7,23 @@ import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
+import 'package:nlmmobile/product/widgets/custom_text.dart';
 
-class OrderDetailsView extends ConsumerStatefulWidget {
-  const OrderDetailsView({Key? key}) : super(key: key);
+class UserOrderDetailsView extends ConsumerStatefulWidget {
+  const UserOrderDetailsView({Key? key}) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _OrderDetailsViewState();
+      _UserOrderDetailsViewState();
 }
 
-class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
+class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
   @override
   Widget build(BuildContext context) {
     return CustomSafeArea(
       child: Scaffold(
-        appBar: CustomAppBar.activeBack(LocaleKeys.OrderDetails_appbar_title),
+        appBar:
+            CustomAppBar.activeBack(LocaleKeys.UserOrderDetails_appbar_title),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
@@ -58,7 +60,7 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
               borderRadius: CustomThemeData.topRounded,
             ),
             child: Center(
-                child: Text(LocaleKeys.OrderDetails_order_info,
+                child: CustomTextLocale(LocaleKeys.UserOrderDetails_order_info,
                     style: CustomFonts.bodyText3(CustomColors.primaryText))),
           ),
           Container(
@@ -73,7 +75,7 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: Text(LocaleKeys.OrderDetails_no,
+                      child: Text(LocaleKeys.UserOrderDetails_no,
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                     ),
@@ -81,7 +83,7 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                       flex: 5,
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
-                        child: Text("123456789",
+                        child: CustomText("123456789",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -93,7 +95,7 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: Text(LocaleKeys.OrderDetails_date,
+                      child: CustomTextLocale(LocaleKeys.UserOrderDetails_date,
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                     ),
@@ -101,7 +103,7 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                       flex: 5,
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
-                        child: Text("12.12.2021",
+                        child: CustomText("12.12.2021",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -113,7 +115,7 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: Text(LocaleKeys.OrderDetails_status,
+                      child: CustomText(LocaleKeys.UserOrderDetails_status,
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                     ),
@@ -121,7 +123,7 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                       flex: 5,
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
-                        child: Text("Onay Bekliyor",
+                        child: CustomText("Onay Bekliyor",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -156,7 +158,8 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                 borderRadius: CustomThemeData.topRounded,
               ),
               child: Center(
-                  child: Text(LocaleKeys.OrderDetails_delivery_info,
+                  child: CustomTextLocale(
+                      LocaleKeys.UserOrderDetails_delivery_info,
                       style: CustomFonts.bodyText3(CustomColors.primaryText)))),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
@@ -170,7 +173,7 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: Text(LocaleKeys.OrderDetails_date,
+                      child: CustomTextLocale(LocaleKeys.UserOrderDetails_date,
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                     ),
@@ -178,7 +181,7 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                       flex: 5,
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
-                        child: Text("12.12.2021",
+                        child: CustomText("12.12.2021",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -190,7 +193,7 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: Text(LocaleKeys.OrderDetails_name,
+                      child: CustomTextLocale(LocaleKeys.UserOrderDetails_name,
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                     ),
@@ -198,7 +201,7 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                       flex: 5,
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
-                        child: Text("Ahmet Yılmaz",
+                        child: CustomText("Ahmet Yılmaz",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -210,7 +213,7 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: Text(LocaleKeys.OrderDetails_phone,
+                      child: CustomTextLocale(LocaleKeys.UserOrderDetails_phone,
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                     ),
@@ -218,7 +221,7 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                       flex: 5,
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
-                        child: Text("0532 123 45 67",
+                        child: CustomText("0532 123 45 67",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -230,7 +233,7 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: Text(LocaleKeys.OrderDetails_address,
+                      child: Text(LocaleKeys.UserOrderDetails_address,
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                     ),
@@ -238,7 +241,7 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                       flex: 5,
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
-                        child: Text(
+                        child: CustomText(
                             "390 Nolu CAD. Edacan Sitesi - A Blok/No:16 ŞAHİNBEY/GAZİANTEP",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
@@ -274,7 +277,8 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                 borderRadius: CustomThemeData.topRounded,
               ),
               child: Center(
-                  child: Text(LocaleKeys.OrderDetails_payment_info,
+                  child: CustomTextLocale(
+                      LocaleKeys.UserOrderDetails_payment_info,
                       style: CustomFonts.bodyText3(CustomColors.primaryText)))),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
@@ -286,28 +290,29 @@ class _OrderDetailsViewState extends ConsumerState<OrderDetailsView> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(LocaleKeys.OrderDetails_subtotal,
+                      CustomTextLocale(LocaleKeys.UserOrderDetails_subtotal,
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
-                      Text("100 TL",
+                      CustomText("100 TL",
                           style: CustomFonts.bodyText4(CustomColors.card2Text)),
                     ]),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(LocaleKeys.OrderDetails_delivery_cost,
+                      CustomTextLocale(
+                          LocaleKeys.UserOrderDetails_delivery_cost,
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
-                      Text("10 TL",
+                      CustomText("10 TL",
                           style: CustomFonts.bodyText4(CustomColors.card2Text)),
                     ]),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(LocaleKeys.OrderDetails_total,
+                      CustomTextLocale(LocaleKeys.UserOrderDetails_total,
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
-                      Text("110 TL",
+                      CustomText("110 TL",
                           style: CustomFonts.bodyText4(CustomColors.card2Text)),
                     ]),
               ],

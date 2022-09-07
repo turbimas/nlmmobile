@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
+import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
+import 'package:nlmmobile/product/widgets/custom_text.dart';
 
 class DeliveryTimeView extends ConsumerStatefulWidget {
   const DeliveryTimeView({Key? key}) : super(key: key);
@@ -53,8 +53,8 @@ class _DeliveryTimeViewState extends ConsumerState<DeliveryTimeView> {
       ),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Text(time,
-            style: GoogleFonts.inder(fontSize: 14.sp, color: Colors.white)),
+        child: CustomText(time,
+            style: CustomFonts.bodyText3(CustomColors.secondaryText)),
       ),
     );
   }

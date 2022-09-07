@@ -6,7 +6,7 @@ class UserModel {
   var password;
   var gender;
   var birthDate;
-  var imageUrl;
+  String? imageUrl;
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['ID'];

@@ -49,7 +49,9 @@
         "search_hint":"Ürün veya kategori ara",
         "last_searches":"Son aramalarım",
         "clear_all":"Tümünü temizle",
-        "last_seen":"Son baktıklarım"
+        "last_seen":"Son baktıklarım",
+        "no_last_seen":"Henüz hiçbir ürüne bakmadınız !",
+        "no_searched":"Henüz bir ürün aramadınız !"
     },
     "SearchResult": {
         "appbar_title": "Arama sonuçları",
@@ -61,7 +63,7 @@
     "BasketEmpty":{
         "appbar_title":"Sepetim",
         "basket_empty":"Sepetiniz boş",
-        "shop_now":"Şimdi alışverişe başlayın"
+        "shop_now":"Hemen alışverişe başlayın"
     },
     "Basket": {
         "appbar_title":"Sepetim",
@@ -114,14 +116,16 @@
         "continue":"Devam et"
     },
     "ProductDetail":{
-        "appbar_title":"{}",
+        "appbar_title":"Ürün Detayları",
         "product_info":"Ürün Bilgileri",
         "product_details":"Ürün Detayları",
         "product_properties":"Ürün Özellikleri",
         "show_more":"Daha fazla göster",
-        "show_all_ratings":"Yorumlar",
-        "show_all_questions":"Sorular",
-        "add_to_basket":"Sepete ekle"
+        "show_less":"Daha az göster",
+        "show_all_ratings":"Tüm değerlendirmeleri göster",
+        "show_all_questions":"Tüm soru & cevapları göster",
+        "add_to_basket":"Sepete ekle",
+        "rating_avg_count": "{} Toplam değerlendirmeler ({})" 
     },
     "ProductImage":{
         "appbar_title":"{}"
@@ -169,7 +173,12 @@
         "add_card":"Yeni Kart ekle"
     },
     "UserOrders":{
-        "appbar_title":"Siparişlerim"
+        "appbar_title":"Siparişlerim",
+        "no":"No: ",
+        "date":"Tarih: ",
+        "status":"Durumu: ",
+        "order_total":"Sipariş tutarı: ",
+        "total_product":"Toplam\n{}\nÜrün"
     },
     "UserSettings":{
         "appbar_title":"Profili düzenle",
@@ -183,7 +192,7 @@
         "old_password_hint":"Eski şifreniz",
         "forgot_password":"Şifrenizi mi unuttunuz ?"
     },
-    "OrderDetails":{
+    "UserOrderDetails":{
         "appbar_title":"Sipariş detaylar",
         "order_info":"Sipariş bilgileri",
         "no":"No",

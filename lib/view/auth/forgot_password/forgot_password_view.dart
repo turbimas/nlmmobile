@@ -8,6 +8,7 @@ import 'package:nlmmobile/core/services/theme/custom_images.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
+import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/ok_cancel_prompt.dart';
 
 class ForgotPasswordView extends ConsumerStatefulWidget {
@@ -61,7 +62,7 @@ class _ForgotPasswordViewState extends ConsumerState<ForgotPasswordView> {
       height: 80.smh,
       width: 300.smw,
       child: Center(
-        child: CustomText(LocaleKeys.ForgotPassword_prompt_message.tr(),
+        child: CustomTextLocale(LocaleKeys.ForgotPassword_prompt_message,
             style: CustomFonts.bodyText4(CustomColors.backgroundText)),
       ),
     );

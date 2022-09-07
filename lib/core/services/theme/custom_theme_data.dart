@@ -60,4 +60,8 @@ abstract class CustomThemeData {
           offset: Offset(0, 5.smh),
         ),
       ];
+
+  static const animationDurationLong = Duration(milliseconds: 500);
+  static const animationDurationMedium = Duration(milliseconds: 300);
+  static const animationDurationShort = Duration(milliseconds: 150);
 }

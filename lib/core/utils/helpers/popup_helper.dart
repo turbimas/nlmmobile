@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
@@ -7,6 +9,7 @@ import 'package:nlmmobile/core/services/theme/custom_icons.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/models/product_over_view_model.dart';
+import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/product_overview_view.dart';
 
 class PopupHelper {
@@ -16,8 +19,9 @@ class PopupHelper {
   static ActionPopups get actionPopups => _actionPopups;
 
   static Future<void> showError(
-      {required String message,
+      {required String errorMessage,
       bool dismissible = true,
+      Object? error,
       List<Map<String, dynamic>> actions = const []}) async {
     showDialog(
         context: _context,
@@ -25,18 +29,26 @@ class PopupHelper {
         builder: (context) => AlertDialog(
               backgroundColor: CustomColors.cancel,
               title: Text(
-                message,
+                errorMessage.tr(),
                 style: CustomFonts.bodyText3(CustomColors.cancelText),
               ),
+              content: error != null
+                  ? Text(error.toString(),
+                      style: CustomFonts.bodyText4(CustomColors.cancelText))
+                  : null,
               actions: actions
                   .map((e) => TextButton(
                       style: TextButton.styleFrom(
                         foregroundColor: CustomColors.cancelText,
                       ),
                       onPressed: e['onPressed'] as Function(),
-                      child: Text(e['text'] as String)))
+                      child: CustomText(e['text'] as String)))
                   .toList(),
             ));
+  }
+
+  static Future<void> showErrorWithCode(Object e) async {
+    showError(errorMessage: LocaleKeys.ErrorCodes_ERROR, error: e);
   }
 }
 
@@ -116,7 +128,7 @@ class ActionPopups {
                       color: CustomColors.secondary,
                       borderRadius: CustomThemeData.fullRounded),
                   child: Center(
-                    child: Text("Değerlendirmeyi Gönder",
+                    child: CustomText("Değerlendirmeyi Gönder",
                         style:
                             CustomFonts.bodyText3(CustomColors.secondaryText)),
                   )),

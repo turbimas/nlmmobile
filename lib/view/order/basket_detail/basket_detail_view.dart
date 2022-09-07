@@ -2,31 +2,44 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
+import 'package:nlmmobile/product/models/order/basket_total_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
+import 'package:nlmmobile/view/order/basket_detail/basket_detail_view_model.dart';
 import 'package:nlmmobile/view/order/delivery_time/delivery_time.dart';
 
 class BasketDetailView extends ConsumerStatefulWidget {
-  const BasketDetailView({Key? key}) : super(key: key);
+  final BasketTotalModel basketTotal;
+  const BasketDetailView({Key? key, required this.basketTotal})
+      : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _BasketDetailState();
 }
 
 class _BasketDetailState extends ConsumerState<BasketDetailView> {
+  late final ChangeNotifierProvider<BasketDetailViewModel> provider;
+
+  @override
+  void initState() {
+    provider = ChangeNotifierProvider(
+        (ref) => BasketDetailViewModel(basketTotal: widget.basketTotal));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomSafeArea(
         child: Scaffold(
-      appBar: CustomAppBar.activeBack("Sipariş Detayı"),
+      appBar:
+          CustomAppBar.activeBack(LocaleKeys.BasketDetail_appbar_title.tr()),
       body: Stack(
         children: [
           Positioned(
@@ -189,99 +202,108 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
     return Positioned(
       bottom: 0.smh,
       child: Container(
-        color: Colors.transparent,
         height: 200.smh,
         width: AppConstants.designWidth.smw,
-        child: Container(
-          height: 200.smh,
-          width: AppConstants.designWidth.smw,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: CustomColors.paymentCard,
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-            boxShadow: [
-              BoxShadow(
-                  color: const Color(0xFF50745C).withOpacity(0.5),
-                  blurRadius: 25,
-                  blurStyle: BlurStyle.inner)
-            ],
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: CustomColors.paymentCard,
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const BasketDetailView()));
-                },
-                child: Container(
-                  // ödemeye git
-                  height: 50.smh,
-                  width: 300.smw,
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30)),
-                      gradient: LinearGradient(
-                        colors: CustomColors.paymentCard,
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                      )),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CustomIcons.order_done_icon,
-                      Text(LocaleKeys.BasketDetail_done_delivery.tr(),
-                          style: CustomFonts.bodyText4(
-                              CustomColors.backgroundText))
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                color: Colors.transparent,
-                margin:
-                    EdgeInsets.symmetric(horizontal: 25.smw, vertical: 10.smh),
-                height: 80.smh,
-                width: AppConstants.designWidth.smw,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          boxShadow: [
+            BoxShadow(
+                color: const Color(0xFF50745C).withOpacity(0.5),
+                blurRadius: 25,
+                blurStyle: BlurStyle.inner)
+          ],
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () {
+                // TODO: create order
+              },
+              child: Container(
+                height: 50.smh,
+                width: 300.smw,
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30)),
+                    gradient: LinearGradient(
+                      colors: CustomColors.paymentCard,
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                    )),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Ara toplam",
-                            style: TextStyle(color: CustomColors.cardText)),
-                        const Text("23,65 TL")
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Teslimat Tutarı",
-                            style: TextStyle(color: CustomColors.cardText)),
-                        const Text("53.23 TL")
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("İndirim tutarı",
-                            style: TextStyle(color: CustomColors.cardText)),
-                        const Text("76.42 TL")
-                      ],
-                    )
+                    CustomIcons.credit_card_icon_dark,
+                    CustomTextLocale(LocaleKeys.Basket_continue_basket,
+                        style: CustomFonts.bodyText2(CustomColors.cardText))
                   ],
                 ),
               ),
-              Divider(thickness: 1.smh, height: 1.smh),
-              Container(
+            ),
+            Container(
+              color: Colors.transparent,
+              margin:
+                  EdgeInsets.symmetric(horizontal: 25.smw, vertical: 10.smh),
+              height: 80.smh,
+              width: AppConstants.designWidth.smw,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomTextLocale(LocaleKeys.Basket_subtotal,
+                          style: CustomFonts.bodyText4(CustomColors.cardText)),
+                      CustomText(
+                          ref
+                              .watch(provider)
+                              .basketTotal
+                              .lineTotal
+                              .toStringAsFixed(2),
+                          style: CustomFonts.bodyText4(CustomColors.cardText))
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomTextLocale(LocaleKeys.Basket_delivery_cost,
+                          style: CustomFonts.bodyText4(CustomColors.cardText)),
+                      CustomText(
+                          ref
+                              .watch(provider)
+                              .basketTotal
+                              .deliveryTotal
+                              .toStringAsFixed(2),
+                          style: CustomFonts.bodyText4(CustomColors.cardText))
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomTextLocale(LocaleKeys.Basket_discount_cost,
+                          style: CustomFonts.bodyText4(CustomColors.cardText)),
+                      CustomText(
+                          ref
+                              .watch(provider)
+                              .basketTotal
+                              .promotionTotal
+                              .toStringAsFixed(2),
+                          style: CustomFonts.bodyText4(CustomColors.cardText))
+                    ],
+                  )
+                ],
+              ),
+            ),
+            Divider(thickness: 1.smh, height: 1.smh),
+            Container(
                 padding: EdgeInsets.symmetric(horizontal: 25.smw),
                 color: Colors.transparent,
                 height: 49.smh,
@@ -289,39 +311,21 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("TOPLAM TUTAR",
-                        style: GoogleFonts.leagueSpartan(
-                            color: CustomColors.cardText, fontSize: 18.sp)),
-                    const Text("1652.42 TL")
+                    CustomTextLocale(LocaleKeys.Basket_total,
+                        style: CustomFonts.bodyText2(CustomColors.cardText)),
+                    CustomText(
+                        ref
+                            .watch(provider)
+                            .basketTotal
+                            .lineTotal
+                            .toStringAsFixed(2),
+                        style: CustomFonts.bodyText4(CustomColors.cardText))
                   ],
-                ),
-              )
-            ],
-          ),
+                ))
+          ],
         ),
       ),
     );
-  }
-
-  Container _kampanyaMessage() {
-    return Container(
-        width: 260.smw,
-        decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.9),
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-        height: 25.smh,
-        alignment: Alignment.center,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.smw),
-          child: Text(
-            "32 Tl tutarında alışveriş yaparsanız teslimat ücreti yok!!",
-            style: TextStyle(fontSize: 10.sp),
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.visible,
-            maxLines: 1,
-          ),
-        ));
   }
 
   Widget _radioContainer(
@@ -350,12 +354,13 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(title,
-                        style: TextStyle(color: Colors.white, fontSize: 12.sp)),
+                    CustomText(title,
+                        style: CustomFonts.bodyText3(CustomColors.primaryText)),
                     description != null
-                        ? Text(description,
+                        ? CustomText(description,
                             style:
-                                TextStyle(color: Colors.white, fontSize: 10.sp))
+                                CustomFonts.bodyText5(CustomColors.primaryText),
+                            maxLines: 2)
                         : const SizedBox()
                   ],
                 )),

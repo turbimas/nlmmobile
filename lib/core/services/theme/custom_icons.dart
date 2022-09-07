@@ -63,6 +63,9 @@ abstract class CustomIcons {
   static late final SvgPicture filter_icon;
   static late final SvgPicture categories_icon;
   static late final SvgPicture order_done_icon;
+  static late final SvgPicture star_chip_icon;
+  static late final SvgPicture garbage_icon_dark;
+  static late final SvgPicture garbage_icon_light;
 
   static void loadIcons() {
     menu_search_icon = _svgPicture("menu_search_icon");
@@ -123,6 +126,9 @@ abstract class CustomIcons {
     filter_icon = _svgPicture("filter_icon");
     categories_icon = _svgPicture("categories_icon");
     order_done_icon = _svgPicture("order_done_icon");
+    star_chip_icon = _svgPicture("star_chip_icon");
+    garbage_icon_dark = _svgPicture("garbage_icon_dark");
+    garbage_icon_light = _svgPicture("garbage_icon_light");
   }
 
   // static SvgPicture? _;

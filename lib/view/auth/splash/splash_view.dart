@@ -54,14 +54,23 @@ class _SplashViewState extends ConsumerState<SplashView>
     // CacheManager.instance.remove(CacheConstants.userId);
     // CacheManager.instance.remove(CacheConstants.userEmail);
     if (AuthService.isLoggedIn) {
-      NetworkService.get("api/users/user_info/${AuthService.email}")
-          .then((ResponseModel value) {
-        if (value.success) {
-          AuthService.login(UserModel.fromJson(value.data));
-        } else {
-          PopupHelper.showError(message: value.message);
-        }
-      });
+      try {
+        NetworkService.get("api/users/user_info/${AuthService.email}")
+            .then((ResponseModel value) {
+          if (value.success) {
+            AuthService.login(UserModel.fromJson(value.data));
+          } else {
+            AuthService.logout();
+            PopupHelper.showError(errorMessage: value.errorMessage);
+          }
+        }).onError((error, stackTrace) {
+          AuthService.logout();
+          PopupHelper.showErrorWithCode(error!);
+        });
+      } catch (e) {
+        PopupHelper.showErrorWithCode(e);
+        AuthService.logout();
+      }
     } else {
       Future.delayed(Duration.zero, () {
         _controller.stop();

@@ -139,9 +139,9 @@ class _ValidationViewState extends ConsumerState<ValidationView> {
         onTap: !ref.watch(provider).resented ? ref.read(provider).resend : null,
         child: Align(
             alignment: Alignment.centerRight,
-            child: CustomText(ref.watch(provider).resented
-                ? LocaleKeys.Validation_resended.tr()
-                : LocaleKeys.Validation_resend.tr())),
+            child: CustomTextLocale(ref.watch(provider).resented
+                ? LocaleKeys.Validation_resended
+                : LocaleKeys.Validation_resend)),
       ),
     );
   }

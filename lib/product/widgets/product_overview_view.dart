@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nlmmobile/core/services/auth/authservice.dart';
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
+import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/network/network_service.dart';
 import 'package:nlmmobile/core/services/network/response_model.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
@@ -15,6 +16,7 @@ import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
 import 'package:nlmmobile/product/models/product_over_view_model.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
+import 'package:nlmmobile/view/product/product_detail/product_detail_view.dart';
 
 class ProductOverviewVerticalView extends ConsumerStatefulWidget {
   final ProductOverViewModel product;
@@ -39,14 +41,19 @@ class _ProductOverviewViewVerticalState
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
+            // image
             height: 160.smh,
             child: Stack(
               children: [
                 Positioned.fill(
+                  child: InkWell(
+                    onTap: _goDetailPage,
                     child: ClipRRect(
                         borderRadius: CustomThemeData.topRounded,
                         child: widget.product
-                            .image(height: 160.smh, width: 160.smw))),
+                            .image(height: 160.smh, width: 160.smw)),
+                  ),
+                ),
                 Positioned(
                     bottom: 5.smh,
                     left: 5.smw,
@@ -68,34 +75,40 @@ class _ProductOverviewViewVerticalState
               ],
             ),
           ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 5.smw, vertical: 5.smh),
-            color: CustomColors.cardInner,
-            width: 160.smw,
-            constraints: BoxConstraints(minHeight: 70.smh),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomText(widget.product.name,
-                        maxLines: 2,
-                        style:
-                            CustomFonts.bodyText4(CustomColors.cardInnerText)),
-                  ],
-                ),
-                SizedBox(height: 5.smh),
-                CustomText(
-                  "${widget.product.unitPrice.toStringAsFixed(2)} TL",
-                  style: CustomFonts.bodyText2(CustomColors.cardInnerText),
-                )
-              ],
+          InkWell(
+            // info container
+            onTap: _goDetailPage,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 5.smw, vertical: 5.smh),
+              color: CustomColors.cardInner,
+              width: 160.smw,
+              constraints: BoxConstraints(minHeight: 90.smh),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(widget.product.name,
+                          maxLines: 2,
+                          style: CustomFonts.bodyText4(
+                              CustomColors.cardInnerText)),
+                    ],
+                  ),
+                  SizedBox(height: 5.smh),
+                  CustomText(
+                    "${widget.product.unitPrice.toStringAsFixed(2)} TL",
+                    style: CustomFonts.bodyText2(CustomColors.cardInnerText),
+                  )
+                ],
+              ),
             ),
           ),
-          Container(
+          AnimatedContainer(
+            // button container
+            duration: CustomThemeData.animationDurationLong,
             height: 40.smh,
             width: 160.smw,
             decoration: BoxDecoration(
@@ -151,9 +164,9 @@ class _ProductOverviewViewVerticalState
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.star, color: CustomColors.secondaryText, size: 10.smh),
+              CustomIcons.star_chip_icon,
               SizedBox(width: 5.smw),
-              CustomText(widget.product.evaluationAvg.toStringAsFixed(1),
+              CustomText(widget.product.evaluationAverage.toStringAsFixed(1),
                   style: CustomFonts.bodyText5(CustomColors.secondaryText))
             ],
           ),
@@ -185,7 +198,7 @@ class _ProductOverviewViewVerticalState
             widget.product.basketQuantity = null;
           }
         });
-        PopupHelper.showError(message: response.message);
+        PopupHelper.showError(errorMessage: response.errorMessage);
       }
     } catch (e) {
       setState(() {
@@ -194,7 +207,7 @@ class _ProductOverviewViewVerticalState
           widget.product.basketQuantity = null;
         }
       });
-      PopupHelper.showError(message: "${LocaleKeys.ErrorCodes_ERROR}\n$e");
+      PopupHelper.showErrorWithCode(e);
     }
   }
 
@@ -219,14 +232,14 @@ class _ProductOverviewViewVerticalState
           widget.product.basketQuantity =
               (widget.product.basketQuantity ?? 0) + 1;
         });
-        PopupHelper.showError(message: response.message);
+        PopupHelper.showError(errorMessage: response.errorMessage);
       }
     } catch (e) {
       setState(() {
         widget.product.basketQuantity =
             (widget.product.basketQuantity ?? 0) + 1;
       });
-      PopupHelper.showError(message: "${LocaleKeys.ErrorCodes_ERROR}\n$e");
+      PopupHelper.showErrorWithCode(e);
     }
   }
 
@@ -269,6 +282,11 @@ class _ProductOverviewViewVerticalState
       }
     });
   }
+
+  void _goDetailPage() {
+    NavigationService.navigateToPage(
+        ProductDetailView(barcode: widget.product.barcode));
+  }
 }
 
 class ProductOverViewHorizontal extends ConsumerWidget {
@@ -278,25 +296,30 @@ class ProductOverViewHorizontal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      width: 320.smw,
-      height: 90.smh,
-      decoration: BoxDecoration(
-        color: CustomColors.cardInner,
-        border: Border.all(color: CustomColors.primary, width: 1),
-        borderRadius: CustomThemeData.fullRounded,
-      ),
-      padding: EdgeInsets.symmetric(vertical: 5.smh, horizontal: 5.smw),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: CustomThemeData.fullRounded,
-            child: product.image(height: 160.smh, width: 160.smh),
-          ),
-          SizedBox(width: 20.smw),
-          Expanded(
-            child: SizedBox(
-              width: 180.smw,
+    return InkWell(
+      onTap: _goDetailPage,
+      child: Container(
+        width: 320.smw,
+        height: 90.smh,
+        decoration: BoxDecoration(
+          color: CustomColors.cardInner,
+          border: Border.all(color: CustomColors.primary, width: 1),
+          borderRadius: CustomThemeData.fullRounded,
+        ),
+        padding: EdgeInsets.symmetric(vertical: 5.smh, horizontal: 5.smw),
+        child: Row(
+          children: [
+            SizedBox(
+              height: 80.smh,
+              width: 80.smw,
+              child: ClipRRect(
+                borderRadius: CustomThemeData.fullRounded,
+                child: product.image(height: 80.smh, width: 80.smh),
+              ),
+            ),
+            SizedBox(width: 20.smw),
+            SizedBox(
+              width: 205.smw,
               height: 80.smh,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -306,14 +329,18 @@ class ProductOverViewHorizontal extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomText(
-                        product.tradeMark ?? "",
-                        style: CustomFonts.bodyText3(CustomColors.primary),
-                      ),
+                      product.tradeMark != null
+                          ? CustomText(
+                              product.tradeMark!,
+                              style: CustomFonts.bodyText3(
+                                  CustomColors.cardInnerTextPale),
+                            )
+                          : Container(),
                       CustomText(
                         product.name + product.aciklama,
-                        style: CustomFonts.bodyText4(
-                            CustomColors.cardInnerTextPale),
+                        maxLines: 2,
+                        style:
+                            CustomFonts.bodyText4(CustomColors.cardInnerText),
                       )
                     ],
                   ),
@@ -324,26 +351,27 @@ class ProductOverViewHorizontal extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Container(
+                            constraints: BoxConstraints(
+                                minHeight: 15.smh, minWidth: 30.smw),
                             padding: EdgeInsets.symmetric(horizontal: 5.smw),
                             decoration: BoxDecoration(
                                 borderRadius:
                                     CustomThemeData.fullInfiniteRounded,
                                 color: CustomColors.primary),
-                            height: 15.smh,
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.white,
-                                  size: 10.smh,
-                                ),
-                                SizedBox(width: 2.smw),
-                                CustomText(
-                                  product.evaluationAvg.toStringAsFixed(1),
-                                  style: CustomFonts.bodyText4(
-                                      CustomColors.primaryText),
-                                )
-                              ],
+                            child: Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CustomIcons.star_chip_icon,
+                                  SizedBox(width: 5.smw),
+                                  CustomText(
+                                    product.evaluationAverage
+                                        .toStringAsFixed(1),
+                                    style: CustomFonts.bodyText4(
+                                        CustomColors.primaryText),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                           SizedBox(width: 5.smw),
@@ -355,9 +383,11 @@ class ProductOverViewHorizontal extends ConsumerWidget {
                               borderRadius: CustomThemeData.fullInfiniteRounded,
                             ),
                             padding: EdgeInsets.symmetric(horizontal: 5.smw),
-                            child: CustomText(product.unitCode,
-                                style: CustomFonts.bodyText4(
-                                    CustomColors.primaryText)),
+                            child: Center(
+                              child: CustomText(product.unitCode,
+                                  style: CustomFonts.bodyText4(
+                                      CustomColors.primaryText)),
+                            ),
                           )
                         ],
                       ),
@@ -369,10 +399,15 @@ class ProductOverViewHorizontal extends ConsumerWidget {
                   )
                 ],
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
+  }
+
+  void _goDetailPage() {
+    NavigationService.navigateToPage(
+        ProductDetailView(barcode: product.barcode));
   }
 }
