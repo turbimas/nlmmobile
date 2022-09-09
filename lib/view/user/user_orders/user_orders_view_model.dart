@@ -21,7 +21,7 @@ class UserOrdersViewModel extends ChangeNotifier {
         orders = (response.data as List)
             .map((e) => UserOrdersModel.fromJson(e))
             .toList();
-        statuses = orders.map<String>((e) => e.statusName).toSet().toList();
+        statuses = orders.map<String>((e) => e.StatusName).toSet().toList();
         filtered = orders;
         filterStatuses = statuses.toSet();
         notifyListeners();
@@ -40,7 +40,7 @@ class UserOrdersViewModel extends ChangeNotifier {
       filterStatuses.add(status);
     }
     filtered = orders
-        .where((element) => filterStatuses.contains(element.statusName))
+        .where((element) => filterStatuses.contains(element.StatusName))
         .toList();
     notifyListeners();
   }

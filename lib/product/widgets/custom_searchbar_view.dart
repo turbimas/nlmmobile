@@ -9,12 +9,14 @@ class CustomSearchBarView extends ConsumerStatefulWidget {
   final String hint;
   final TextEditingController? controller;
   final Function(String)? onSubmit;
+  final Function(String)? onChanged;
   final bool autofocus;
   const CustomSearchBarView(
       {Key? key,
       required this.hint,
       this.controller,
       this.onSubmit,
+      this.onChanged,
       this.autofocus = false})
       : super(key: key);
 
@@ -36,6 +38,7 @@ class _CustomSearchBarViewState extends ConsumerState<CustomSearchBarView> {
       height: 45.smh,
       child: Center(
         child: TextField(
+          onChanged: widget.onChanged,
           autofocus: widget.autofocus,
           controller: widget.controller,
           onSubmitted: widget.onSubmit,

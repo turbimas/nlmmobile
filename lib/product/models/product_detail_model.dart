@@ -10,15 +10,18 @@ class ProductDetailModel {
   // final double miktar;
   final String aciklama; // ürün ismi + açıklama
   final String unitCode;
-  final double? basketQuantity;
-  final int
-      _favoriteId; // 0 ise favori değil, 0> ise favori buna göre getter oluşturulacak
-  bool get isFavorite => _favoriteId > 0;
+  double? basketQuantity;
+  int favoriteId; // 0 ise favori değil, 0> ise favori buna göre getter oluşturulacak
+  bool get isFavorite => favoriteId > 0;
+  set isFavorite(bool value) {
+    favoriteId = value ? 1 : 0;
+  }
+
   final Map<String, dynamic>? _evaluationData;
   num get evaluationCount =>
       _evaluationData != null ? _evaluationData!["EvaluationsCount"] ?? 0 : 0;
   num get evaluationAverage =>
-      _evaluationData != null ? _evaluationData!["EvaluationsAverage"] ?? 0 : 0;
+      _evaluationData != null ? _evaluationData!["EvaluationsAvg"] ?? 0 : 0;
 
   final List<String> _images;
   final List<String> _thumbNails;
@@ -42,7 +45,7 @@ class ProductDetailModel {
         aciklama = json['Aciklama'],
         unitCode = json['UnitCode'],
         basketQuantity = json['BasketQty'],
-        _favoriteId = json['FavoriteID'],
+        favoriteId = json['FavoriteID'],
         _evaluationData = json['Evaluation'],
         _images = json['Images'].cast<String>(),
         _thumbNails = json['Thumbnails'].cast<String>();
@@ -61,7 +64,7 @@ class ProductDetailModel {
       'Aciklama': aciklama,
       'UnitCode': unitCode,
       'BasketQty': basketQuantity,
-      'FavoriteID': _favoriteId,
+      'FavoriteID': favoriteId,
       'Evaluation': _evaluationData,
       'Images': images,
       'Thumbnails': thumbNails,

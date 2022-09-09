@@ -141,7 +141,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
                           ref.watch(provider).lastViewed.length,
                           (index) => Container(
                                 margin: EdgeInsets.symmetric(vertical: 5.smh),
-                                child: ProductOverViewHorizontal(
+                                child: ProductOverViewHorizontalView(
                                     product: ref
                                         .watch(provider)
                                         .lastViewed[index]

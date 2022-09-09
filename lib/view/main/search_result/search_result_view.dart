@@ -14,18 +14,22 @@ import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/product_overview_view.dart';
+import 'package:nlmmobile/view/main/search/search_view.dart';
 import 'package:nlmmobile/view/main/search_result/search_resul_view_model.dart';
+import 'package:nlmmobile/view/main/sub_categories/sub_categories_view.dart';
 
 class SearchResultView extends ConsumerStatefulWidget {
   CategoryModel? categoryModel;
   List<CategoryModel>? masterCategories;
   String? searchText;
   List products;
+  bool isSearch;
   SearchResultView(
       {Key? key,
       this.categoryModel,
       this.masterCategories,
       this.searchText,
+      required this.isSearch,
       required this.products})
       : super(key: key);
 
@@ -112,7 +116,11 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
               SizedBox(height: 10.smh),
               InkWell(
                 onTap: () {
-                  NavigationService.back();
+                  if (!widget.isSearch) {
+                    NavigationService.back();
+                  } else {
+                    NavigationService.navigateToPage(SubCategoriesView());
+                  }
                 },
                 child: Container(
                   width: 260.smw,
@@ -137,22 +145,31 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
             ],
           ),
           SizedBox(width: 10.smw),
-          Container(
-            height: 110.smh,
-            width: 60.smw,
-            decoration: BoxDecoration(
-                color: CustomColors.secondary,
-                borderRadius: CustomThemeData.fullRounded),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CustomIcons.search_icon,
-                CustomTextLocale(
-                  LocaleKeys.SearchResult_search,
-                  maxLines: 1,
-                  style: CustomFonts.bodyText2(CustomColors.secondaryText),
-                )
-              ],
+          InkWell(
+            onTap: () {
+              if (widget.isSearch) {
+                NavigationService.back();
+              } else {
+                NavigationService.navigateToPage(const SearchView());
+              }
+            },
+            child: Container(
+              height: 110.smh,
+              width: 60.smw,
+              decoration: BoxDecoration(
+                  color: CustomColors.secondary,
+                  borderRadius: CustomThemeData.fullRounded),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CustomIcons.search_icon,
+                  CustomTextLocale(
+                    LocaleKeys.SearchResult_search,
+                    maxLines: 1,
+                    style: CustomFonts.bodyText2(CustomColors.secondaryText),
+                  )
+                ],
+              ),
             ),
           ),
         ],
@@ -167,7 +184,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
         child: DynamicHeightGridView(
             shrinkWrap: true,
             mainAxisSpacing: 10.smh,
-            crossAxisSpacing: 10.smw,
+            crossAxisSpacing: 0.smw,
             builder: (context, index) => Center(
                   child: ProductOverviewVerticalView(
                       product: ref.watch(provider).products[index]),

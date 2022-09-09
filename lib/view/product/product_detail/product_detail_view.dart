@@ -10,16 +10,20 @@ import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/models/product_detail_model.dart';
+import 'package:nlmmobile/product/models/product_over_view_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
+import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
+import 'package:nlmmobile/product/widgets/try_again_widget.dart';
 import 'package:nlmmobile/view/product/product_detail/product_detail_view_model.dart';
 import 'package:nlmmobile/view/product/product_questions/product_questions_view.dart';
 import 'package:nlmmobile/view/product/product_ratings/product_ratings_view.dart';
 
 class ProductDetailView extends ConsumerStatefulWidget {
-  final String barcode;
-  const ProductDetailView({Key? key, required this.barcode}) : super(key: key);
+  final ProductOverViewModel productOverViewModel;
+  const ProductDetailView({Key? key, required this.productOverViewModel})
+      : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -30,7 +34,6 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
   late final PageController _pageController;
   late final ScrollController _scrollController;
   late final ChangeNotifierProvider<ProductDetailViewModel> provider;
-
   @override
   void initState() {
     _pageController = PageController(initialPage: 0);
@@ -38,7 +41,7 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
     provider = ChangeNotifierProvider((ref) => ProductDetailViewModel());
 
     Future.delayed(Duration.zero, () {
-      ref.read(provider).getProductDetail(widget.barcode);
+      ref.read(provider).getProductDetail(widget.productOverViewModel.barcode);
     });
     super.initState();
   }
@@ -57,16 +60,26 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
             backgroundColor: Colors.transparent,
             appBar: CustomAppBar.activeBack(
                 LocaleKeys.ProductDetail_appbar_title.tr()),
-            body: Stack(
-              children: [
-                Positioned(
-                    top: 0, left: 0, right: 0, bottom: 50.smh, child: _body()),
-                Positioned(bottom: 0, child: _productBottomBar())
-              ],
-            )));
+            body: ref.watch(provider).isLoading
+                ? _loading()
+                : ref.watch(provider).productDetail != null
+                    ? _body()
+                    : TryAgain(
+                        callBack: () => ref.read(provider).getProductDetail(
+                            widget.productOverViewModel.barcode))));
   }
 
   Widget _body() {
+    return Stack(
+      children: [
+        Positioned(
+            top: 0, left: 0, right: 0, bottom: 50.smh, child: _content()),
+        Positioned(bottom: 0, child: _productBottomBar())
+      ],
+    );
+  }
+
+  Widget _content() {
     ProductDetailModel product = ref.watch(provider).productDetail!;
     return SingleChildScrollView(
       controller: _scrollController,
@@ -87,6 +100,12 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
     );
   }
 
+  Widget _loading() {
+    return const Center(
+      child: CustomCircularProgressIndicator(),
+    );
+  }
+
   Widget _productBottomBar() {
     return SizedBox(
       width: AppConstants.designWidth.smw,
@@ -100,36 +119,55 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
               "${ref.watch(provider).productDetail!.unitPrice.toStringAsFixed(2)} TL",
               style: CustomFonts.bodyText1(CustomColors.primaryText),
             ))),
+        Container(
+            color: CustomColors.secondary,
+            width: 155.smw,
+            child: Center(
+                child: ref.watch(provider).productDetail!.basketQuantity == null
+                    ? InkWell(
+                        onTap: ref.read(provider).addBasket,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              CustomIcons.add_basket_icon,
+                              CustomTextLocale(
+                                  LocaleKeys.ProductDetail_add_to_basket,
+                                  style: CustomFonts.bodyText1(
+                                      CustomColors.secondaryText))
+                            ]),
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          InkWell(
+                              onTap: ref.read(provider).updateBasket,
+                              child: CustomIcons.minus_icon),
+                          CustomText(
+                              ref
+                                  .watch(provider)
+                                  .productDetail!
+                                  .basketQuantity
+                                  .toString(),
+                              style: CustomFonts.bodyText1(
+                                  CustomColors.secondaryText)),
+                          InkWell(
+                              onTap: ref.read(provider).addBasket,
+                              child: CustomIcons.add_icon)
+                        ],
+                      ))),
         InkWell(
-          onTap: _addBasket,
-          child: Container(
-              color: CustomColors.secondary,
-              width: 155.smw,
-              child: Center(
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CustomIcons.add_basket_icon,
-                      CustomTextLocale(LocaleKeys.ProductDetail_add_to_basket,
-                          style:
-                              CustomFonts.bodyText1(CustomColors.secondaryText))
-                    ]),
-              )),
-        ),
-        InkWell(
-          onTap: _addFavorite,
+          onTap: ref.read(provider).favoriteUpdate,
           child: Container(
               color: CustomColors.primary,
               width: 55.smw,
-              child: Center(child: CustomIcons.favorite_circle_icon)),
+              child: Center(
+                  child: ref.watch(provider).productDetail!.isFavorite
+                      ? CustomIcons.favorite_circle_icon
+                      : CustomIcons.non_favorite_circle_icon)),
         ),
       ]),
     );
   }
-
-  void _addFavorite() {}
-
-  void _addBasket() {}
 
   Widget _productImages(ProductDetailModel product) {
     return Container(
@@ -254,6 +292,7 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
 
   Widget _unitCodeChip(String unitCode) {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 5.smw, vertical: 5.smh),
       decoration: BoxDecoration(
           color: CustomColors.primary,
           borderRadius: CustomThemeData.fullInfiniteRounded),
@@ -413,8 +452,9 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
     return Align(
       alignment: Alignment.centerRight,
       child: InkWell(
-        onTap: () => NavigationService.navigateToPage(
-            ProductQuestionsView(product: product)),
+        onTap: () => NavigationService.navigateToPage(ProductQuestionsView(
+            product: product,
+            productOverViewModel: widget.productOverViewModel)),
         child: Container(
           height: 60.smh,
           width: 300.smw,

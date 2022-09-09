@@ -78,7 +78,7 @@
         "appbar_title":"Sipariş detayları",
         "edit":"Düzenle",
         "choice_address":"Teslimat adresi seçin",
-        "choice_time":"Ödeme tarihi seçin",
+        "choice_time":"Teslimat tarihi seçin",
         "choice_promotion":"Promosyon seçin",
         "choice_payment_method":"Ödeme yöntemi seçin",
         "do_not_ring":"Zili çalma",
@@ -139,7 +139,9 @@
     "ProductQuestions":{
         "appbar_title": "{}",
         "question_count": "{} adet Soru & Cevap",
-        "search_hint":"Sorularda ara"
+        "search_hint":"Sorularda ara",
+        "ask_question": "Soru sor",
+        "seller_response":"Satıcı yanıtı"
     },
     "Profile": {
         "appbar_title": "Profilim",

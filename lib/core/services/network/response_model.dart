@@ -24,5 +24,9 @@ class ResponseModel<T> {
     }
   }
 
+  toJson() {
+    return {"code": code, "data": _data};
+  }
+
   ResponseModel.error() : code = "ERROR";
 }

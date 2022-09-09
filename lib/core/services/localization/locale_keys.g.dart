@@ -131,6 +131,9 @@ abstract class LocaleKeys {
   static const ProductQuestions_question_count =
       'ProductQuestions.question_count';
   static const ProductQuestions_search_hint = 'ProductQuestions.search_hint';
+  static const ProductQuestions_ask_question = 'ProductQuestions.ask_question';
+  static const ProductQuestions_seller_response =
+      'ProductQuestions.seller_response';
   static const ProductQuestions = 'ProductQuestions';
   static const Profile_appbar_title = 'Profile.appbar_title';
   static const Profile_greeting = 'Profile.greeting';

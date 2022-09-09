@@ -20,8 +20,14 @@ import 'package:nlmmobile/view/product/product_detail/product_detail_view.dart';
 
 class ProductOverviewVerticalView extends ConsumerStatefulWidget {
   final ProductOverViewModel product;
-  Function? onBasketChanged;
-  ProductOverviewVerticalView({this.onBasketChanged, required this.product});
+  final Function? onBasketChanged;
+  final Function? onFavoriteChanged;
+  const ProductOverviewVerticalView(
+      {Key? key,
+      this.onBasketChanged,
+      this.onFavoriteChanged,
+      required this.product})
+      : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -30,6 +36,11 @@ class ProductOverviewVerticalView extends ConsumerStatefulWidget {
 
 class _ProductOverviewViewVerticalState
     extends ConsumerState<ProductOverviewVerticalView> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -273,7 +284,7 @@ class _ProductOverviewViewVerticalState
     );
   }
 
-  void _favorite() {
+  Future<void> _favorite() async {
     setState(() {
       if (widget.product.isFavorite) {
         widget.product.favoriteId = 0;
@@ -281,23 +292,44 @@ class _ProductOverviewViewVerticalState
         widget.product.favoriteId = 1;
       }
     });
+    try {
+      ResponseModel response = await NetworkService.get(
+          "api/products/favoriteupdate/${AuthService.currentUser!.id}/${widget.product.barcode}");
+      if (!response.success) {
+        setState(() {
+          if (widget.product.isFavorite) {
+            widget.product.favoriteId = 0;
+          } else {
+            widget.product.favoriteId = 1;
+          }
+        });
+        PopupHelper.showError(errorMessage: response.errorMessage);
+      } else {
+        widget.onFavoriteChanged?.call();
+      }
+    } catch (e) {
+      PopupHelper.showErrorWithCode(e);
+    }
   }
 
   void _goDetailPage() {
     NavigationService.navigateToPage(
-        ProductDetailView(barcode: widget.product.barcode));
+        ProductDetailView(productOverViewModel: widget.product));
   }
 }
 
-class ProductOverViewHorizontal extends ConsumerWidget {
+class ProductOverViewHorizontalView extends StatelessWidget {
   final ProductOverViewModel product;
-  const ProductOverViewHorizontal({Key? key, required this.product})
+  const ProductOverViewHorizontalView({Key? key, required this.product})
       : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return InkWell(
-      onTap: _goDetailPage,
+      onTap: () {
+        NavigationService.navigateToPage(
+            ProductDetailView(productOverViewModel: product));
+      },
       child: Container(
         width: 320.smw,
         height: 90.smh,
@@ -404,10 +436,5 @@ class ProductOverViewHorizontal extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  void _goDetailPage() {
-    NavigationService.navigateToPage(
-        ProductDetailView(barcode: product.barcode));
   }
 }

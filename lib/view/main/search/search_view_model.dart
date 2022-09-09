@@ -85,7 +85,8 @@ class SearchViewModel extends ChangeNotifier {
         List products = searchResults.data
             .map((e) => ProductOverViewModel.fromJson(e))
             .toList();
-        NavigationService.navigateToPage(SearchResultView(products: products));
+        NavigationService.navigateToPage(
+            SearchResultView(products: products, isSearch: true));
       } else {
         PopupHelper.showError(errorMessage: searchResults.errorMessage);
       }

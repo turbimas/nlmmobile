@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 abstract class NavigationService {
-  static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-  static BuildContext get context =>
-      navigatorKey.currentState!.overlay!.context;
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static BuildContext get context => navigatorKey.currentState!.context;
 
   static Future navigateToPage(Widget page) async {
     await navigatorKey.currentState!

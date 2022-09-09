@@ -80,7 +80,7 @@ class _UserQuestionsViewState extends ConsumerState<UserQuestionsView> {
                     : CustomColors.card,
                 child: Center(
                   child: CustomTextLocale(LocaleKeys.UserQuestions_answered,
-                      style: CustomFonts.bigButton(
+                      style: CustomFonts.bodyText2(
                           ref.watch(provider).index == 0
                               ? CustomColors.primaryText
                               : CustomColors.cardText)),
@@ -99,7 +99,7 @@ class _UserQuestionsViewState extends ConsumerState<UserQuestionsView> {
                     : CustomColors.card,
                 child: Center(
                   child: CustomTextLocale(LocaleKeys.UserQuestions_unanswered,
-                      style: CustomFonts.bigButton(
+                      style: CustomFonts.bodyText2(
                           ref.watch(provider).index == 1
                               ? CustomColors.primaryText
                               : CustomColors.cardText)),
@@ -144,7 +144,7 @@ class _UserQuestionsViewState extends ConsumerState<UserQuestionsView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProductOverViewHorizontal(product: questionModel.product),
+          ProductOverViewHorizontalView(product: questionModel.product),
           SizedBox(height: 15.smh),
           Row(children: [
             AuthService.userImage(height: 25.smh, width: 25.smh),
@@ -186,7 +186,7 @@ class _UserQuestionsViewState extends ConsumerState<UserQuestionsView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProductOverViewHorizontal(product: questionModel.product),
+          ProductOverViewHorizontalView(product: questionModel.product),
           SizedBox(height: 15.smh),
           Row(children: [
             AuthService.userImage(height: 25.smh, width: 25.smh),

@@ -16,4 +16,16 @@ class UserQuestionModel {
         answer = json["Answer"] != null
             ? UserQuestionAnswerModel.fromJson(json['Answer'])
             : null;
+
+  toJson() => {
+        'ID': id,
+        'Product': product.toJson(),
+        'ContentValue': contentValue,
+        'Date': date.toIso8601String(),
+        'Answer': answer?.toJson()
+      };
+  @override
+  String toString() {
+    return 'UserQuestionModel{id: $id, product: $product, contentValue: $contentValue, date: $date, answer: $answer}';
+  }
 }

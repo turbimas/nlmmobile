@@ -41,9 +41,11 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
       child: Scaffold(
         appBar:
             CustomAppBar.activeBack(LocaleKeys.UserOrders_appbar_title.tr()),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [_filters(), _cards()],
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [_filters(), ..._cards()],
+          ),
         ),
       ),
     );
@@ -75,7 +77,7 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
                         .smw
                     : 360.smw),
             decoration: BoxDecoration(
-              borderRadius: CustomThemeData.fullInfiniteRounded,
+              borderRadius: CustomThemeData.fullRounded,
               border: Border.all(color: CustomColors.primary, width: 1),
               color: ref
                       .watch(provider)
@@ -102,18 +104,17 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
     );
   }
 
-  Widget _cards() {
-    return ListView.builder(
-        shrinkWrap: true,
-        itemCount: ref.watch(provider).filtered.length,
-        itemBuilder: (context, index) => _card(index));
+  List<Widget> _cards() {
+    return List.generate(
+        ref.watch(provider).filtered.length, (index) => _card(index));
   }
 
   Widget _card(int index) {
     UserOrdersModel order = ref.watch(provider).filtered[index];
     return InkWell(
       onTap: () {
-        NavigationService.navigateToPage(const UserOrderDetailsView());
+        NavigationService.navigateToPage(
+            UserOrderDetailsView(orderTitle: order));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
@@ -141,7 +142,7 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
                             style: CustomFonts.bodyText4(
                                 CustomColors.card2TextPale),
                           ),
-                          CustomText(order.ficheNo,
+                          CustomText(order.FicheNo,
                               style:
                                   CustomFonts.bodyText4(CustomColors.card2Text))
                         ],
@@ -153,7 +154,7 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
                             style: CustomFonts.bodyText4(
                                 CustomColors.card2TextPale),
                           ),
-                          CustomText(order.orderDate.toString(),
+                          CustomText(order.OrderDate.toString(),
                               style:
                                   CustomFonts.bodyText4(CustomColors.card2Text))
                         ],
@@ -165,7 +166,7 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
                             style: CustomFonts.bodyText4(
                                 CustomColors.card2TextPale),
                           ),
-                          CustomText(order.statusName,
+                          CustomText(order.StatusName,
                               style:
                                   CustomFonts.bodyText4(CustomColors.card2Text))
                         ],
@@ -177,7 +178,7 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
                     CustomTextLocale(LocaleKeys.UserOrders_order_total,
                         style:
                             CustomFonts.bodyText4(CustomColors.card2TextPale)),
-                    CustomText("${order.total} TL",
+                    CustomText("${order.Total} TL",
                         style: CustomFonts.bodyText3(CustomColors.card2Text)),
                   ])
                 ],
@@ -211,7 +212,7 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
                   Row(
                     children: [
                       CustomTextLocale(LocaleKeys.UserOrders_total_product,
-                          args: [order.lineCount.toString()],
+                          args: [order.LineCount.toString()],
                           maxLines: 3,
                           textAlign: TextAlign.center,
                           style: CustomFonts.bodyText1(CustomColors.card2Text)),

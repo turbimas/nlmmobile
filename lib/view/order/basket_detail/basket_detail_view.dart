@@ -1,23 +1,25 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/models/order/basket_total_model.dart';
+import 'package:nlmmobile/product/models/user/address_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/view/order/basket_detail/basket_detail_view_model.dart';
-import 'package:nlmmobile/view/order/delivery_time/delivery_time.dart';
 
 class BasketDetailView extends ConsumerStatefulWidget {
   final BasketTotalModel basketTotal;
-  const BasketDetailView({Key? key, required this.basketTotal})
+  final List<AddressModel> addresses;
+  const BasketDetailView(
+      {Key? key, required this.basketTotal, required this.addresses})
       : super(key: key);
 
   @override
@@ -29,8 +31,8 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
 
   @override
   void initState() {
-    provider = ChangeNotifierProvider(
-        (ref) => BasketDetailViewModel(basketTotal: widget.basketTotal));
+    provider = ChangeNotifierProvider((ref) => BasketDetailViewModel(
+        basketTotal: widget.basketTotal, addresses: widget.addresses));
     super.initState();
   }
 
@@ -40,71 +42,140 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
         child: Scaffold(
       appBar:
           CustomAppBar.activeBack(LocaleKeys.BasketDetail_appbar_title.tr()),
-      body: Stack(
-        children: [
-          Positioned(
-            top: 0,
-            left: 15.smw,
-            right: 15.smw,
-            bottom: 0,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Divider(thickness: 1.smh, height: 0.smh),
-                  SizedBox(height: 10.smh),
-                  _deliveryAddress(),
-                  SizedBox(height: 15.smh),
-                  _deliveryTime(),
-                  SizedBox(height: 15.smh),
-                  _paymentType(),
-                  SizedBox(height: 15.smh),
-                  ..._optionsList(),
-                  SizedBox(height: 225.smh),
-                ],
-              ),
-            ),
-          ),
-          _detailExpanded(),
-        ],
-      ),
+      body: _body(),
     ));
   }
 
-  _deliveryAddress() {
-    return SizedBox(
-      height: 160.smh,
-      width: 330.smw,
-      child: Column(
-        children: [
-          SizedBox(
-            height: 20.smh,
-            width: 330.smw,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _body() {
+    return Stack(
+      children: [
+        Positioned(
+          top: 0,
+          left: 15.smw,
+          right: 15.smw,
+          bottom: 0,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Teslimat adresini seçin",
-                    style: TextStyle(
-                        color: CustomColors.cardText, fontSize: 18.sp)),
-                _duzenleCard()
+                SizedBox(height: 10.smh),
+                _deliveryAddress(),
+                SizedBox(height: 15.smh),
+                _addressEquality(),
+
+                ref.watch(provider).deliveryTaxSame
+                    ? Container()
+                    : SizedBox(height: 15.smh),
+                ref.watch(provider).deliveryTaxSame
+                    ? Container()
+                    : _taxAddress(),
+                SizedBox(height: 15.smh),
+                _deliveryTime(),
+                SizedBox(height: 15.smh),
+                _paymentType(),
+                SizedBox(height: 15.smh),
+                InkWell(
+                  onTap: () {
+                    ref.read(provider).accepteTerms =
+                        !ref.read(provider).accepteTerms;
+                  },
+                  child: _optionTile(
+                      title: "Sipariş koşullarını okudum ve kabul ediyorum",
+                      checked: ref.watch(provider).accepteTerms),
+                ),
+                // ..._optionsList(),
+                SizedBox(height: 225.smh),
               ],
             ),
           ),
+        ),
+        _detailExpanded(),
+      ],
+    );
+  }
+
+  Widget _addressEquality() {
+    return InkWell(
+      onTap: () {
+        ref.read(provider).deliveryTaxSame =
+            !ref.read(provider).deliveryTaxSame;
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          ref.watch(provider).deliveryTaxSame
+              ? CustomIcons.checkbox_checked_icon
+              : CustomIcons.checkbox_unchecked_icon,
+          SizedBox(width: 10.smw),
+          CustomText(
+            "Fatura ve teslimat adresi aynı",
+            style: CustomFonts.bodyText3(CustomColors.backgroundText),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _deliveryAddress() {
+    return SizedBox(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomTextLocale(LocaleKeys.BasketDetail_choice_address,
+                  style: CustomFonts.bodyText2(CustomColors.backgroundText)),
+              _editCard()
+            ],
+          ),
           SizedBox(height: 10.smh),
-          _radioContainer(
-              height: 60,
-              title: "Ofis",
-              description:
-                  "Güvenevler Mah. 28 Nolu Sk. No:5 Şehitkamil / Gaziantep",
-              isSelected: false),
+          ...ref
+              .watch(provider)
+              .addresses
+              .map((e) => InkWell(
+                    onTap: () {
+                      ref.read(provider).selectedDeliveryAddress = e;
+                    },
+                    child: _radioContainer(
+                        title: e.addressHeader,
+                        description: e.address,
+                        isSelected:
+                            ref.watch(provider).selectedDeliveryAddress == e),
+                  ))
+              .toList(),
+        ],
+      ),
+    );
+  }
+
+  Widget _taxAddress() {
+    return SizedBox(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomText("Fatura adresi seçin",
+                  style: CustomFonts.bodyText2(CustomColors.backgroundText)),
+            ],
+          ),
           SizedBox(height: 10.smh),
-          _radioContainer(
-              height: 60,
-              title: "Ev",
-              isSelected: true,
-              description:
-                  "Şahintepe Mah. 390 Nolu Cad. Edacan Sitesi A/16 Şahinbey / Gaziantep"),
+          ...ref
+              .watch(provider)
+              .addresses
+              .map((e) => InkWell(
+                    onTap: () {
+                      ref.read(provider).selectedTaxAddress = e;
+                    },
+                    child: _radioContainer(
+                        title: e.addressHeader,
+                        description: e.address,
+                        isSelected:
+                            ref.watch(provider).selectedTaxAddress == e),
+                  ))
+              .toList(),
         ],
       ),
     );
@@ -112,33 +183,18 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
 
   _deliveryTime() {
     return SizedBox(
-      height: 160.smh,
-      width: 330.smw,
       child: Column(
         children: [
-          SizedBox(
-            height: 20.smh,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text("Teslimat süresi seçin",
-                  style:
-                      TextStyle(color: CustomColors.cardText, fontSize: 18.sp)),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomTextLocale(LocaleKeys.BasketDetail_choice_time,
+                  style: CustomFonts.bodyText2(CustomColors.backgroundText)),
+            ],
           ),
-          SizedBox(height: 5.smh),
-          _radioContainer(
-              height: 60, title: "Hemen teslim al", isSelected: false),
-          SizedBox(height: 15.smh),
-          InkWell(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const DeliveryTimeView(),
-              ),
-            ),
-            child: _radioContainer(
-                height: 60, title: "Daha sonra teslim al", isSelected: true),
-          ),
+          SizedBox(height: 10.smh),
+          _radioContainer(title: "Hemen teslim al", isSelected: true),
         ],
       ),
     );
@@ -146,53 +202,38 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
 
   _paymentType() {
     return SizedBox(
-      height: 160.smh,
-      width: 330.smw,
       child: Column(
         children: [
-          SizedBox(
-              height: 20.smh,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Ödeme Tipini Seçin",
-                      style: TextStyle(
-                          color: CustomColors.cardText, fontSize: 18.sp)),
-                  _duzenleCard()
-                ],
-              )),
-          SizedBox(height: 5.smh),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomTextLocale(LocaleKeys.BasketDetail_choice_payment_method,
+                  style: CustomFonts.bodyText2(CustomColors.backgroundText)),
+            ],
+          ),
+          SizedBox(height: 10.smh),
           _radioContainer(
-              height: 60,
-              title: "Nakit",
+              title: "Kapıda ödeme",
               isSelected: true,
-              description: "Kapıda nakit ödeme"),
-          SizedBox(height: 15.smh),
-          _radioContainer(
-              height: 60,
-              title: "Enpara Şirket Kartım",
-              isSelected: false,
-              description: "3789 **** **** **89",
-              trailing: CustomIcons.credit_card_icon_light),
+              description: "Kapıda nakit veya pos cihazı ile ödeme"),
         ],
       ),
     );
   }
 
-  Container _duzenleCard() {
+  Container _editCard() {
     return Container(
-      height: 20.smh,
-      width: 60.smw,
+      padding: EdgeInsets.symmetric(horizontal: 5.smw, vertical: 5.smh),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        color: const Color(0xFF0F8235),
-      ),
+          borderRadius: CustomThemeData.fullInfiniteRounded,
+          color: CustomColors.secondary),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          // SvgPicture.asset(AssetEnums.edit.svg, height: 15.smh, width: 15.smh),
-          Text("Düzenle",
-              style: TextStyle(fontSize: 10.sp, color: Colors.white))
+          CustomIcons.edit_icon__small,
+          SizedBox(width: 5.smw),
+          CustomTextLocale(LocaleKeys.BasketDetail_edit,
+              style: CustomFonts.bodyText5(CustomColors.secondaryText))
         ],
       ),
     );
@@ -223,9 +264,7 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             InkWell(
-              onTap: () {
-                // TODO: create order
-              },
+              onTap: ref.read(provider).createOrder,
               child: Container(
                 height: 50.smh,
                 width: 300.smw,
@@ -329,13 +368,10 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
   }
 
   Widget _radioContainer(
-      {required double height,
-      required String title,
-      Widget? trailing,
-      String? description,
-      required bool isSelected}) {
+      {required String title, String? description, required bool isSelected}) {
     return Container(
-      height: height.smh,
+      constraints: BoxConstraints(minHeight: 60.smh),
+      margin: EdgeInsets.only(bottom: 10.smh),
       decoration: BoxDecoration(
           color: CustomColors.primary, borderRadius: BorderRadius.circular(15)),
       child: Padding(
@@ -346,7 +382,9 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
             Expanded(
                 flex: 1,
                 child: Center(
-                  child: CustomIcons.radio_checked_light_icon,
+                  child: isSelected
+                      ? CustomIcons.radio_checked_light_icon
+                      : CustomIcons.radio_unchecked_light_icon,
                 )),
             Expanded(
                 flex: 5,
@@ -355,7 +393,7 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomText(title,
-                        style: CustomFonts.bodyText3(CustomColors.primaryText)),
+                        style: CustomFonts.bodyText4(CustomColors.primaryText)),
                     description != null
                         ? CustomText(description,
                             style:
@@ -364,39 +402,39 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
                         : const SizedBox()
                   ],
                 )),
-            Expanded(flex: 1, child: trailing ?? Container()),
           ],
         ),
       ),
     );
   }
 
-  List<Widget> _optionsList() {
-    List<Widget> options = [];
-    options.add(_optionTile(title: "Zili Çalma", checked: true));
-    options.add(SizedBox(height: 15.smh));
-    options.add(_optionTile(
-        title: "Temassız alışveriş",
-        subtitle: "Ürünlerinizi kapınıza bırakıp sizi arıyacağız",
-        checked: false));
-    options.add(SizedBox(height: 15.smh));
-    options.add(_optionTile(
-        title: "Kullanım koşullarını okudum ve kabul ediyorum.",
-        checked: true));
+  // List<Widget> _optionsList() {
+  //   List<Widget> options = [];
+  //   options.add(_optionTile(title: "Zili Çalma", checked: true));
+  //   options.add(SizedBox(height: 15.smh));
+  //   options.add(_optionTile(
+  //       title: "Temassız alışveriş",
+  //       subtitle: "Ürünlerinizi kapınıza bırakıp sizi arıyacağız",
+  //       checked: false));
+  //   options.add(SizedBox(height: 15.smh));
+  //   options.add(_optionTile(
+  //       title: "Kullanım koşullarını okudum ve kabul ediyorum.",
+  //       checked: true));
 
-    return options;
-  }
+  //   return options;
+  // }
 
-  _optionTile(
+  Widget _optionTile(
       {required String title, required bool checked, String? subtitle}) {
     return Container(
       constraints: BoxConstraints(minHeight: 50.smh),
-      width: 330.smw,
       child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CustomIcons.radio_checked_dark_icon,
+            checked
+                ? CustomIcons.checkbox_checked_icon
+                : CustomIcons.checkbox_unchecked_icon,
             SizedBox(width: 10.smw),
             subtitle == null
                 ? CustomText(title,

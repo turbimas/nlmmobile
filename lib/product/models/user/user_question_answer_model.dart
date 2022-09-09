@@ -7,4 +7,15 @@ class UserQuestionAnswerModel {
       : id = json['ID'],
         contentValue = json['ContentValue'],
         date = DateTime.parse(json['Date']);
+
+  toJson() => {
+        'ID': id,
+        'ContentValue': contentValue,
+        'Date': date.toIso8601String(),
+      };
+
+  @override
+  String toString() {
+    return 'UserQuestionAnswerModel{id: $id, contentValue: $contentValue, date: $date}';
+  }
 }

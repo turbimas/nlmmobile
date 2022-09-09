@@ -6,7 +6,7 @@ class ProductOverViewModel {
   final String barcode;
   final String name;
   final String? tradeMark;
-  final double unitPrice;
+  double unitPrice;
   // int varyantId
   // String colorName
   // String beden
@@ -24,7 +24,7 @@ class ProductOverViewModel {
   num get evaluationCount =>
       _evaluationData != null ? _evaluationData!["EvaluationsCount"] ?? 0 : 0;
   num get evaluationAverage =>
-      _evaluationData != null ? _evaluationData!["EvaluationsAverage"] ?? 0 : 0;
+      _evaluationData != null ? _evaluationData!["EvaluationsAvg"] ?? 0 : 0;
 
   Widget image({required double height, required double width}) =>
       _thumbnail != null
@@ -48,4 +48,22 @@ class ProductOverViewModel {
         basketQuantity = json["BasketQty"],
         _favoriteId = json["FavoriteID"],
         _evaluationData = json["Evaluation"];
+
+  toJson() => {
+        'ID': id,
+        'Barcode': barcode,
+        'Name': name,
+        'TradeMark': tradeMark,
+        'UnitPrice': unitPrice,
+        'Aciklama': aciklama,
+        'UnitCode': unitCode,
+        'MainImageThumbUrl': _thumbnail,
+        'BasketQty': basketQuantity,
+        'FavoriteID': _favoriteId,
+        'Evaluation': _evaluationData
+      };
+
+  @override
+  toString() =>
+      "ProductOverViewModel{id: $id, barcode: $barcode, name: $name, tradeMark: $tradeMark, unitPrice: $unitPrice, aciklama: $aciklama, unitCode: $unitCode, _thumbnail: $_thumbnail, basketQuantity: $basketQuantity, _favoriteId: $_favoriteId, _evaluationData: $_evaluationData}";
 }

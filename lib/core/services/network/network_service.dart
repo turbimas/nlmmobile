@@ -12,7 +12,7 @@ abstract class NetworkService {
       BaseOptions(
         baseUrl: 'http://api.goldenerp.com/',
         connectTimeout: 5000,
-        receiveTimeout: 3000,
+        receiveTimeout: 5000,
         contentType: Headers.jsonContentType,
       ),
     );

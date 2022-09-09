@@ -98,7 +98,8 @@ class SubCategoriesViewModel extends ChangeNotifier {
         NavigationService.navigateToPage(SearchResultView(
             products: products,
             categoryModel: masterCategory,
-            masterCategories: masterCategories));
+            masterCategories: masterCategories,
+            isSearch: false));
       } else {
         PopupHelper.showError(errorMessage: responseModel.errorMessage);
       }

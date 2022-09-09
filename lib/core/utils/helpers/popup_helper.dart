@@ -50,19 +50,76 @@ class PopupHelper {
   static Future<void> showErrorWithCode(Object e) async {
     showError(errorMessage: LocaleKeys.ErrorCodes_ERROR, error: e);
   }
+
+  static Future<void> showSucces(String message) async {
+    showDialog(
+        context: _context,
+        barrierDismissible: true,
+        builder: (context) => AlertDialog(
+              backgroundColor: CustomColors.approve,
+              title: Text(
+                message.tr(),
+                style: CustomFonts.bodyText3(CustomColors.cancelText),
+              ),
+            ));
+  }
 }
 
 class ActionPopups {
-  static double _rating = 0;
-  static Dialog? dialog;
-
   Future showRatingPopup(
       {required ProductOverViewModel productOverViewModel,
-      required Function(double value, String comment)? submit}) async {
-    TextEditingController controller = TextEditingController();
+      required Function(int value, String comment) submit}) async {
+    showDialog(
+      context: PopupHelper._context,
+      builder: (context) => RatingDialog(
+        productOverViewModel: productOverViewModel,
+        submit: submit,
+      ),
+    );
+  }
 
-    _rating = 0;
-    dialog = Dialog(
+  Future showQuestionPopup(
+      {required ProductOverViewModel productOverViewModel,
+      required Function(String) onSubmit}) async {
+    showDialog(
+      context: PopupHelper._context,
+      builder: (context) => QuestionDialog(
+          onSubmit: onSubmit, productOverViewModel: productOverViewModel),
+    );
+  }
+}
+
+class RatingDialog extends StatefulWidget {
+  final ProductOverViewModel productOverViewModel;
+  final Function(int value, String comment) submit;
+  const RatingDialog(
+      {Key? key, required this.productOverViewModel, required this.submit})
+      : super(key: key);
+
+  @override
+  State<RatingDialog> createState() => _RatingDialogState();
+}
+
+class _RatingDialogState extends State<RatingDialog> {
+  int _rating = 1;
+
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    _controller = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
       insetPadding: EdgeInsets.zero,
       backgroundColor: Colors.transparent,
       child: Container(
@@ -82,7 +139,7 @@ class ActionPopups {
                     },
                     child: CustomIcons.cancel_icon__medium)),
             SizedBox(height: 5.smh),
-            ProductOverViewHorizontal(product: productOverViewModel),
+            ProductOverViewHorizontalView(product: widget.productOverViewModel),
             SizedBox(
               height: 120,
               width: 320.smw,
@@ -92,7 +149,7 @@ class ActionPopups {
                 initialRating: 1,
                 minRating: 1,
                 onRatingUpdate: (value) {
-                  _rating = value;
+                  _rating = value.toInt();
                 },
                 ratingWidget: RatingWidget(
                     full: CustomIcons.star_selected,
@@ -109,7 +166,7 @@ class ActionPopups {
                     color: CustomColors.cardInner,
                     borderRadius: CustomThemeData.fullRounded),
                 child: TextField(
-                  controller: controller,
+                  controller: _controller,
                   maxLines: 20,
                   style: CustomFonts.bodyText4(CustomColors.cardInnerText),
                   decoration: InputDecoration(
@@ -120,7 +177,7 @@ class ActionPopups {
                           CustomColors.cardInnerTextPale)),
                 )),
             InkWell(
-              onTap: () => submit!(_rating, controller.text),
+              onTap: () => widget.submit(_rating, _controller.text),
               child: Container(
                   width: 255.smw,
                   height: 75.smh,
@@ -137,11 +194,109 @@ class ActionPopups {
         ),
       ),
     );
-    showDialog(
-      context: PopupHelper._context,
-      builder: (context) => dialog!,
-    ).then((value) {
-      controller.dispose();
-    });
+  }
+}
+
+class QuestionDialog extends StatefulWidget {
+  final ProductOverViewModel productOverViewModel;
+  final Function(String) onSubmit;
+  const QuestionDialog(
+      {Key? key, required this.onSubmit, required this.productOverViewModel})
+      : super(key: key);
+
+  @override
+  State<QuestionDialog> createState() => _QuestionDialogState();
+}
+
+class _QuestionDialogState extends State<QuestionDialog> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    _controller = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      insetPadding: EdgeInsets.zero,
+      backgroundColor: Colors.transparent,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
+        height: 450.smh,
+        width: 340.smw,
+        decoration: BoxDecoration(
+            color: CustomColors.primary,
+            borderRadius: CustomThemeData.fullRounded),
+        child: Column(
+          children: [
+            Align(
+                alignment: Alignment.topRight,
+                child: InkWell(
+                    onTap: () {
+                      NavigationService.back();
+                    },
+                    child: CustomIcons.cancel_icon__medium)),
+            SizedBox(height: 15.smh),
+            ProductOverViewHorizontalView(product: widget.productOverViewModel),
+            SizedBox(height: 20.smh),
+            SizedBox(
+                height: 25.smh,
+                width: 320.smw,
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: CustomText(
+                      "Soru metni girin",
+                      style: CustomFonts.bodyText4(CustomColors.primaryText),
+                    ))),
+            SizedBox(height: 15.smh),
+            Container(
+              padding:
+                  EdgeInsets.symmetric(horizontal: 10.smh, vertical: 0.smh),
+              height: 150.smh,
+              width: 320.smw,
+              decoration: BoxDecoration(
+                  borderRadius: CustomThemeData.fullRounded,
+                  color: CustomColors.cardInner),
+              child: TextField(
+                maxLines: 20,
+                controller: _controller,
+                style: CustomFonts.bodyText4(CustomColors.cardInnerText),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Soru metni girin",
+                    hintStyle:
+                        CustomFonts.bodyText4(CustomColors.cardInnerTextPale)),
+              ),
+            ),
+            SizedBox(height: 15.smh),
+            InkWell(
+              onTap: () {
+                widget.onSubmit(_controller.text);
+                NavigationService.back();
+              },
+              child: Container(
+                height: 70.smh,
+                width: 270.smw,
+                decoration: BoxDecoration(
+                    borderRadius: CustomThemeData.fullRounded,
+                    color: CustomColors.secondary),
+                child: Center(
+                  child: CustomText("Sor",
+                      style: CustomFonts.bigButton(CustomColors.secondaryText)),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

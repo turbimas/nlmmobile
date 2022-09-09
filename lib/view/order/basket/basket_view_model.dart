@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:nlmmobile/core/services/auth/authservice.dart';
+import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/network/network_service.dart';
 import 'package:nlmmobile/core/services/network/response_model.dart';
 import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
 import 'package:nlmmobile/product/models/order/basket_data_model.dart';
 import 'package:nlmmobile/product/models/order/basket_total_model.dart';
 import 'package:nlmmobile/product/models/product_over_view_model.dart';
+import 'package:nlmmobile/product/models/user/address_model.dart';
+import 'package:nlmmobile/view/order/basket_detail/basket_detail_view.dart';
 
 class BasketViewModel extends ChangeNotifier {
   BasketViewModel();
@@ -52,6 +55,25 @@ class BasketViewModel extends ChangeNotifier {
       PopupHelper.showErrorWithCode(e);
     } finally {
       retrieving = false;
+    }
+  }
+
+  Future<void> goBasketDetail() async {
+    try {
+      ResponseModel response = await NetworkService.get(
+          "api/users/adresses/${AuthService.currentUser!.id}");
+      if (response.success) {
+        List<AddressModel> addresses = (response.data as List)
+            .map((e) => AddressModel.fromJson(e))
+            .toList();
+
+        NavigationService.navigateToPage(
+            BasketDetailView(basketTotal: basketTotal!, addresses: addresses));
+      } else {
+        PopupHelper.showError(errorMessage: response.errorMessage);
+      }
+    } catch (e) {
+      PopupHelper.showErrorWithCode(e);
     }
   }
 }

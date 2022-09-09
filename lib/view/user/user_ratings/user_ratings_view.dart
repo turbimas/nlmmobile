@@ -4,13 +4,17 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nlmmobile/core/services/auth/authservice.dart';
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
+import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
+import 'package:nlmmobile/product/models/product_over_view_model.dart';
 import 'package:nlmmobile/product/models/user/user_rating_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
+import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/product_overview_view.dart';
@@ -31,7 +35,7 @@ class _UserRatingsViewState extends ConsumerState<UserRatingsView> {
     provider = ChangeNotifierProvider<UserRatingsViewModel>(
         ((ref) => UserRatingsViewModel()));
     Future.delayed(Duration.zero, () {
-      ref.read(provider).getRated();
+      ref.read(provider).getData();
     });
     super.initState();
   }
@@ -43,14 +47,24 @@ class _UserRatingsViewState extends ConsumerState<UserRatingsView> {
         resizeToAvoidBottomInset: false,
         appBar:
             CustomAppBar.activeBack(LocaleKeys.UserRatings_appbar_title.tr()),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [_filters(), _cards()],
-        ),
+        body: _body(),
       ),
     );
   }
+
+  Widget _body() {
+    return ref.watch(provider).isLoading ? _loading() : _content();
+  }
+
+  Widget _loading() => const Center(
+        child: CustomCircularProgressIndicator(),
+      );
+
+  Widget _content() => Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [_filters(), _cards()],
+      );
 
   Widget _filters() {
     return Container(
@@ -75,8 +89,8 @@ class _UserRatingsViewState extends ConsumerState<UserRatingsView> {
                     ? CustomColors.primary
                     : CustomColors.card,
                 child: Center(
-                  child: CustomTextLocale(LocaleKeys.UserQuestions_answered,
-                      style: CustomFonts.bigButton(
+                  child: CustomTextLocale(LocaleKeys.UserRatings_rating,
+                      style: CustomFonts.bodyText2(
                           ref.watch(provider).index == 0
                               ? CustomColors.primaryText
                               : CustomColors.cardText)),
@@ -94,8 +108,8 @@ class _UserRatingsViewState extends ConsumerState<UserRatingsView> {
                     ? CustomColors.primary
                     : CustomColors.card,
                 child: Center(
-                  child: CustomTextLocale(LocaleKeys.UserQuestions_unanswered,
-                      style: CustomFonts.bigButton(
+                  child: CustomTextLocale(LocaleKeys.UserRatings_rate_now,
+                      style: CustomFonts.bodyText2(
                           ref.watch(provider).index == 1
                               ? CustomColors.primaryText
                               : CustomColors.cardText)),
@@ -136,7 +150,7 @@ class _UserRatingsViewState extends ConsumerState<UserRatingsView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProductOverViewHorizontal(product: rating.product),
+          ProductOverViewHorizontalView(product: rating.product),
           SizedBox(height: 15.smh),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -172,46 +186,52 @@ class _UserRatingsViewState extends ConsumerState<UserRatingsView> {
   }
 
   Widget _unratedCard(index) {
-    // ProductModel product = ref.watch(provider).unrated[index];
+    ProductOverViewModel product = ref.watch(provider).unrated[index];
     return Container(
-      child: const Text("Yapılacak"),
+      padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
+      margin: EdgeInsets.only(bottom: 10.smh),
+      decoration: BoxDecoration(
+          border: Border.all(color: CustomColors.primary, width: 1.smw),
+          borderRadius: CustomThemeData.fullRounded,
+          color: CustomColors.card),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ProductOverViewHorizontalView(product: product),
+          SizedBox(height: 15.smh),
+          Center(
+            child: InkWell(
+              onTap: () {
+                PopupHelper.actionPopups.showRatingPopup(
+                    productOverViewModel: product,
+                    submit: (value, comment) {
+                      ref
+                          .read(provider)
+                          .addEvaluation(
+                              barcode: product.barcode,
+                              rating: value,
+                              comment: comment)
+                          .then((value) => NavigationService.back());
+                    });
+              },
+              child: Container(
+                width: double.infinity,
+                padding:
+                    EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
+                decoration: BoxDecoration(
+                    border:
+                        Border.all(color: CustomColors.primary, width: 1.smw),
+                    borderRadius: CustomThemeData.fullRounded,
+                    color: CustomColors.card2),
+                child: Center(
+                  child: CustomTextLocale(LocaleKeys.UserRatings_rate_now,
+                      style: CustomFonts.bodyText3(CustomColors.card2Text)),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
-    // Container(
-    //   padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
-    //   margin: EdgeInsets.only(bottom: 10.smh),
-    //   decoration: BoxDecoration(
-    //       border: Border.all(color: CustomColors.primary, width: 1.smw),
-    //       borderRadius: CustomThemeData.fullRounded,
-    //       color: CustomColors.card),
-    //   child: Column(
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     children: [
-    //       ProductOverViewHorizontal(product: product),
-    //       SizedBox(height: 15.smh),
-    //       Center(
-    //         child: InkWell(
-    //           onTap: () {
-    //             PopupHelper.actionPopups.showRatingPopup(
-    //                 productOverViewModel: product,
-    //                 submit: (value, comment) {
-    //                   log("value: $value, comment: $comment");
-    //                 });
-    //           },
-    //           child: Container(
-    //             padding:
-    //                 EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
-    //             decoration: BoxDecoration(
-    //                 border:
-    //                     Border.all(color: CustomColors.primary, width: 1.smw),
-    //                 borderRadius: CustomThemeData.fullRounded,
-    //                 color: CustomColors.card),
-    //             child: CustomText(LocaleKeys.UserRatings_rate_now,
-    //                 style: CustomFonts.bodyText3(CustomColors.cardText)),
-    //           ),
-    //         ),
-    //       )
-    //     ],
-    //   ),
-    // );
   }
 }
