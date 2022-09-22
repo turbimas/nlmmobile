@@ -2,6 +2,8 @@
     package="com.example.nlmmobile">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
    <application
         android:label="nlmmobile"
         android:name="${applicationName}"
@@ -42,6 +44,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
         <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyB1m_kgaLeVagCh6b26bin12aKtyoOpl1s"/>
+               android:value="AIzaSyA763LgWSAUl6_GeVJVQBD6vAvMMDtHswo"/>
     </application>
 </manifest>

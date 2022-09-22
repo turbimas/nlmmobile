@@ -15,6 +15,7 @@ import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/view/auth/login/login_view.dart';
 import 'package:nlmmobile/view/user/user_addresses/user_addresses_view.dart';
 import 'package:nlmmobile/view/user/user_orders/user_orders_view.dart';
+import 'package:nlmmobile/view/user/user_profile/user_profile_view.dart';
 import 'package:nlmmobile/view/user/user_questions/user_questions_view.dart';
 import 'package:nlmmobile/view/user/user_ratings/user_ratings_view.dart';
 
@@ -70,7 +71,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
         children: [
           InkWell(
             onTap: () {
-              // NavigationService.navigateToPage(const UserProfileView());
+              NavigationService.navigateToPage(const UserProfileView());
             },
             child: Container(
               constraints: BoxConstraints(minWidth: 185.smw, minHeight: 40.smh),

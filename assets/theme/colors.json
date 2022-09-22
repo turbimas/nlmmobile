@@ -1,7 +1,7 @@
 {
     "Basic": {
-        "primary": "FF0E5B28",
-        "secondary": "FF0F8235",
+        "primary": "FFED7F05",
+        "secondary": "FFFFA43F",
         "background": [
             "FFCAFFE9",
             "FFFFFFFF"
@@ -25,8 +25,8 @@
         "card": "FFCEECDB",
         "card2":"FFDFFFEB",
         "cardInner":"FFFFFFFF",
-        "cancel": "FF820F0F",
-        "approve": "FF0E5B28",
+        "cancel": "FFDD634E",
+        "approve": "FF65AC59",
         "paymentCard": ["4BFFFFFF","FFCAFFE9"]
     }
 }

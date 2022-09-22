@@ -16,6 +16,11 @@ void main(List<String> args) async {
   initSync();
   await initAsync();
 
+  // StreamSubscription<ServiceStatus> serviceStatusStream =
+  //     Geolocator.getServiceStatusStream().listen((ServiceStatus status) {
+  //   log(status.toString());
+  //   Geolocator.openAppSettings();
+  // });
   // linkStream.listen((String? uri) {
   //   log("geldi: $uri");
   // }, onError: (err) {});

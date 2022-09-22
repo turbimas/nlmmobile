@@ -40,7 +40,7 @@ abstract class CustomImages {
     bool isVector = AppTheme.imageData[name]["type"] == "vector";
     var path = AppTheme.imageData[name]["path"];
     var width = (AppTheme.imageData[name]["width"] as int).smw;
-    var height = (AppTheme.imageData[name]["height"] as int).smw;
+    var height = (AppTheme.imageData[name]["height"] as int).smh;
 
     if (isVector) {
       return Center(

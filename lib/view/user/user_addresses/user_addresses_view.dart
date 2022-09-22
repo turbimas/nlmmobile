@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,9 +10,12 @@ import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
+import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
-import 'package:nlmmobile/view/user/user_address_detail/user_address_detail_view.dart';
+import 'package:nlmmobile/product/widgets/try_again_widget.dart';
+import 'package:nlmmobile/view/user/user_address_add/user_address_add_view.dart';
+import 'package:nlmmobile/view/user/user_addresses/user_addresses_view_model.dart';
 
 class UserAddressesView extends ConsumerStatefulWidget {
   const UserAddressesView({Key? key}) : super(key: key);
@@ -21,6 +26,17 @@ class UserAddressesView extends ConsumerStatefulWidget {
 }
 
 class _UserAddressesViewState extends ConsumerState<UserAddressesView> {
+  late final ChangeNotifierProvider<UserAddressesViewModel> provider;
+
+  @override
+  void initState() {
+    provider = ChangeNotifierProvider((ref) => UserAddressesViewModel());
+    Future.delayed(Duration.zero, () {
+      ref.read(provider).getAddresses();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomSafeArea(
@@ -28,30 +44,45 @@ class _UserAddressesViewState extends ConsumerState<UserAddressesView> {
         floatingActionButton: _fab(context),
         appBar:
             CustomAppBar.activeBack(LocaleKeys.UserAddresses_appbar_title.tr()),
-        body: Padding(
-          padding: EdgeInsets.only(
-              bottom: 15.smh, right: 15.smw, left: 15.smw, top: 25.smh),
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            _radioButtonWithEdit(
-                title: "Ofis",
-                subtitle:
-                    "Güvenevler Mah. 28 Nolu Sk. No:5 Şehitkamil / Gaziantep",
-                isSelected: true),
-            _radioButtonWithEdit(
-                title: "Ev",
-                subtitle:
-                    "Şahintepe Mah. 390 Nolu Cad. Edacan Sitesi A/16 Şahinbey / Gaziantep",
-                isSelected: false),
-          ]),
-        ),
+        body: _body(),
       ),
+    );
+  }
+
+  Widget _body() {
+    return ref.watch(provider).isLoading
+        ? _loading()
+        : ref.watch(provider).addresses == null
+            ? TryAgain(callBack: () {})
+            : ref.watch(provider).addresses!.isEmpty
+                ? _empty()
+                : _content();
+  }
+
+  Widget _loading() => const Center(child: CustomCircularProgressIndicator());
+
+  Widget _content() {
+    return Padding(
+      padding: EdgeInsets.only(
+          bottom: 15.smh, right: 15.smw, left: 15.smw, top: 25.smh),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children:
+            ref.watch(provider).addresses!.map((e) => _addressTile(e)).toList(),
+      ),
+    );
+  }
+
+  Widget _empty() {
+    return const Center(
+      child: Text("Empty"),
     );
   }
 
   InkWell _fab(BuildContext context) {
     return InkWell(
       onTap: () {
-        NavigationService.navigateToPage(const UserAddressDetailView());
+        NavigationService.navigateToPage(const UserAddressAddView());
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
@@ -73,44 +104,39 @@ class _UserAddressesViewState extends ConsumerState<UserAddressesView> {
     );
   }
 
-  _radioButtonWithEdit(
-      {required String title,
-      required String subtitle,
-      required bool isSelected}) {
+  Widget _addressTile(
+    address,
+  ) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 5.smh),
+      padding: EdgeInsets.symmetric(vertical: 5.smh, horizontal: 20.smw),
       margin: EdgeInsets.only(bottom: 10.smh),
       width: 330.smw,
       decoration: BoxDecoration(
           color: CustomColors.primary, borderRadius: BorderRadius.circular(15)),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
-              width: 70.smw,
-              child: Center(
-                child: isSelected
-                    ? CustomIcons.radio_checked_light_icon
-                    : CustomIcons.radio_unchecked_light_icon,
-              )),
           Container(
               padding: EdgeInsets.symmetric(vertical: 5.smh),
-              width: 210.smw,
+              width: 240.smw,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
+                  CustomText(address.addressHeader,
                       style: CustomFonts.bodyText3(CustomColors.primaryText)),
-                  Text(subtitle,
-                      style: CustomFonts.bodyText4(CustomColors.primaryText))
+                  CustomText(address.address,
+                      style: CustomFonts.bodyText4(CustomColors.primaryText),
+                      maxLines: 5)
                 ],
               )),
           InkWell(
             onTap: () {
-              NavigationService.navigateToPage(const UserAddressDetailView());
+              log("delete");
+              // NavigationService.navigateToPage(const UserAddressDetailView());
             },
             child: SizedBox(
               width: 50.smw,
-              child: CustomIcons.edit_icon__medium,
+              child: CustomIcons.garbage_icon_light,
             ),
           )
         ],
