@@ -91,8 +91,6 @@ class ProductRatingsViewState extends ConsumerState<ProductRatingsView> {
 
   Widget _header() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.h),
-      padding: EdgeInsets.only(bottom: 20.smh),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
@@ -101,42 +99,47 @@ class ProductRatingsViewState extends ConsumerState<ProductRatingsView> {
           ),
         ),
       ),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 150.smw,
-            height: 100.smh,
-            child: CustomText(
-              ref.watch(provider).averageRating.toStringAsFixed(1),
-              style: CustomFonts.bodyText1(CustomColors.primary)
-                  .copyWith(fontSize: 90.sp),
-            ),
-          ),
-          SizedBox(
-            width: 210.smw,
-            height: 100.smh,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CustomTextLocale(
-                  LocaleKeys.ProductRatings_rating_comment_count,
-                  args: [
-                    ref.watch(provider).allRatingCount.toString(),
-                    ref.watch(provider).onlyContentRatingCount.toString()
-                  ],
+      child: Center(
+        child: Row(
+          children: [
+            SizedBox(
+              width: 150.smw,
+              child: Center(
+                child: Expanded(
+                  child: CustomText(
+                    ref.watch(provider).averageRating.toStringAsFixed(1),
+                    style: CustomFonts.bodyText1(CustomColors.primary)
+                        .copyWith(fontSize: 90.sp),
+                  ),
                 ),
-                RatingBarIndicator(
-                  rating: 5,
-                  itemBuilder: (context, index) => CustomIcons.star_selected,
-                  itemCount: 5,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 5.smw),
-                  itemSize: 30.smh,
-                  direction: Axis.horizontal,
-                )
-              ],
+              ),
             ),
-          )
-        ],
+            SizedBox(
+              width: 210.smw,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomTextLocale(
+                    LocaleKeys.ProductRatings_rating_comment_count,
+                    args: [
+                      ref.watch(provider).allRatingCount.toString(),
+                      ref.watch(provider).onlyContentRatingCount.toString()
+                    ],
+                  ),
+                  SizedBox(height: 20.smh),
+                  RatingBarIndicator(
+                    rating: ref.watch(provider).averageRating.toDouble(),
+                    itemBuilder: (context, index) => CustomIcons.star_selected,
+                    itemCount: 5,
+                    itemPadding: EdgeInsets.symmetric(horizontal: 5.smw),
+                    itemSize: 30.smh,
+                    direction: Axis.horizontal,
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

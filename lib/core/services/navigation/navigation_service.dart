@@ -4,8 +4,8 @@ abstract class NavigationService {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   static BuildContext get context => navigatorKey.currentState!.context;
 
-  static Future navigateToPage(Widget page) async {
-    await navigatorKey.currentState!
+  static Future<T> navigateToPage<T>(Widget page) async {
+    return await navigatorKey.currentState!
         .push(MaterialPageRoute(builder: (context) => page));
   }
 

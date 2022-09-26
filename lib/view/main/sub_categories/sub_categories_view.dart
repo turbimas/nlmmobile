@@ -16,9 +16,10 @@ import 'package:nlmmobile/product/widgets/ok_cancel_prompt.dart';
 import 'package:nlmmobile/view/main/sub_categories/sub_categories_view_model.dart';
 
 class SubCategoriesView extends ConsumerStatefulWidget {
-  CategoryModel? masterCategory;
-  List<CategoryModel>? masterCategories;
-  SubCategoriesView({Key? key, this.masterCategory, this.masterCategories})
+  final CategoryModel? masterCategory;
+  final List<CategoryModel>? masterCategories;
+  const SubCategoriesView(
+      {Key? key, this.masterCategory, this.masterCategories})
       : super(key: key);
 
   @override

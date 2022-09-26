@@ -45,10 +45,10 @@ class SubCategoriesViewModel extends ChangeNotifier {
         masterCategories =
             response.data.map((e) => CategoryModel.fromJson(e)).toList();
       } else {
-        PopupHelper.showError(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     } finally {
       retrieving = false;
     }
@@ -71,10 +71,10 @@ class SubCategoriesViewModel extends ChangeNotifier {
         subCategories.add(responseList);
         selectedCategories.add(model);
       } else {
-        PopupHelper.showError(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     } finally {
       retrieving = false;
       Future.delayed(const Duration(milliseconds: 100), () {
@@ -101,10 +101,10 @@ class SubCategoriesViewModel extends ChangeNotifier {
             masterCategories: masterCategories,
             isSearch: false));
       } else {
-        PopupHelper.showError(errorMessage: responseModel.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: responseModel.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     } finally {
       retrieving = false;
     }

@@ -1,28 +1,28 @@
 class OrderInvoiceAddress {
-  late final int ID;
-  String? AdresBasligi;
-  String? Address;
-  String? MobilePhone;
-  String? Email;
-  String? RelatedPerson;
-  String? TaxOffice;
-  String? TaxNumber;
+  late final int id;
+  String? addressHeader;
+  String? address;
+  String? phone;
+  String? email;
+  String? relatedPerson;
+  String? taxOffice;
+  String? taxNumber;
   bool? isPerson;
-  String? TCKNo;
-  DateTime? DeliveryDate;
+  String? tcNo;
+  DateTime? deliveryDate;
 
   OrderInvoiceAddress.fromJson(Map<String, dynamic> json) {
-    ID = json['ID'];
-    AdresBasligi = json['AdresBasligi'];
-    Address = json['Address'];
-    MobilePhone = json['MobilePhone'];
-    Email = json['Email'];
-    RelatedPerson = json['RelatedPerson'];
-    TaxOffice = json['TaxOffice'];
-    TaxNumber = json['TaxNumber'];
+    id = json['ID'];
+    addressHeader = json['AdresBasligi'];
+    address = json['Address'];
+    phone = json['MobilePhone'];
+    email = json['Email'];
+    relatedPerson = json['RelatedPerson'];
+    taxOffice = json['TaxOffice'];
+    taxNumber = json['TaxNumber'];
     isPerson = json['isPerson'];
-    TCKNo = json['TCKNo'];
-    DeliveryDate = json["DeliveryDate"] != null
+    tcNo = json['TCKNo'];
+    deliveryDate = json["DeliveryDate"] != null
         ? DateTime.parse(json['DeliveryDate'])
         : null;
   }

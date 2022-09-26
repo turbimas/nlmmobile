@@ -17,20 +17,18 @@ class ProductDetailModel {
     favoriteId = value ? 1 : 0;
   }
 
-  final Map<String, dynamic>? _evaluationData;
+  final Map<String, dynamic>? evaluationData;
   num get evaluationCount =>
-      _evaluationData != null ? _evaluationData!["EvaluationsCount"] ?? 0 : 0;
+      evaluationData != null ? evaluationData!["EvaluationsCount"] ?? 0 : 0;
   num get evaluationAverage =>
-      _evaluationData != null ? _evaluationData!["EvaluationsAvg"] ?? 0 : 0;
+      evaluationData != null ? evaluationData!["EvaluationsAvg"] ?? 0 : 0;
 
   final List<String> _images;
   final List<String> _thumbNails;
-  List<String> get images => _images
-      .map((e) => "http://${e.replaceAll("\\", "/").replaceAll("//", "/")}")
-      .toList();
-  List<String> get thumbNails => _thumbNails
-      .map((e) => "http://${e.replaceAll("\\", "/").replaceAll("//", "/")}")
-      .toList();
+  List<String> get images =>
+      _images.map((e) => e.replaceAll("\\", "/")).toList();
+  List<String> get thumbNails =>
+      _thumbNails.map((e) => e.replaceAll("\\", "/")).toList();
 
   ProductDetailModel.fromJson(Map<String, dynamic> json)
       : id = json['ID'],
@@ -46,7 +44,7 @@ class ProductDetailModel {
         unitCode = json['UnitCode'],
         basketQuantity = json['BasketQty'],
         favoriteId = json['FavoriteID'],
-        _evaluationData = json['Evaluation'],
+        evaluationData = json['Evaluation'],
         _images = json['Images'].cast<String>(),
         _thumbNails = json['Thumbnails'].cast<String>();
 
@@ -65,7 +63,7 @@ class ProductDetailModel {
       'UnitCode': unitCode,
       'BasketQty': basketQuantity,
       'FavoriteID': favoriteId,
-      'Evaluation': _evaluationData,
+      'Evaluation': evaluationData,
       'Images': images,
       'Thumbnails': thumbNails,
     };

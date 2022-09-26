@@ -51,7 +51,7 @@ class BasketDetailViewModel extends ChangeNotifier {
   Future<void> createOrder() async {
     try {
       if (!accepteTerms) {
-        await PopupHelper.showError(
+        await PopupHelper.showErrorDialog(
             errorMessage:
                 "Sipariş oluşturabilmek için sipariş koşullarını kabul etmelisiniz");
         return;
@@ -68,10 +68,10 @@ class BasketDetailViewModel extends ChangeNotifier {
         NavigationService.navigateToPage(
             OrderSuccessView(orderId: response.data));
       } else {
-        await PopupHelper.showError(errorMessage: response.errorMessage);
+        await PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     }
   }
 

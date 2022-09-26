@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,18 +12,21 @@ import 'package:nlmmobile/core/services/theme/custom_icons.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
+import 'package:nlmmobile/product/models/product_detail_model.dart';
 import 'package:nlmmobile/product/models/product_over_view_model.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/view/product/product_detail/product_detail_view.dart';
 
 class ProductOverviewVerticalView extends ConsumerStatefulWidget {
-  final ProductOverViewModel product;
+  ProductOverViewModel product;
   final Function? onBasketChanged;
   final Function? onFavoriteChanged;
-  const ProductOverviewVerticalView(
+  final Function? onBackFromDetail;
+  ProductOverviewVerticalView(
       {Key? key,
       this.onBasketChanged,
       this.onFavoriteChanged,
+      this.onBackFromDetail,
       required this.product})
       : super(key: key);
 
@@ -187,12 +188,11 @@ class _ProductOverviewViewVerticalState
   }
 
   Future<void> _addBasket() async {
-    setState(() {
-      widget.product.basketQuantity ??= 0;
-      widget.product.basketQuantity = widget.product.basketQuantity! + 1;
-    });
+    // setState(() {
+    // widget.product.basketQuantity ??= 0;
+    // widget.product.basketQuantity = widget.product.basketQuantity! + 1;
+    // });
     try {
-      log(widget.product.basketQuantity.toString());
       ResponseModel response =
           await NetworkService.post("api/orders/addbasket", body: {
         "CariID": AuthService.currentUser!.id,
@@ -201,56 +201,68 @@ class _ProductOverviewViewVerticalState
       });
 
       if (response.success) {
-        widget.onBasketChanged?.call();
-      } else {
         setState(() {
-          widget.product.basketQuantity = widget.product.basketQuantity! - 1;
-          if (widget.product.basketQuantity == 0) {
-            widget.product.basketQuantity = null;
-          }
+          widget.product.basketQuantity ??= 0;
+          widget.product.basketQuantity = widget.product.basketQuantity! + 1;
+          widget.onBasketChanged?.call();
         });
-        PopupHelper.showError(errorMessage: response.errorMessage);
+      } else {
+        // setState(() {
+        //   widget.product.basketQuantity = widget.product.basketQuantity! - 1;
+        //   if (widget.product.basketQuantity == 0) {
+        //     widget.product.basketQuantity = null;
+        //   }
+        // });
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
       }
     } catch (e) {
-      setState(() {
-        widget.product.basketQuantity = widget.product.basketQuantity! - 1;
-        if (widget.product.basketQuantity == 0) {
-          widget.product.basketQuantity = null;
-        }
-      });
-      PopupHelper.showErrorWithCode(e);
+      // setState(() {
+      //   widget.product.basketQuantity = widget.product.basketQuantity! - 1;
+      //   if (widget.product.basketQuantity == 0) {
+      //     widget.product.basketQuantity = null;
+      //   }
+      // });
+      PopupHelper.showErrorDialogWithCode(e);
     }
   }
 
   Future<void> _removeBasket() async {
-    setState(() {
-      widget.product.basketQuantity = widget.product.basketQuantity! - 1;
-      if (widget.product.basketQuantity! <= 0) {
-        widget.product.basketQuantity = null;
-      }
-    });
+    // // setState(() {
+    // widget.product.basketQuantity = widget.product.basketQuantity! - 1;
+    // if (widget.product.basketQuantity! <= 0) {
+    //   widget.product.basketQuantity = null;
+    // }
+    // // });
     try {
       ResponseModel response =
           await NetworkService.post("api/orders/updatebasket", body: {
         "CariID": AuthService.currentUser!.id,
         "Barcode": widget.product.barcode,
-        "Quantity": widget.product.basketQuantity ?? 0
+        "Quantity": widget.product.basketQuantity != null
+            ? (widget.product.basketQuantity! - 1)
+            : 0
       });
       if (response.success) {
-        widget.onBasketChanged?.call();
-      } else {
         setState(() {
-          widget.product.basketQuantity =
-              (widget.product.basketQuantity ?? 0) + 1;
+          widget.onBasketChanged?.call();
+          widget.product.basketQuantity = widget.product.basketQuantity! - 1;
+          if (widget.product.basketQuantity! <= 0) {
+            widget.product.basketQuantity = null;
+          }
         });
-        PopupHelper.showError(errorMessage: response.errorMessage);
+      } else {
+        // setState(() {
+        //   widget.product.basketQuantity =
+        //       (widget.product.basketQuantity ?? 0) + 1;
+        // });
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
       }
     } catch (e) {
-      setState(() {
-        widget.product.basketQuantity =
-            (widget.product.basketQuantity ?? 0) + 1;
-      });
-      PopupHelper.showErrorWithCode(e);
+      // setState(() {
+      //   widget.product.basketQuantity =
+      //       (widget.product.basketQuantity ?? 0) + 1;
+      // });
+      PopupHelper.showErrorDialogWithCode(e);
     }
   }
 
@@ -303,18 +315,30 @@ class _ProductOverviewViewVerticalState
             widget.product.favoriteId = 1;
           }
         });
-        PopupHelper.showError(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
       } else {
         widget.onFavoriteChanged?.call();
+        PopupHelper.showSuccessToast(widget.product.isFavorite
+            ? "Ürün favorilere eklendi"
+            : "Ürün favorilerden çıkarıldı");
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     }
   }
 
   void _goDetailPage() {
-    NavigationService.navigateToPage(
-        ProductDetailView(productOverViewModel: widget.product));
+    NavigationService.navigateToPage<ProductDetailModel?>(
+            ProductDetailView(productOverViewModel: widget.product))
+        .then((value) {
+      if (value != null) {
+        setState(() {
+          widget.product.updateWithProductDetailModel(value);
+        });
+      }
+    }).then((value) {
+      widget.onBackFromDetail?.call();
+    });
   }
 }
 

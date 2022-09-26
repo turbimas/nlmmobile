@@ -5,7 +5,7 @@ class UserModel {
   var phone;
   var password;
   var gender;
-  var birthDate;
+  DateTime? birthDate;
   String? imageUrl;
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -15,7 +15,19 @@ class UserModel {
     phone = json['MobilePhone'];
     password = json["Password"];
     gender = json["Cinsiyet"];
-    birthDate = json["BornDate"];
+    birthDate =
+        json["BornDate"] != null ? DateTime.parse(json["BornDate"]) : null;
     imageUrl = json["imageUrl"];
   }
+
+  get toJson => {
+        "ID": id,
+        "Name": nameSurname,
+        "Email": email,
+        "MobilePhone": phone,
+        "Password": password,
+        "Cinsiyet": gender,
+        "BornDate": birthDate,
+        "imageUrl": imageUrl
+      };
 }

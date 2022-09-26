@@ -49,15 +49,16 @@ class UserRatingsViewModel extends ChangeNotifier {
             .toList();
       } else {
         if (!evaluatedResponse.success) {
-          PopupHelper.showError(errorMessage: evaluatedResponse.errorMessage);
+          PopupHelper.showErrorDialog(
+              errorMessage: evaluatedResponse.errorMessage);
         }
         if (!nonEvaluatedResponse.success) {
-          PopupHelper.showError(
+          PopupHelper.showErrorDialog(
               errorMessage: nonEvaluatedResponse.errorMessage);
         }
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     } finally {
       isLoading = false;
     }
@@ -84,10 +85,10 @@ class UserRatingsViewModel extends ChangeNotifier {
       if (response.success) {
         getData();
       } else {
-        PopupHelper.showError(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     } finally {
       isLoading = false;
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nlmmobile/core/services/theme/custom_images.dart';
+import 'package:nlmmobile/product/models/product_detail_model.dart';
 
 class ProductOverViewModel {
   final int id;
@@ -20,21 +21,26 @@ class ProductOverViewModel {
     _favoriteId = id;
   }
 
-  final Map<String, dynamic>? _evaluationData;
+  Map<String, dynamic>? _evaluationData;
   num get evaluationCount =>
       _evaluationData != null ? _evaluationData!["EvaluationsCount"] ?? 0 : 0;
   num get evaluationAverage =>
       _evaluationData != null ? _evaluationData!["EvaluationsAvg"] ?? 0 : 0;
 
-  Widget image({required double height, required double width}) =>
-      _thumbnail != null
-          ? Image.network(
-              "http://${_thumbnail!.replaceAll("\\", "/").replaceAll("//", "/")}",
-              height: height,
-              width: width,
-              fit: BoxFit.fill,
-            )
-          : CustomImages.image_not_found;
+  Widget image({required double height, required double width}) {
+    if (_thumbnail != null) {
+      if (_thumbnail!.isNotEmpty) {
+        String url = _thumbnail!.replaceAll("\\", "/");
+        return Image.network(
+          url,
+          height: height,
+          width: width,
+          fit: BoxFit.fill,
+        );
+      }
+    }
+    return CustomImages.image_not_found;
+  }
 
   ProductOverViewModel.fromJson(Map<String, dynamic> json)
       : id = json["ID"],
@@ -48,6 +54,12 @@ class ProductOverViewModel {
         basketQuantity = json["BasketQty"],
         _favoriteId = json["FavoriteID"],
         _evaluationData = json["Evaluation"];
+
+  updateWithProductDetailModel(ProductDetailModel productDetail) {
+    basketQuantity = productDetail.basketQuantity;
+    _favoriteId = productDetail.favoriteId;
+    _evaluationData = productDetail.evaluationData;
+  }
 
   toJson() => {
         'ID': id,

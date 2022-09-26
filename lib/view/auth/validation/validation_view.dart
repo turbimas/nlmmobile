@@ -17,7 +17,9 @@ import 'package:nlmmobile/view/auth/validation/validation_view_model.dart';
 
 class ValidationView extends ConsumerStatefulWidget {
   Map<String, dynamic> registerData;
-  ValidationView({Key? key, required this.registerData}) : super(key: key);
+  bool isUpdate;
+  ValidationView({Key? key, required this.registerData, required this.isUpdate})
+      : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ValidationViewState();
@@ -28,8 +30,8 @@ class _ValidationViewState extends ConsumerState<ValidationView> {
 
   @override
   void initState() {
-    provider = ChangeNotifierProvider(
-        (ref) => ValidationViewModel(widget.registerData));
+    provider = ChangeNotifierProvider((ref) =>
+        ValidationViewModel(widget.registerData, isUpdate: widget.isUpdate));
     super.initState();
   }
 
@@ -73,7 +75,7 @@ class _ValidationViewState extends ConsumerState<ValidationView> {
         OkCancelPrompt(
             okCallBack: ref.read(provider).approve,
             cancelCallBack: () {
-              NavigationService.back();
+              NavigationService.back<bool>(data: false);
             })
       ],
     );

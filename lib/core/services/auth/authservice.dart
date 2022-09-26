@@ -32,6 +32,12 @@ class AuthService {
     NavigationService.navigateToPageAndRemoveUntil(const LoginView());
   }
 
+  static void update(UserModel user) {
+    currentUser = user;
+    CacheManager.instance.setString(CacheConstants.userEmail, user.email);
+    NavigationService.navigateToPageAndRemoveUntil(const MainView());
+  }
+
   static Widget userImage({required double height, required double width}) {
     if (AuthService.currentUser!.imageUrl != null) {
       return Image.network(

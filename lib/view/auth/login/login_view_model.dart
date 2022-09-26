@@ -31,10 +31,10 @@ class LoginViewModel extends ChangeNotifier {
         AuthService.login(user);
         NavigationService.navigateToPageAndRemoveUntil(const MainView());
       } else {
-        PopupHelper.showError(errorMessage: userResponse.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: userResponse.errorMessage);
       }
     } else {
-      PopupHelper.showError(errorMessage: loginResponse.errorMessage);
+      PopupHelper.showErrorDialog(errorMessage: loginResponse.errorMessage);
     }
   }
 }

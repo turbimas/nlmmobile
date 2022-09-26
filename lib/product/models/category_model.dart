@@ -12,7 +12,7 @@ class CategoryModel {
   Widget image({required double height, required double width}) =>
       _imageUrl != null
           ? Image.network(
-              "http://${_imageUrl!.replaceAll("\\", "/").replaceAll("//", "/")}",
+              _imageUrl!.replaceAll("\\", "/"),
               height: height,
               width: width,
               fit: BoxFit.fill,

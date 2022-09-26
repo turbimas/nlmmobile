@@ -24,10 +24,10 @@ class HomeViewModel extends ChangeNotifier {
         categories =
             (responseModel.data).map((e) => CategoryModel.fromJson(e)).toList();
       } else {
-        PopupHelper.showError(errorMessage: responseModel.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: responseModel.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     } finally {
       categoriesLoading = false;
     }

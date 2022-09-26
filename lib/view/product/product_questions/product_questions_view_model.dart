@@ -38,10 +38,10 @@ class ProductQuestionsViewModel extends ChangeNotifier {
         filteredQuestions.clear();
         filteredQuestions.addAll(questions!);
       } else {
-        PopupHelper.showError(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     } finally {
       isLoading = false;
     }
@@ -73,13 +73,14 @@ class ProductQuestionsViewModel extends ChangeNotifier {
               "ContentValue": value
             });
             if (response.success) {
-              PopupHelper.showSucces(
+              PopupHelper.showSuccesDialog(
                   "Başarıyla sorunuz gönderildi! Cevaplandığı zaman profilinizde görünecektir.");
             } else {
-              PopupHelper.showError(errorMessage: response.errorMessage);
+              PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
             }
           } else {
-            PopupHelper.showError(errorMessage: "Lütfen sorunuzu giriniz!");
+            PopupHelper.showErrorDialog(
+                errorMessage: "Lütfen sorunuzu giriniz!");
           }
         });
   }

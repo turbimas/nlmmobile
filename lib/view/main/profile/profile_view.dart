@@ -58,8 +58,9 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
         width: AppConstants.designWidth.smw,
         child: Center(
             child: CustomTextLocale(LocaleKeys.Profile_greeting,
-                args: const ["Ertuğrul Çakıcı"],
+                args: [AuthService.currentUser!.nameSurname],
                 style: CustomFonts.bodyText1(CustomColors.backgroundText),
+                maxLines: 2,
                 textAlign: TextAlign.center)));
   }
 
@@ -143,14 +144,8 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 20.smh, horizontal: 70.smw),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(220.smh),
-        child: Image.network(
-          "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-          fit: BoxFit.cover,
-          height: 220.smh,
-          width: 220.smh,
-        ),
-      ),
+          borderRadius: BorderRadius.circular(220.smh),
+          child: AuthService.userImage(height: 220.smw, width: 220.smw)),
     );
   }
 

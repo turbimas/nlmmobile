@@ -53,7 +53,7 @@ class _UserAddressesViewState extends ConsumerState<UserAddressesView> {
     return ref.watch(provider).isLoading
         ? _loading()
         : ref.watch(provider).addresses == null
-            ? TryAgain(callBack: () {})
+            ? TryAgain(callBack: ref.read(provider).getAddresses)
             : ref.watch(provider).addresses!.isEmpty
                 ? _empty()
                 : _content();
@@ -74,8 +74,9 @@ class _UserAddressesViewState extends ConsumerState<UserAddressesView> {
   }
 
   Widget _empty() {
-    return const Center(
-      child: Text("Empty"),
+    return Center(
+      child: CustomText("Hiçbir adres bulunaamadı",
+          style: CustomFonts.bodyText2(CustomColors.backgroundText)),
     );
   }
 

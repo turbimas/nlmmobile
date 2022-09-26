@@ -38,10 +38,10 @@ class UserQuestionsViewModel extends ChangeNotifier {
         }
         notifyListeners();
       } else {
-        PopupHelper.showError(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     }
   }
 }

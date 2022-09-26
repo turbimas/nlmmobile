@@ -11,9 +11,17 @@ import 'package:nlmmobile/product/widgets/custom_text.dart';
 class OkCancelPrompt extends StatelessWidget {
   final void Function() okCallBack;
   final void Function() cancelCallBack;
-  const OkCancelPrompt(
+  late final bool forPopup;
+  OkCancelPrompt(
       {Key? key, required this.okCallBack, required this.cancelCallBack})
-      : super(key: key);
+      : super(key: key) {
+    forPopup = false;
+  }
+  OkCancelPrompt.forPopup(
+      {Key? key, required this.okCallBack, required this.cancelCallBack})
+      : super(key: key) {
+    forPopup = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +36,7 @@ class OkCancelPrompt extends StatelessWidget {
             },
             child: Container(
               height: 50.smh,
-              width: (AppConstants.designWidth / 2).smw,
+              width: !forPopup ? (AppConstants.designWidth / 2).smw : 165.smw,
               color: CustomColors.cancel,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -46,7 +54,7 @@ class OkCancelPrompt extends StatelessWidget {
             },
             child: Container(
               height: 50.smh,
-              width: (AppConstants.designWidth / 2).smw,
+              width: !forPopup ? (AppConstants.designWidth / 2).smw : 165.smw,
               color: CustomColors.primary,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

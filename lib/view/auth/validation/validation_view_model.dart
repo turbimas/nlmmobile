@@ -12,6 +12,7 @@ import 'package:nlmmobile/product/models/user_model.dart';
 
 class ValidationViewModel extends ChangeNotifier {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool isUpdate;
 
   bool _resented = false;
   bool get resented => _resented;
@@ -21,7 +22,7 @@ class ValidationViewModel extends ChangeNotifier {
   }
 
   Map<String, dynamic> registerData;
-  ValidationViewModel(this.registerData) {
+  ValidationViewModel(this.registerData, {required this.isUpdate}) {
     generateValidateCode();
   }
 
@@ -47,21 +48,18 @@ class ValidationViewModel extends ChangeNotifier {
       if (response.success) {
         return true;
       } else {
-        PopupHelper.showError(
+        PopupHelper.showErrorDialog(
             errorMessage: response.errorMessage,
             dismissible: false,
-            actions: [
-              {
-                "text": LocaleKeys.Validation_go_back.tr(),
-                "onPressed": () {
-                  NavigationService.back(times: 2);
-                }
+            actions: {
+              LocaleKeys.Validation_go_back.tr(): () {
+                NavigationService.back(times: 2, data: false);
               }
-            ]);
+            });
         return false;
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
       return false;
     }
   }
@@ -74,9 +72,23 @@ class ValidationViewModel extends ChangeNotifier {
   Future<void> approve() async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      if (approvedValidationCode == validateCode) {
-        ResponseModel response =
-            await NetworkService.post("api/users/register", body: registerData);
+      if (approvedValidationCode.trim() == validateCode) {
+        late ResponseModel response;
+        if (isUpdate) {
+          response = await NetworkService.post("api/users/user_edit", body: {
+            "ID": AuthService.currentUser!.id,
+            "Name": registerData["Name"],
+            "BornDate": registerData["BornDate"],
+            "MobilePhone": registerData["MobilePhone"],
+            "Email": registerData["Email"],
+            "Password": registerData["Password"],
+            "Cinsiyet": registerData["Gender"]
+          });
+        } else {
+          response = await NetworkService.post("api/users/register",
+              body: registerData);
+        }
+
         if (response.success) {
           ResponseModel userInfo = await NetworkService.get(
               "api/users/user_info/${registerData["Email"]}");
@@ -84,13 +96,13 @@ class ValidationViewModel extends ChangeNotifier {
             // formKey.currentState?.dispose();
             await AuthService.login(UserModel.fromJson(userInfo.data));
           } else {
-            PopupHelper.showError(errorMessage: userInfo.errorMessage);
+            PopupHelper.showErrorDialog(errorMessage: userInfo.errorMessage);
           }
         } else {
-          PopupHelper.showError(errorMessage: response.errorMessage);
+          PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
         }
       } else {
-        PopupHelper.showError(
+        PopupHelper.showErrorDialog(
             errorMessage: LocaleKeys.Validation_wrong_code.tr());
       }
     }

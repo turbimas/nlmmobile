@@ -128,7 +128,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       flex: 5,
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
-                        child: CustomText(widget.orderTitle.FicheNo,
+                        child: CustomText(widget.orderTitle.ficheNo,
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -149,7 +149,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.OrderDate.toString(),
+                            widget.orderTitle.orderDate.toString(),
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -170,7 +170,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       flex: 5,
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
-                        child: CustomText(widget.orderTitle.StatusName,
+                        child: CustomText(widget.orderTitle.statusName,
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -229,7 +229,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.DeliveryAdressDetail.deliveryDate
+                            widget.orderTitle.deliveryAddressDetail.deliveryDate
                                 .toString(),
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
@@ -251,7 +251,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.DeliveryAdressDetail
+                            widget.orderTitle.deliveryAddressDetail
                                     .relatedPerson ??
                                 "-",
                             style:
@@ -274,7 +274,8 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.DeliveryAdressDetail.phone ?? "-",
+                            widget.orderTitle.deliveryAddressDetail.phone ??
+                                "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -296,7 +297,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.DeliveryAdressDetail.address ??
+                            widget.orderTitle.deliveryAddressDetail.address ??
                                 "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
@@ -355,8 +356,8 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.InvoiceAdressDetail
-                                    .RelatedPerson ??
+                            widget.orderTitle.invoiceAddressDetail
+                                    .relatedPerson ??
                                 "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
@@ -378,8 +379,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.InvoiceAdressDetail.MobilePhone ??
-                                "-",
+                            widget.orderTitle.invoiceAddressDetail.phone ?? "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -400,7 +400,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.InvoiceAdressDetail.TaxOffice ??
+                            widget.orderTitle.invoiceAddressDetail.taxOffice ??
                                 "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
@@ -414,7 +414,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                     Expanded(
                       flex: 2,
                       child: CustomText(
-                          widget.orderTitle.InvoiceAdressDetail.isPerson ??
+                          widget.orderTitle.invoiceAddressDetail.isPerson ??
                                   false
                               ? "T.C. Kimlik No"
                               : "Vergi No",
@@ -425,16 +425,18 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       flex: 5,
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
-                        child: CustomText(
-                            widget.orderTitle.InvoiceAdressDetail.isPerson ??
-                                    false
-                                ? widget.orderTitle.InvoiceAdressDetail.TCKNo ??
-                                    "-"
-                                : widget.orderTitle.InvoiceAdressDetail
-                                        .TaxNumber ??
-                                    "-",
-                            style:
-                                CustomFonts.bodyText4(CustomColors.card2Text)),
+                        child:
+                            CustomText(
+                                widget.orderTitle.invoiceAddressDetail.isPerson ??
+                                        false
+                                    ? widget.orderTitle.invoiceAddressDetail
+                                            .tcNo ??
+                                        "-"
+                                    : widget.orderTitle.invoiceAddressDetail
+                                            .taxNumber ??
+                                        "-",
+                                style: CustomFonts.bodyText4(
+                                    CustomColors.card2Text)),
                       ),
                     ),
                   ],
@@ -454,7 +456,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.InvoiceAdressDetail.Address ??
+                            widget.orderTitle.invoiceAddressDetail.address ??
                                 "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
@@ -507,7 +509,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                       CustomText(
-                          "${widget.orderTitle.OrderTotals.lineTotal.toStringAsFixed(2)} TL",
+                          "${widget.orderTitle.orderTotals.lineTotal.toStringAsFixed(2)} TL",
                           style: CustomFonts.bodyText4(CustomColors.card2Text)),
                     ]),
                 Row(
@@ -518,7 +520,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                       CustomText(
-                          "${widget.orderTitle.OrderTotals.deliveryTotal.toStringAsFixed(2)} TL",
+                          "${widget.orderTitle.orderTotals.deliveryTotal.toStringAsFixed(2)} TL",
                           style: CustomFonts.bodyText4(CustomColors.card2Text)),
                     ]),
                 Row(
@@ -528,7 +530,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                       CustomText(
-                          "${widget.orderTitle.OrderTotals.generalTotal.toStringAsFixed(2)} TL",
+                          "${widget.orderTitle.orderTotals.generalTotal.toStringAsFixed(2)} TL",
                           style: CustomFonts.bodyText4(CustomColors.card2Text)),
                     ]),
               ],

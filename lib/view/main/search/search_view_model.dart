@@ -18,6 +18,20 @@ class SearchViewModel extends ChangeNotifier {
 
   SearchViewModel();
 
+  bool _loaded = false;
+  bool get loaded => _loaded;
+  set loaded(bool value) {
+    _loaded = value;
+    notifyListeners();
+  }
+
+  bool _isLoading = true;
+  bool get isLoading => _isLoading;
+  set isLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
   Future<void> getLastData() async {
     try {
       ResponseModelList lastSearches = await NetworkService.get<List>(
@@ -30,17 +44,19 @@ class SearchViewModel extends ChangeNotifier {
             .toList();
         lastViewed =
             lastVieweds.data.map((e) => LastViewedModel.fromJson(e)).toList();
-        notifyListeners();
+        _loaded = true;
       } else {
         if (!lastSearches.success) {
-          PopupHelper.showError(errorMessage: lastSearches.errorMessage);
+          PopupHelper.showErrorDialog(errorMessage: lastSearches.errorMessage);
         }
         if (!lastVieweds.success) {
-          PopupHelper.showError(errorMessage: lastVieweds.errorMessage);
+          PopupHelper.showErrorDialog(errorMessage: lastVieweds.errorMessage);
         }
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
+    } finally {
+      isLoading = false;
     }
   }
 
@@ -52,11 +68,12 @@ class SearchViewModel extends ChangeNotifier {
       if (lastSearches.success) {
         lastSearched.removeWhere((element) => element.id == id);
         notifyListeners();
+        PopupHelper.showSuccessToast("Arama geçmişi silindi");
       } else {
-        PopupHelper.showError(errorMessage: lastSearches.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: lastSearches.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     }
   }
 
@@ -68,11 +85,12 @@ class SearchViewModel extends ChangeNotifier {
       if (lastSearches.success) {
         lastSearched.clear();
         notifyListeners();
+        PopupHelper.showSuccessToast("Tüm arama geçmişi silindi");
       } else {
-        PopupHelper.showError(errorMessage: lastSearches.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: lastSearches.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     }
   }
 
@@ -82,18 +100,22 @@ class SearchViewModel extends ChangeNotifier {
           "api/products/productsearch/${AuthService.currentUser!.id}/$searchKey");
 
       if (searchResults.success) {
-        List products = searchResults.data
+        var products = searchResults.data
             .map((e) => ProductOverViewModel.fromJson(e))
-            .toList();
+            .toList()
+            .cast<ProductOverViewModel>();
         NavigationService.navigateToPage(
-            SearchResultView(products: products, isSearch: true));
+                SearchResultView(products: products, isSearch: true))
+            .then((value) {
+          getLastData();
+        });
       } else {
-        PopupHelper.showError(errorMessage: searchResults.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: searchResults.errorMessage);
       }
 
       notifyListeners();
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     }
   }
 }

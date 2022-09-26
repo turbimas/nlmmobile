@@ -66,7 +66,7 @@ class _OrderSuccessViewState extends ConsumerState<OrderSuccessView> {
                         onTap: () {
                           Clipboard.setData(
                               ClipboardData(text: widget.orderId));
-                          PopupHelper.showSucces(
+                          PopupHelper.showSuccesDialog(
                               "Sipariş numarası başarıyla kopyalandı!");
                         },
                         child: const Icon(Icons.copy))

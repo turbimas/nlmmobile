@@ -22,16 +22,16 @@ class UserOrderDetailsViewModel extends ChangeNotifier {
     try {
       isLoading = true;
       ResponseModel response = await NetworkService.get(
-          "api/users/order_detail/${orderTitle.OrderID}");
+          "api/users/order_detail/${orderTitle.orderId}");
       if (response.success) {
         orderLines = (response.data as List)
             .map((e) => OrderLinesModel.fromJson(e))
             .toList();
       } else {
-        PopupHelper.showError(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     } finally {
       isLoading = false;
     }

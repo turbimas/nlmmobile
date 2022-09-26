@@ -23,7 +23,7 @@ class ProductRatingCariModel {
   Widget image({required double height, required double width}) =>
       _imageUrl != null && _imageUrl!.isNotEmpty
           ? Image.network(
-              "http://${_imageUrl!.replaceAll("\\", "/").replaceAll("//", "/")}",
+              _imageUrl!.replaceAll("\\", "/"),
               height: height,
               width: width,
               fit: BoxFit.fill,

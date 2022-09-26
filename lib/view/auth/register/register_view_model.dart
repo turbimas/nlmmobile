@@ -26,7 +26,7 @@ class RegisterViewModel extends ChangeNotifier {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       NavigationService.navigateToPage(
-          ValidationView(registerData: registerData));
+          ValidationView(registerData: registerData, isUpdate: false));
     }
   }
 }

@@ -56,17 +56,23 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
   @override
   Widget build(BuildContext context) {
     return CustomSafeArea(
-        child: Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: CustomAppBar.activeBack(
-                LocaleKeys.ProductDetail_appbar_title.tr()),
-            body: ref.watch(provider).isLoading
-                ? _loading()
-                : ref.watch(provider).productDetail != null
-                    ? _body()
-                    : TryAgain(
-                        callBack: () => ref.read(provider).getProductDetail(
-                            widget.productOverViewModel.barcode))));
+        child: WillPopScope(
+      onWillPop: () {
+        Navigator.pop(context, ref.watch(provider).productDetail);
+        return Future.value(false);
+      },
+      child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: CustomAppBar.activeBack(
+              LocaleKeys.ProductDetail_appbar_title.tr()),
+          body: ref.watch(provider).isLoading
+              ? _loading()
+              : ref.watch(provider).productDetail != null
+                  ? _body()
+                  : TryAgain(
+                      callBack: () => ref.read(provider).getProductDetail(
+                          widget.productOverViewModel.barcode))),
+    ));
   }
 
   Widget _body() {
@@ -90,7 +96,6 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
           _imageIndex(product),
           _nameInfo(product),
           _chips(product),
-          _description(),
           _options(),
           _productDetails(product),
           _showAllRatings(product),
@@ -273,20 +278,26 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
   }
 
   Widget _starChip(num avg, num total) {
-    return Container(
-      height: 30.smh,
-      margin: EdgeInsets.only(right: 5.smw),
-      padding: EdgeInsets.symmetric(horizontal: 5.smw, vertical: 5.smh),
-      decoration: BoxDecoration(
-          color: CustomColors.primary,
-          borderRadius: CustomThemeData.fullInfiniteRounded),
-      child: Row(children: [
-        CustomIcons.star_chip_icon,
-        SizedBox(width: 5.smw),
-        CustomTextLocale(LocaleKeys.ProductDetail_rating_avg_count,
-            args: [avg.toStringAsFixed(1), total.toStringAsFixed(0)],
-            style: CustomFonts.bodyText5(CustomColors.primaryText))
-      ]),
+    return InkWell(
+      onTap: () {
+        NavigationService.navigateToPage(
+            ProductRatingsView(product: ref.watch(provider).productDetail!));
+      },
+      child: Container(
+        height: 30.smh,
+        margin: EdgeInsets.only(right: 5.smw),
+        padding: EdgeInsets.symmetric(horizontal: 5.smw, vertical: 5.smh),
+        decoration: BoxDecoration(
+            color: CustomColors.primary,
+            borderRadius: CustomThemeData.fullInfiniteRounded),
+        child: Row(children: [
+          CustomIcons.star_chip_icon,
+          SizedBox(width: 5.smw),
+          CustomTextLocale(LocaleKeys.ProductDetail_rating_avg_count,
+              args: [avg.toStringAsFixed(1), total.toStringAsFixed(0)],
+              style: CustomFonts.bodyText5(CustomColors.primaryText))
+        ]),
+      ),
     );
   }
 
@@ -305,19 +316,9 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
     );
   }
 
-  Widget _description() {
-    return SizedBox(
-      height: 45.smh,
-      width: 360.smw,
-      child: Center(
-        child: CustomTextLocale(LocaleKeys.ProductDetail_product_info,
-            style: CustomFonts.bodyText2(CustomColors.backgroundText)),
-      ),
-    );
-  }
-
   _options() {
     return Container(
+      margin: EdgeInsets.only(top: 45.smh),
       height: 60.smh,
       width: 360.smw,
       decoration: BoxDecoration(

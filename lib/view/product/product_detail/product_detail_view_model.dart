@@ -50,10 +50,10 @@ class ProductDetailViewModel extends ChangeNotifier {
       if (responseModel.success) {
         productDetail = ProductDetailModel.fromJson(responseModel.data);
       } else {
-        PopupHelper.showError(errorMessage: responseModel.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: responseModel.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     } finally {
       isLoading = false;
     }
@@ -77,7 +77,7 @@ class ProductDetailViewModel extends ChangeNotifier {
           productDetail!.basketQuantity = null;
           notifyListeners();
         }
-        PopupHelper.showError(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
       }
     } catch (e) {
       productDetail!.basketQuantity = productDetail!.basketQuantity! - 1;
@@ -85,7 +85,7 @@ class ProductDetailViewModel extends ChangeNotifier {
         productDetail!.basketQuantity = null;
         notifyListeners();
       }
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     }
   }
 
@@ -105,11 +105,11 @@ class ProductDetailViewModel extends ChangeNotifier {
       if (!response.success) {
         productDetail!.basketQuantity =
             (productDetail!.basketQuantity ?? 0) + 1;
-        PopupHelper.showError(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
       }
     } catch (e) {
       productDetail!.basketQuantity = (productDetail!.basketQuantity ?? 0) + 1;
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     }
   }
 
@@ -119,12 +119,15 @@ class ProductDetailViewModel extends ChangeNotifier {
           "api/products/favoriteupdate/${AuthService.currentUser!.id}/${productDetail!.barcode}");
       if (response.success) {
         productDetail!.isFavorite = !productDetail!.isFavorite;
+        PopupHelper.showSuccessToast(productDetail!.isFavorite
+            ? "Ürün favorilere eklendi"
+            : "Ürün favorilerden çıkarıldı");
         notifyListeners();
       } else {
-        PopupHelper.showError(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     }
   }
 }

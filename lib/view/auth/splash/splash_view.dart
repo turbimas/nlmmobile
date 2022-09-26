@@ -61,14 +61,14 @@ class _SplashViewState extends ConsumerState<SplashView>
             AuthService.login(UserModel.fromJson(value.data));
           } else {
             AuthService.logout();
-            PopupHelper.showError(errorMessage: value.errorMessage);
+            PopupHelper.showErrorDialog(errorMessage: value.errorMessage);
           }
         }).onError((error, stackTrace) {
           AuthService.logout();
-          PopupHelper.showErrorWithCode(error!);
+          PopupHelper.showErrorDialogWithCode(error!);
         });
       } catch (e) {
-        PopupHelper.showErrorWithCode(e);
+        PopupHelper.showErrorDialogWithCode(e);
         AuthService.logout();
       }
     } else {

@@ -14,10 +14,10 @@ class CategoriesViewModel extends ChangeNotifier {
       if (response.success) {
         return (response.data.map((e) => CategoryModel.fromJson(e)).toList());
       } else {
-        PopupHelper.showError(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     }
     return null;
   }

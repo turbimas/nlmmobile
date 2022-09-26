@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
@@ -18,11 +19,11 @@ class PopupHelper {
   static final ActionPopups _actionPopups = ActionPopups();
   static ActionPopups get actionPopups => _actionPopups;
 
-  static Future<void> showError(
+  static Future<void> showErrorDialog(
       {required String errorMessage,
       bool dismissible = true,
       Object? error,
-      List<Map<String, dynamic>> actions = const []}) async {
+      Map<String, dynamic> actions = const {}}) async {
     showDialog(
         context: _context,
         barrierDismissible: dismissible,
@@ -36,22 +37,22 @@ class PopupHelper {
                   ? Text(error.toString(),
                       style: CustomFonts.bodyText4(CustomColors.cancelText))
                   : null,
-              actions: actions
+              actions: actions.keys
                   .map((e) => TextButton(
                       style: TextButton.styleFrom(
                         foregroundColor: CustomColors.cancelText,
                       ),
-                      onPressed: e['onPressed'] as Function(),
-                      child: CustomText(e['text'] as String)))
+                      onPressed: actions[e] as Function(),
+                      child: CustomText(e)))
                   .toList(),
             ));
   }
 
-  static Future<void> showErrorWithCode(Object e) async {
-    showError(errorMessage: LocaleKeys.ErrorCodes_ERROR, error: e);
+  static Future<void> showErrorDialogWithCode(Object e) async {
+    showErrorDialog(errorMessage: LocaleKeys.ErrorCodes_ERROR, error: e);
   }
 
-  static Future<void> showSucces(String message) async {
+  static Future<void> showSuccesDialog(String message) async {
     showDialog(
         context: _context,
         barrierDismissible: true,
@@ -62,6 +63,20 @@ class PopupHelper {
                 style: CustomFonts.bodyText3(CustomColors.cancelText),
               ),
             ));
+  }
+
+  static Future<void> showSuccessToast(String message) async {
+    Fluttertoast.showToast(
+        msg: message,
+        textColor: CustomColors.approveText,
+        backgroundColor: CustomColors.approve);
+  }
+
+  static Future<void> showErrorToast(String message) async {
+    Fluttertoast.showToast(
+        msg: message,
+        textColor: CustomColors.cancelText,
+        backgroundColor: CustomColors.cancel);
   }
 }
 

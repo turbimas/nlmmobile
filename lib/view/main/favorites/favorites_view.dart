@@ -91,6 +91,7 @@ class _FavoritesViewState extends ConsumerState<FavoritesView> {
             builder: (context, index) => Center(
                   child: ProductOverviewVerticalView(
                       onFavoriteChanged: ref.read(provider).getFavorites,
+                      onBackFromDetail: ref.read(provider).getFavorites,
                       product: ref.watch(provider).filteredProducts[index]),
                 ),
             itemCount: ref.watch(provider).filteredProducts.length,

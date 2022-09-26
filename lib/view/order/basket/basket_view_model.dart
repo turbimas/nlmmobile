@@ -9,6 +9,7 @@ import 'package:nlmmobile/product/models/order/basket_total_model.dart';
 import 'package:nlmmobile/product/models/product_over_view_model.dart';
 import 'package:nlmmobile/product/models/user/address_model.dart';
 import 'package:nlmmobile/view/order/basket_detail/basket_detail_view.dart';
+import 'package:nlmmobile/view/user/user_address_add/user_address_add_view.dart';
 
 class BasketViewModel extends ChangeNotifier {
   BasketViewModel();
@@ -45,14 +46,15 @@ class BasketViewModel extends ChangeNotifier {
         basketTotal = BasketTotalModel.fromJson(totalResponse.data);
       } else {
         if (!totalResponse.success) {
-          PopupHelper.showError(errorMessage: totalResponse.errorMessage);
+          PopupHelper.showErrorDialog(errorMessage: totalResponse.errorMessage);
         }
         if (!basketResponse.success) {
-          PopupHelper.showError(errorMessage: basketResponse.errorMessage);
+          PopupHelper.showErrorDialog(
+              errorMessage: basketResponse.errorMessage);
         }
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     } finally {
       retrieving = false;
     }
@@ -66,14 +68,24 @@ class BasketViewModel extends ChangeNotifier {
         List<AddressModel> addresses = (response.data as List)
             .map((e) => AddressModel.fromJson(e))
             .toList();
-
-        NavigationService.navigateToPage(
-            BasketDetailView(basketTotal: basketTotal!, addresses: addresses));
+        if (addresses.isNotEmpty) {
+          NavigationService.navigateToPage(BasketDetailView(
+              basketTotal: basketTotal!, addresses: addresses));
+        } else {
+          PopupHelper
+              .showErrorDialog(errorMessage: "Adres bulunamadı", actions: {
+            "Hemen adres ekle!": () {
+              NavigationService.back().then((value) {
+                NavigationService.navigateToPage(const UserAddressAddView());
+              });
+            }
+          });
+        }
       } else {
-        PopupHelper.showError(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     }
   }
 }

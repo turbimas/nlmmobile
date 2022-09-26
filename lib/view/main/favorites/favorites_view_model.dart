@@ -30,10 +30,10 @@ class FavoritesViewModel extends ChangeNotifier {
         filteredProducts.clear();
         filteredProducts.addAll(products!);
       } else {
-        PopupHelper.showError(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
       }
     } catch (e) {
-      PopupHelper.showErrorWithCode(e);
+      PopupHelper.showErrorDialogWithCode(e);
     } finally {
       isLoading = false;
     }

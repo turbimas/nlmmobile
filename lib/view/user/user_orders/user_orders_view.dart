@@ -142,7 +142,7 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
                             style: CustomFonts.bodyText4(
                                 CustomColors.card2TextPale),
                           ),
-                          CustomText(order.FicheNo,
+                          CustomText(order.ficheNo,
                               style:
                                   CustomFonts.bodyText4(CustomColors.card2Text))
                         ],
@@ -154,7 +154,7 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
                             style: CustomFonts.bodyText4(
                                 CustomColors.card2TextPale),
                           ),
-                          CustomText(order.OrderDate.toString(),
+                          CustomText(order.orderDate.toString(),
                               style:
                                   CustomFonts.bodyText4(CustomColors.card2Text))
                         ],
@@ -166,7 +166,7 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
                             style: CustomFonts.bodyText4(
                                 CustomColors.card2TextPale),
                           ),
-                          CustomText(order.StatusName,
+                          CustomText(order.statusName,
                               style:
                                   CustomFonts.bodyText4(CustomColors.card2Text))
                         ],
@@ -178,7 +178,7 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
                     CustomTextLocale(LocaleKeys.UserOrders_order_total,
                         style:
                             CustomFonts.bodyText4(CustomColors.card2TextPale)),
-                    CustomText("${order.Total} TL",
+                    CustomText("${order.total} TL",
                         style: CustomFonts.bodyText3(CustomColors.card2Text)),
                   ])
                 ],
@@ -212,7 +212,7 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
                   Row(
                     children: [
                       CustomTextLocale(LocaleKeys.UserOrders_total_product,
-                          args: [order.LineCount.toString()],
+                          args: [order.lineCount.toString()],
                           maxLines: 3,
                           textAlign: TextAlign.center,
                           style: CustomFonts.bodyText1(CustomColors.card2Text)),

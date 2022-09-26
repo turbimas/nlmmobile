@@ -3,29 +3,29 @@ import 'package:nlmmobile/product/models/order/order_delivery_address.dart';
 import 'package:nlmmobile/product/models/order/order_invoice_address.dart';
 
 class UserOrdersModel {
-  late final int OrderID;
-  late final String FicheNo;
-  late final DateTime OrderDate;
-  late final StatusName;
-  late final int LineCount;
-  late final num Total;
-  late final String? FirstImageUrl;
-  late final OrderDeliveryAddress DeliveryAdressDetail;
-  late final OrderInvoiceAddress InvoiceAdressDetail;
-  late final BasketTotalModel OrderTotals;
+  late final int orderId;
+  late final String ficheNo;
+  late final DateTime orderDate;
+  late final String statusName;
+  late final int lineCount;
+  late final num total;
+  late final String? firstImageUrl;
+  late final OrderDeliveryAddress deliveryAddressDetail;
+  late final OrderInvoiceAddress invoiceAddressDetail;
+  late final BasketTotalModel orderTotals;
 
   UserOrdersModel.fromJson(Map<String, dynamic> json) {
-    OrderID = json['OrderID'];
-    FicheNo = json['FicheNo'];
-    OrderDate = DateTime.parse(json['OrderDate']);
-    StatusName = json['StatusName'];
-    LineCount = json['LineCount'];
-    Total = json['Total'];
-    FirstImageUrl = json['FirstImageUrl'];
-    DeliveryAdressDetail =
+    orderId = json['OrderID'];
+    ficheNo = json['FicheNo'];
+    orderDate = DateTime.parse(json['OrderDate']);
+    statusName = json['StatusName'];
+    lineCount = json['LineCount'];
+    total = json['Total'];
+    firstImageUrl = json['FirstImageUrl'];
+    deliveryAddressDetail =
         OrderDeliveryAddress.fromJson(json['DeliveryAdressDetail']);
-    InvoiceAdressDetail =
+    invoiceAddressDetail =
         OrderInvoiceAddress.fromJson(json['InvoiceAdressDetail']);
-    OrderTotals = BasketTotalModel.fromJson(json['OrderTotals']);
+    orderTotals = BasketTotalModel.fromJson(json['OrderTotals']);
   }
 }
