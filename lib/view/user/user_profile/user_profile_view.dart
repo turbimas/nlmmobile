@@ -100,7 +100,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                 _customTextField(
                     hintText: "Şifre",
                     formKey: "Password",
-                    initialValue: "",
+                    initialValue: AuthService.currentUser!.password,
                     obscureText: true)
               ],
             ),

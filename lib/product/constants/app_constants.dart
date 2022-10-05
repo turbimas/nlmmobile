@@ -11,4 +11,7 @@ class AppConstants {
   static const AR_LOCALE = Locale("ar");
   static const EN_LOCALE = Locale("en");
   static const PATH_LOCALE = "assets/lang";
+
+  static const IOS_Version = "1.0.0";
+  static const ANDROID_Version = "1.0.0";
 }

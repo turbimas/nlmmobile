@@ -33,7 +33,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
     provider = ChangeNotifierProvider((ref) => HomeViewModel());
     super.initState();
     Future.delayed(Duration.zero, () {
-      ref.read(provider).getCategories();
+      ref.read(provider).getHomeData();
     });
   }
 

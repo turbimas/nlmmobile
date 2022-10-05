@@ -11,6 +11,7 @@ import 'package:nlmmobile/product/models/user/google_address_model.dart';
 class UserAddressAddViewModel extends ChangeNotifier {
   TextEditingController countryController = TextEditingController();
   TextEditingController cityController = TextEditingController();
+  TextEditingController regionController = TextEditingController();
   TextEditingController districtController = TextEditingController();
   TextEditingController townController = TextEditingController();
   TextEditingController streetController = TextEditingController();
@@ -70,7 +71,7 @@ class UserAddressAddViewModel extends ChangeNotifier {
     try {
       isExpanded = false;
       ResponseModel response =
-          await NetworkService.post("api/users/googlemaptoadress", body: {
+          await NetworkService.post("users/googlemaptoadress", body: {
         "lat": marker.position.latitude,
         "lng": marker.position.longitude,
       });
@@ -78,13 +79,14 @@ class UserAddressAddViewModel extends ChangeNotifier {
         googleAddressModel = GoogleAddressModel.fromJson(response.data);
         countryController.text = googleAddressModel!.country;
         cityController.text = googleAddressModel!.city;
+        regionController.text = googleAddressModel!.region;
         districtController.text = googleAddressModel!.district;
         townController.text = googleAddressModel!.town;
         streetController.text = googleAddressModel!.street;
         buildingController.text = googleAddressModel!.buildingNo;
         postalCodeController.text = googleAddressModel!.postalCode;
       } else {
-        PopupHelper.showErrorToast(response.errorMessage);
+        PopupHelper.showErrorToast(response.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);
@@ -97,12 +99,21 @@ class UserAddressAddViewModel extends ChangeNotifier {
       googleAddressModel!.country = countryController.text;
       googleAddressModel!.city = cityController.text;
       googleAddressModel!.district = districtController.text;
+      googleAddressModel!.region = regionController.text;
       googleAddressModel!.town = townController.text;
       googleAddressModel!.street = streetController.text;
       googleAddressModel!.buildingNo = buildingController.text;
       googleAddressModel!.postalCode = postalCodeController.text;
+      if (formData["AdresBasligi"]
+          .toString()
+          .replaceAll("null", "")
+          .trim()
+          .isEmpty) {
+        PopupHelper.showErrorDialog(errorMessage: "Adres Başlığı Boş Olamaz");
+        return;
+      }
       ResponseModel response =
-          await NetworkService.post("api/users/adress_add", body: {
+          await NetworkService.post("users/adress_add", body: {
         "localAdress": formData,
         "googleadress": googleAddressModel!.toJson(),
       });
@@ -111,7 +122,7 @@ class UserAddressAddViewModel extends ChangeNotifier {
         PopupHelper.showSuccessToast("Adres başarıyla eklendi");
         NavigationService.back();
       } else {
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);

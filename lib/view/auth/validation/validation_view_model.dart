@@ -40,7 +40,7 @@ class ValidationViewModel extends ChangeNotifier {
   Future<bool> sendMail() async {
     try {
       ResponseModel response =
-          await NetworkService.post("api/users/email_verification", body: {
+          await NetworkService.post("users/email_verification", body: {
         "Email": registerData["Email"],
         "NameSurname": registerData["Name"],
         "VerificationCode": validateCode
@@ -49,7 +49,7 @@ class ValidationViewModel extends ChangeNotifier {
         return true;
       } else {
         PopupHelper.showErrorDialog(
-            errorMessage: response.errorMessage,
+            errorMessage: response.errorMessage!,
             dismissible: false,
             actions: {
               LocaleKeys.Validation_go_back.tr(): () {
@@ -75,7 +75,7 @@ class ValidationViewModel extends ChangeNotifier {
       if (approvedValidationCode.trim() == validateCode) {
         late ResponseModel response;
         if (isUpdate) {
-          response = await NetworkService.post("api/users/user_edit", body: {
+          response = await NetworkService.post("users/user_edit", body: {
             "ID": AuthService.currentUser!.id,
             "Name": registerData["Name"],
             "BornDate": registerData["BornDate"],
@@ -85,21 +85,21 @@ class ValidationViewModel extends ChangeNotifier {
             "Cinsiyet": registerData["Gender"]
           });
         } else {
-          response = await NetworkService.post("api/users/register",
-              body: registerData);
+          response =
+              await NetworkService.post("users/register", body: registerData);
         }
 
         if (response.success) {
           ResponseModel userInfo = await NetworkService.get(
-              "api/users/user_info/${registerData["Email"]}");
+              "users/user_info/${registerData["Email"]}");
           if (userInfo.success) {
             // formKey.currentState?.dispose();
             await AuthService.login(UserModel.fromJson(userInfo.data));
           } else {
-            PopupHelper.showErrorDialog(errorMessage: userInfo.errorMessage);
+            PopupHelper.showErrorDialog(errorMessage: userInfo.errorMessage!);
           }
         } else {
-          PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+          PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
         }
       } else {
         PopupHelper.showErrorDialog(

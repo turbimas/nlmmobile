@@ -78,9 +78,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
                 CustomTextLocale(LocaleKeys.Search_last_searches,
                     style: CustomFonts.bodyText2(CustomColors.backgroundText)),
                 InkWell(
-                  onTap: () {
-                    ref.read(provider).deleteAllKeywords();
-                  },
+                  onTap: ref.read(provider).deleteAllKeywords,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -101,10 +99,10 @@ class _SearchViewState extends ConsumerState<SearchView> {
                         ref.watch(provider).lastSearched.length,
                         (index) => InkWell(
                               onTap: () {
-                                _searchController.text = ref
+                                ref.read(provider).search(ref
                                     .watch(provider)
                                     .lastSearched[index]
-                                    .contentValue;
+                                    .contentValue);
                               },
                               child: Container(
                                 margin: EdgeInsets.only(bottom: 5.smh),
@@ -125,16 +123,38 @@ class _SearchViewState extends ConsumerState<SearchView> {
                                             .contentValue,
                                         style: CustomFonts.bodyText4(
                                             CustomColors.primaryText)),
-                                    InkWell(
-                                        onTap: () {
-                                          ref
-                                              .read(provider)
-                                              .searchKeywordDelete(ref
-                                                  .watch(provider)
-                                                  .lastSearched[index]
-                                                  .id);
-                                        },
-                                        child: CustomIcons.garbage_icon_light)
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            _searchController.text = ref
+                                                .watch(provider)
+                                                .lastSearched[index]
+                                                .contentValue;
+                                            _searchController.selection =
+                                                TextSelection.fromPosition(
+                                                    TextPosition(
+                                                        offset:
+                                                            _searchController
+                                                                .text.length));
+                                          },
+                                          child: CustomIcons.edit_icon__medium,
+                                        ),
+                                        SizedBox(width: 20.smw),
+                                        InkWell(
+                                            onTap: () {
+                                              ref
+                                                  .read(provider)
+                                                  .searchKeywordDelete(ref
+                                                      .watch(provider)
+                                                      .lastSearched[index]
+                                                      .id);
+                                            },
+                                            child:
+                                                CustomIcons.garbage_icon_light),
+                                      ],
+                                    )
                                   ],
                                 ),
                               ),

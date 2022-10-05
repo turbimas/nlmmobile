@@ -15,6 +15,7 @@ class ProductOverViewModel {
   final String unitCode;
   final String? _thumbnail;
   double? basketQuantity;
+  double? basketFactor;
   int _favoriteId;
   bool get isFavorite => _favoriteId > 0;
   set favoriteId(int id) {
@@ -52,6 +53,7 @@ class ProductOverViewModel {
         unitCode = json["UnitCode"],
         _thumbnail = json["MainImageThumbUrl"],
         basketQuantity = json["BasketQty"],
+        basketFactor = json["BasketFactor"],
         _favoriteId = json["FavoriteID"],
         _evaluationData = json["Evaluation"];
 
@@ -71,11 +73,12 @@ class ProductOverViewModel {
         'UnitCode': unitCode,
         'MainImageThumbUrl': _thumbnail,
         'BasketQty': basketQuantity,
+        'BasketFactor': basketFactor,
         'FavoriteID': _favoriteId,
         'Evaluation': _evaluationData
       };
 
   @override
   toString() =>
-      "ProductOverViewModel{id: $id, barcode: $barcode, name: $name, tradeMark: $tradeMark, unitPrice: $unitPrice, aciklama: $aciklama, unitCode: $unitCode, _thumbnail: $_thumbnail, basketQuantity: $basketQuantity, _favoriteId: $_favoriteId, _evaluationData: $_evaluationData}";
+      'ProductOverViewModel(id: $id, barcode: $barcode, name: $name, tradeMark: $tradeMark, unitPrice: $unitPrice, aciklama: $aciklama, unitCode: $unitCode, _thumbnail: $_thumbnail, basketQuantity: $basketQuantity, basketFactor: $basketFactor, _favoriteId: $_favoriteId, _evaluationData: $_evaluationData)';
 }

@@ -33,9 +33,9 @@ class _CustomSearchBarViewState extends ConsumerState<CustomSearchBarView> {
         color: CustomColors.primary,
         borderRadius: CustomThemeData.fullRounded,
       ),
-      constraints: BoxConstraints(minHeight: 45.smh, minWidth: 330.smw),
+      constraints: BoxConstraints(minHeight: 50.smh, minWidth: 330),
       width: 330.smw,
-      height: 45.smh,
+      height: 50.smh,
       child: Center(
         child: TextField(
           onChanged: widget.onChanged,
@@ -45,7 +45,7 @@ class _CustomSearchBarViewState extends ConsumerState<CustomSearchBarView> {
           textAlignVertical: TextAlignVertical.center,
           style: CustomFonts.defaultField(CustomColors.secondaryText),
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
             prefixIcon: Icon(
               Icons.search,
               color: CustomColors.secondaryText,

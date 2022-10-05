@@ -6,10 +6,11 @@ import 'package:nlmmobile/core/services/network/response_model.dart';
 import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
 import 'package:nlmmobile/product/models/order/basket_total_model.dart';
 import 'package:nlmmobile/product/models/user/address_model.dart';
-import 'package:nlmmobile/view/order/order_success/order_success.dart';
+import 'package:nlmmobile/view/order/order_success/order_success_view.dart';
 
 class BasketDetailViewModel extends ChangeNotifier {
   BasketTotalModel basketTotal;
+  TextEditingController noteController = TextEditingController();
   BasketDetailViewModel({required this.basketTotal, required this.addresses}) {
     _selectedDeliveryAddress = addresses.first;
     _selectedTaxAddress = addresses.first;
@@ -22,10 +23,24 @@ class BasketDetailViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool _accepteTerms = false;
-  bool get accepteTerms => _accepteTerms;
-  set accepteTerms(bool value) {
-    _accepteTerms = value;
+  bool _acceptTerms = false;
+  bool get acceptTerms => _acceptTerms;
+  set acceptTerms(bool value) {
+    _acceptTerms = value;
+    notifyListeners();
+  }
+
+  bool _ringBell = false;
+  bool get doNotRingBell => _ringBell;
+  set doNotRingBell(bool value) {
+    _ringBell = value;
+    notifyListeners();
+  }
+
+  bool _contactlessDelivery = false;
+  bool get contactlessDelivery => _contactlessDelivery;
+  set contactlessDelivery(bool value) {
+    _contactlessDelivery = value;
     notifyListeners();
   }
 
@@ -50,54 +65,69 @@ class BasketDetailViewModel extends ChangeNotifier {
 
   Future<void> createOrder() async {
     try {
-      if (!accepteTerms) {
+      if (!acceptTerms) {
         await PopupHelper.showErrorDialog(
             errorMessage:
                 "Sipariş oluşturabilmek için sipariş koşullarını kabul etmelisiniz");
         return;
       }
+
+      List<String> orderNotes = [];
+      if (noteController.text.isNotEmpty) {
+        orderNotes.add(noteController.text);
+      }
+
+      if (doNotRingBell) {
+        orderNotes.add("Zili Çalma");
+      }
+      if (contactlessDelivery) {
+        orderNotes.add("Temasız Teslimat");
+      }
+
       ResponseModel response =
-          await NetworkService.post("api/orders/createorder", body: {
+          await NetworkService.post("orders/createorder", body: {
         "CariID": AuthService.currentUser!.id,
         "DeliveryDate": DateTime.now().toIso8601String(),
         "DeliveryAdressID": selectedDeliveryAddress.id,
-        "InvoiceAdressID": selectedTaxAddress.id,
-        "OrderNotes": "Sipariş notu"
+        "InvoiceAdressID": deliveryTaxSame
+            ? selectedDeliveryAddress.id
+            : selectedTaxAddress.id,
+        "OrderNotes": orderNotes.isEmpty ? "" : orderNotes.join("\n"),
       });
       if (response.success) {
         NavigationService.navigateToPage(
             OrderSuccessView(orderId: response.data));
       } else {
-        await PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        await PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);
     }
   }
 
-  // bool _isLoading = false;
-  // bool get isLoading => _isLoading;
-  // set isLoading(bool value) {
-  //   _isLoading = value;
-  //   notifyListeners();
-  // }
+  bool? _isLoading = false;
+  bool? get isLoading => _isLoading;
+  set isLoading(bool? value) {
+    _isLoading = value;
+    notifyListeners();
+  }
 
-  // Future<void> getAddresses() async {
-  //   try {
-  //     isLoading = true;
-  //     ResponseModel response = await NetworkService.get(
-  //         "api/users/adresses/${AuthService.currentUser!.id}");
-  //     if (response.success) {
-  //       addresses = (response.data as List)
-  //           .map((e) => AddressModel.fromJson(e))
-  //           .toList();
-  //     } else {
-  //       PopupHelper.showError(errorMessage: response.errorMessage);
-  //     }
-  //   } catch (e) {
-  //     PopupHelper.showErrorWithCode(e);
-  //   } finally {
-  //     isLoading = false;
-  //   }
-  // }
+  Future<void> getAddresses() async {
+    try {
+      isLoading = true;
+      ResponseModel response = await NetworkService.get(
+          "users/adresses/${AuthService.currentUser!.id}");
+      if (response.success) {
+        addresses = (response.data as List)
+            .map((e) => AddressModel.fromJson(e))
+            .toList();
+        isLoading = false;
+      } else {
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
+        isLoading = null;
+      }
+    } catch (e) {
+      PopupHelper.showErrorDialogWithCode(e);
+    }
+  }
 }

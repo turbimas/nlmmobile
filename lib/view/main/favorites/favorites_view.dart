@@ -84,18 +84,21 @@ class _FavoritesViewState extends ConsumerState<FavoritesView> {
             child: CustomSearchBarView(
                 onChanged: ref.read(provider).onChanged,
                 hint: LocaleKeys.Favorites_search_hint.tr())),
-        DynamicHeightGridView(
-            shrinkWrap: true,
-            mainAxisSpacing: 10.smh,
-            crossAxisSpacing: 0.smw,
-            builder: (context, index) => Center(
-                  child: ProductOverviewVerticalView(
-                      onFavoriteChanged: ref.read(provider).getFavorites,
-                      onBackFromDetail: ref.read(provider).getFavorites,
-                      product: ref.watch(provider).filteredProducts[index]),
-                ),
-            itemCount: ref.watch(provider).filteredProducts.length,
-            crossAxisCount: 2),
+        SizedBox(
+          height: 600.smh,
+          child: DynamicHeightGridView(
+              shrinkWrap: true,
+              mainAxisSpacing: 10.smh,
+              crossAxisSpacing: 0.smw,
+              builder: (context, index) => Center(
+                    child: ProductOverviewVerticalView(
+                        onFavoriteChanged: ref.read(provider).getFavorites,
+                        onBackFromDetail: ref.read(provider).getFavorites,
+                        product: ref.watch(provider).filteredProducts[index]),
+                  ),
+              itemCount: ref.watch(provider).filteredProducts.length,
+              crossAxisCount: 2),
+        ),
       ],
     );
   }

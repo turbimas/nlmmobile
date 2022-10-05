@@ -15,16 +15,17 @@ class HomeViewModel extends ChangeNotifier {
   List<CategoryModel> categories = [];
   HomeViewModel();
 
-  Future<void> getCategories() async {
+  Future<void> getHomeData() async {
     try {
       categoriesLoading = true;
       ResponseModelList responseModel =
-          await NetworkService.get<List>("api/categories/getcategories/0");
+          await NetworkService.get<List>("categories/getcategories/0");
       if (responseModel.success) {
-        categories =
-            (responseModel.data).map((e) => CategoryModel.fromJson(e)).toList();
+        categories = (responseModel.data)!
+            .map((e) => CategoryModel.fromJson(e))
+            .toList();
       } else {
-        PopupHelper.showErrorDialog(errorMessage: responseModel.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: responseModel.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);

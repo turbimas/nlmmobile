@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nlmmobile/core/services/auth/authservice.dart';
@@ -11,6 +13,7 @@ import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/models/user_model.dart';
 import 'package:nlmmobile/view/auth/login/login_view.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class SplashView extends ConsumerStatefulWidget {
   final Function setstate;
@@ -22,14 +25,8 @@ class SplashView extends ConsumerStatefulWidget {
 
 class _SplashViewState extends ConsumerState<SplashView>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  double value = 0;
-  final Duration _duration = const Duration(seconds: 1);
-
   @override
   void dispose() {
-    _controller.stop();
-    _controller.dispose();
     super.dispose();
   }
 
@@ -37,46 +34,7 @@ class _SplashViewState extends ConsumerState<SplashView>
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-        vsync: this,
-        duration: _duration,
-        value: 1,
-        reverseDuration: _duration,
-        lowerBound: 0.5,
-        upperBound: 1);
-
-    _controller.addListener(_listenerAction);
-    _controller.animateTo(0.5);
-    CustomColors.loadColors();
-    CustomIcons.loadIcons();
-    CustomImages.loadImages();
-    // AuthService.currentUser = null;
-    // CacheManager.instance.remove(CacheConstants.userId);
-    // CacheManager.instance.remove(CacheConstants.userEmail);
-    if (AuthService.isLoggedIn) {
-      try {
-        NetworkService.get("api/users/user_info/${AuthService.email}")
-            .then((ResponseModel value) {
-          if (value.success) {
-            AuthService.login(UserModel.fromJson(value.data));
-          } else {
-            AuthService.logout();
-            PopupHelper.showErrorDialog(errorMessage: value.errorMessage);
-          }
-        }).onError((error, stackTrace) {
-          AuthService.logout();
-          PopupHelper.showErrorDialogWithCode(error!);
-        });
-      } catch (e) {
-        PopupHelper.showErrorDialogWithCode(e);
-        AuthService.logout();
-      }
-    } else {
-      Future.delayed(Duration.zero, () {
-        _controller.stop();
-        NavigationService.navigateToPageReplace(const LoginView());
-      });
-    }
+    _load();
   }
 
   @override
@@ -86,21 +44,82 @@ class _SplashViewState extends ConsumerState<SplashView>
         child: SizedBox(
             width: AppConstants.designWidth,
             height: AppConstants.designHeight,
-            child: Opacity(opacity: value, child: CustomImages.splash)),
+            child: CustomImages.splash),
       ),
     );
   }
 
-  _listenerAction() {
-    if (mounted) {
-      setState(() {
-        value = _controller.value;
-      });
-      if (value == 1) {
-        _controller.reverse();
-      } else if (value == 0.5) {
-        _controller.forward();
+  _load() {
+    try {
+      CustomColors.loadColors();
+      CustomIcons.loadIcons();
+      CustomImages.loadImages();
+    } catch (e) {}
+    // AuthService.currentUser = null;
+    // CacheManager.instance.remove(CacheConstants.userId);
+    // CacheManager.instance.remove(CacheConstants.userEmail);
+    // if (false) {
+    NetworkService.post("app/checkversion", body: {
+      "IOS_Version": AppConstants.IOS_Version,
+      "ANDROID_Version": AppConstants.ANDROID_Version
+    }).then((value) {
+      String? updateLink = "";
+      if (value.success) {
+        if (Platform.isAndroid) {
+          updateLink = value.data["ANDROID_Version"];
+        } else if (Platform.isIOS) {
+          updateLink = value.data["IOS_Version"];
+        }
+      } else {
+        PopupHelper.showErrorDialog(
+            errorMessage: "İnternet bağlantınızdan emin olun ve tekrar deneyin",
+            actions: {
+              "Tekrar dene": () {
+                Navigator.pop(context);
+                _load();
+              }
+            });
       }
-    }
+      if (updateLink != null) {
+        if (updateLink.isNotEmpty) {
+          _showUpdateDialog(updateLink);
+        }
+        return;
+      }
+      if (AuthService.isLoggedIn) {
+        try {
+          NetworkService.get("users/user_info/${AuthService.email}")
+              .then((ResponseModel value) {
+            if (value.success) {
+              AuthService.login(UserModel.fromJson(value.data));
+            } else {
+              AuthService.logout();
+              PopupHelper.showErrorDialog(errorMessage: value.errorMessage!);
+            }
+          }).onError((error, stackTrace) {
+            AuthService.logout();
+            PopupHelper.showErrorDialogWithCode(error!);
+          });
+        } catch (e) {
+          PopupHelper.showErrorDialogWithCode(e);
+          AuthService.logout();
+        }
+      } else {
+        Future.delayed(Duration.zero, () {
+          NavigationService.navigateToPageReplace(const LoginView());
+        });
+      }
+    });
+  }
+
+  _showUpdateDialog(String updateLink) {
+    PopupHelper.showErrorDialog(
+        errorMessage:
+            "Güncelleme mevcut! Uygulamayı kullanabilmek için lütfen güncelleyin",
+        actions: {
+          "Güncelle": () {
+            launchUrlString(updateLink);
+          }
+        });
   }
 }

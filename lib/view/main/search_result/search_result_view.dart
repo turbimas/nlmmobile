@@ -1,6 +1,7 @@
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
@@ -9,11 +10,13 @@ import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmmobile/product/cubits/home_index_cubit/home_index_cubit.dart';
 import 'package:nlmmobile/product/models/category_model.dart';
 import 'package:nlmmobile/product/models/product_over_view_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
+import 'package:nlmmobile/product/widgets/main/main_view.dart';
 import 'package:nlmmobile/product/widgets/ok_cancel_prompt.dart';
 import 'package:nlmmobile/product/widgets/product_overview_view.dart';
 import 'package:nlmmobile/view/main/search/search_view.dart';
@@ -60,13 +63,14 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
       appBar:
           CustomAppBar.activeBack(LocaleKeys.SearchResult_appbar_title.tr()),
       body: Column(
-        children: [_actions(), _products()],
+        children: [_actions(), _products(), _mainMenu()],
       ),
     ));
   }
 
   Widget _actions() {
     return Container(
+      height: 110.smh,
       margin: EdgeInsets.symmetric(vertical: 10.smh, horizontal: 15.smw),
       child: Row(
         children: [
@@ -128,7 +132,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
             masterCategories: widget.masterCategories,
           ));
         } else {
-          NavigationService.navigateToPage(SubCategoriesView());
+          NavigationService.navigateToPage(const SubCategoriesView());
         }
       },
       child: Container(
@@ -203,27 +207,25 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
   Widget _products() {
     if (ref.watch(provider).filteredProducts.isEmpty) {
       return SizedBox(
-        height: 610.smh,
+        height: 535.smh,
         child: Center(
             child: CustomText("Aradığınız kriterlere uygun sonuç bulunamadı",
                 maxLines: 2,
                 style: CustomFonts.bodyText2(CustomColors.backgroundText))),
       );
     } else {
-      return SingleChildScrollView(
-        child: SizedBox(
-          height: 610.smh,
-          child: DynamicHeightGridView(
-              shrinkWrap: true,
-              mainAxisSpacing: 10.smh,
-              crossAxisSpacing: 0.smw,
-              builder: (context, index) => Center(
-                    child: ProductOverviewVerticalView(
-                        product: ref.watch(provider).filteredProducts[index]),
-                  ),
-              itemCount: ref.watch(provider).filteredProducts.length,
-              crossAxisCount: 2),
-        ),
+      return SizedBox(
+        height: 535.smh,
+        child: DynamicHeightGridView(
+            shrinkWrap: true,
+            mainAxisSpacing: 10.smh,
+            crossAxisSpacing: 0.smw,
+            builder: (context, index) => Center(
+                  child: ProductOverviewVerticalView(
+                      product: ref.watch(provider).filteredProducts[index]),
+                ),
+            itemCount: ref.watch(provider).filteredProducts.length,
+            crossAxisCount: 2),
       );
     }
   }
@@ -274,7 +276,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
                 backgroundColor: Colors.transparent,
                 child: Container(
                   width: 330.smw,
-                  height: 500.smh,
+                  height: 330.smh,
                   decoration: BoxDecoration(
                       borderRadius: CustomThemeData.fullRounded,
                       color: CustomColors.primary),
@@ -282,6 +284,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Container(
                             margin: EdgeInsets.symmetric(vertical: 10.smh),
@@ -444,5 +447,53 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
             },
           );
         });
+  }
+
+  Widget _mainMenu() {
+    return Container(
+      height: 75.smh,
+      margin: EdgeInsets.only(top: 10.smh),
+      color: CustomColors.secondary,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          InkWell(
+              onTap: () {
+                context.read<HomeIndexCubit>().set(0);
+                NavigationService.navigateToPageAndRemoveUntil(
+                    const MainView());
+              },
+              child: CustomIcons.menu_search_icon),
+          InkWell(
+              onTap: () {
+                context.read<HomeIndexCubit>().set(1);
+                NavigationService.navigateToPageAndRemoveUntil(
+                    const MainView());
+              },
+              child: CustomIcons.menu_favorite_icon),
+          InkWell(
+              onTap: () {
+                context.read<HomeIndexCubit>().set(2);
+                NavigationService.navigateToPageAndRemoveUntil(
+                    const MainView());
+              },
+              child: CustomIcons.menu_home_icon),
+          InkWell(
+              onTap: () {
+                context.read<HomeIndexCubit>().set(3);
+                NavigationService.navigateToPageAndRemoveUntil(
+                    const MainView());
+              },
+              child: CustomIcons.menu_basket_icon),
+          InkWell(
+              onTap: () {
+                context.read<HomeIndexCubit>().set(4);
+                NavigationService.navigateToPageAndRemoveUntil(
+                    const MainView());
+              },
+              child: CustomIcons.menu_profile_icon)
+        ],
+      ),
+    );
   }
 }

@@ -22,7 +22,7 @@ class FavoritesViewModel extends ChangeNotifier {
     try {
       isLoading = true;
       ResponseModel response = await NetworkService.get(
-          "api/users/favorites/${AuthService.currentUser!.id}");
+          "users/favorites/${AuthService.currentUser!.id}");
       if (response.success) {
         products = (response.data as List)
             .map((e) => ProductOverViewModel.fromJson(e))
@@ -30,7 +30,7 @@ class FavoritesViewModel extends ChangeNotifier {
         filteredProducts.clear();
         filteredProducts.addAll(products!);
       } else {
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);

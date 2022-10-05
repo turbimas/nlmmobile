@@ -194,10 +194,10 @@ class _ProductOverviewViewVerticalState
     // });
     try {
       ResponseModel response =
-          await NetworkService.post("api/orders/addbasket", body: {
+          await NetworkService.post("orders/addbasket", body: {
         "CariID": AuthService.currentUser!.id,
         "Barcode": widget.product.barcode,
-        "Quantity": 1
+        "Quantity": widget.product.basketFactor ?? 1,
       });
 
       if (response.success) {
@@ -213,7 +213,7 @@ class _ProductOverviewViewVerticalState
         //     widget.product.basketQuantity = null;
         //   }
         // });
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
       // setState(() {
@@ -235,11 +235,12 @@ class _ProductOverviewViewVerticalState
     // // });
     try {
       ResponseModel response =
-          await NetworkService.post("api/orders/updatebasket", body: {
+          await NetworkService.post("orders/updatebasket", body: {
         "CariID": AuthService.currentUser!.id,
         "Barcode": widget.product.barcode,
         "Quantity": widget.product.basketQuantity != null
-            ? (widget.product.basketQuantity! - 1)
+            ? (widget.product.basketQuantity! -
+                (widget.product.basketFactor ?? 1))
             : 0
       });
       if (response.success) {
@@ -255,7 +256,7 @@ class _ProductOverviewViewVerticalState
         //   widget.product.basketQuantity =
         //       (widget.product.basketQuantity ?? 0) + 1;
         // });
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
       // setState(() {
@@ -306,7 +307,7 @@ class _ProductOverviewViewVerticalState
     });
     try {
       ResponseModel response = await NetworkService.get(
-          "api/products/favoriteupdate/${AuthService.currentUser!.id}/${widget.product.barcode}");
+          "products/favoriteupdate/${AuthService.currentUser!.id}/${widget.product.barcode}");
       if (!response.success) {
         setState(() {
           if (widget.product.isFavorite) {
@@ -315,7 +316,7 @@ class _ProductOverviewViewVerticalState
             widget.product.favoriteId = 1;
           }
         });
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       } else {
         widget.onFavoriteChanged?.call();
         PopupHelper.showSuccessToast(widget.product.isFavorite
@@ -385,7 +386,9 @@ class ProductOverViewHorizontalView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      product.tradeMark != null
+                      (product.tradeMark != null || product.tradeMark != null
+                              ? product.tradeMark!.isEmpty
+                              : false)
                           ? CustomText(
                               product.tradeMark!,
                               style: CustomFonts.bodyText3(

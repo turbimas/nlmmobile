@@ -43,14 +43,13 @@ class ProductDetailViewModel extends ChangeNotifier {
   Future<void> getProductDetail(String barcode) async {
     try {
       isLoading = true;
-      ResponseModelMap<String,
-          dynamic> responseModel = await NetworkService.get<
-              Map<String, dynamic>>(
-          "api/products/productdetail/${AuthService.currentUser!.id}/$barcode");
+      ResponseModelMap<String, dynamic> responseModel =
+          await NetworkService.get<Map<String, dynamic>>(
+              "products/productdetail/${AuthService.currentUser!.id}/$barcode");
       if (responseModel.success) {
-        productDetail = ProductDetailModel.fromJson(responseModel.data);
+        productDetail = ProductDetailModel.fromJson(responseModel.data!);
       } else {
-        PopupHelper.showErrorDialog(errorMessage: responseModel.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: responseModel.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);
@@ -65,7 +64,7 @@ class ProductDetailViewModel extends ChangeNotifier {
       productDetail!.basketQuantity = productDetail!.basketQuantity! + 1;
       notifyListeners();
       ResponseModel response =
-          await NetworkService.post("api/orders/addbasket", body: {
+          await NetworkService.post("orders/addbasket", body: {
         "CariID": AuthService.currentUser!.id,
         "Barcode": productDetail!.barcode,
         "Quantity": 1
@@ -77,7 +76,7 @@ class ProductDetailViewModel extends ChangeNotifier {
           productDetail!.basketQuantity = null;
           notifyListeners();
         }
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
       productDetail!.basketQuantity = productDetail!.basketQuantity! - 1;
@@ -97,7 +96,7 @@ class ProductDetailViewModel extends ChangeNotifier {
       }
       notifyListeners();
       ResponseModel response =
-          await NetworkService.post("api/orders/updatebasket", body: {
+          await NetworkService.post("orders/updatebasket", body: {
         "CariID": AuthService.currentUser!.id,
         "Barcode": productDetail!.barcode,
         "Quantity": productDetail!.basketQuantity ?? 0
@@ -105,7 +104,7 @@ class ProductDetailViewModel extends ChangeNotifier {
       if (!response.success) {
         productDetail!.basketQuantity =
             (productDetail!.basketQuantity ?? 0) + 1;
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
       productDetail!.basketQuantity = (productDetail!.basketQuantity ?? 0) + 1;
@@ -116,7 +115,7 @@ class ProductDetailViewModel extends ChangeNotifier {
   Future<void> favoriteUpdate() async {
     try {
       ResponseModel response = await NetworkService.get(
-          "api/products/favoriteupdate/${AuthService.currentUser!.id}/${productDetail!.barcode}");
+          "products/favoriteupdate/${AuthService.currentUser!.id}/${productDetail!.barcode}");
       if (response.success) {
         productDetail!.isFavorite = !productDetail!.isFavorite;
         PopupHelper.showSuccessToast(productDetail!.isFavorite
@@ -124,7 +123,7 @@ class ProductDetailViewModel extends ChangeNotifier {
             : "Ürün favorilerden çıkarıldı");
         notifyListeners();
       } else {
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);

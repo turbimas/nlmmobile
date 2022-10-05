@@ -26,14 +26,10 @@ void main(List<String> args) async {
   // }, onError: (err) {});
 
   runApp(EasyLocalization(
-      supportedLocales: const [
-        AppConstants.EN_LOCALE,
-        AppConstants.TR_LOCALE,
-        AppConstants.AR_LOCALE
-      ],
+      supportedLocales: const [AppConstants.EN_LOCALE, AppConstants.TR_LOCALE],
       path: AppConstants.PATH_LOCALE,
-      startLocale: AppConstants.TR_LOCALE,
-      fallbackLocale: AppConstants.TR_LOCALE,
+      saveLocale: true,
+      fallbackLocale: AppConstants.EN_LOCALE,
       useOnlyLangCode: true,
       child: const App()));
 }

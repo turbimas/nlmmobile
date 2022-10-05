@@ -3,6 +3,7 @@ class GoogleAddressModel {
   String street;
   String district;
   String town;
+  String region;
   String city;
   String country;
   String postalCode;
@@ -14,6 +15,7 @@ class GoogleAddressModel {
         district = json["District"],
         town = json["Town"],
         city = json["City"],
+        region = json["Region"],
         country = json["Country"],
         postalCode = json["PostalCode"],
         formatAddress = json["format_adress"];
@@ -24,6 +26,7 @@ class GoogleAddressModel {
       "Street": street,
       "District": district,
       "Town": town,
+      "Region": region,
       "City": city,
       "Country": country,
       "PostalCode": postalCode,

@@ -34,10 +34,10 @@ class UserRatingsViewModel extends ChangeNotifier {
     try {
       isLoading = true;
       ResponseModel evaluatedResponse = await NetworkService.get(
-          "api/users/evaluated/${AuthService.currentUser!.id}");
+          "users/evaluated/${AuthService.currentUser!.id}");
 
       ResponseModel nonEvaluatedResponse = await NetworkService.get(
-          "api/users/non_evaluated/${AuthService.currentUser!.id}");
+          "users/non_evaluated/${AuthService.currentUser!.id}");
 
       if (evaluatedResponse.success && nonEvaluatedResponse.success) {
         rated = (evaluatedResponse.data as List)
@@ -50,11 +50,11 @@ class UserRatingsViewModel extends ChangeNotifier {
       } else {
         if (!evaluatedResponse.success) {
           PopupHelper.showErrorDialog(
-              errorMessage: evaluatedResponse.errorMessage);
+              errorMessage: evaluatedResponse.errorMessage!);
         }
         if (!nonEvaluatedResponse.success) {
           PopupHelper.showErrorDialog(
-              errorMessage: nonEvaluatedResponse.errorMessage);
+              errorMessage: nonEvaluatedResponse.errorMessage!);
         }
       }
     } catch (e) {
@@ -80,12 +80,12 @@ class UserRatingsViewModel extends ChangeNotifier {
       }
       log(data.toString());
       ResponseModel response =
-          await NetworkService.post("api/products/evaluationadd", body: data);
+          await NetworkService.post("products/evaluationadd", body: data);
 
       if (response.success) {
         getData();
       } else {
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);

@@ -37,11 +37,11 @@ class UserProfileViewModel extends ChangeNotifier {
         formData["Password"] = AuthService.currentUser!.password;
         formData["ID"] = AuthService.currentUser!.id;
         ResponseModel response =
-            await NetworkService.post("api/users/user_edit", body: formData);
+            await NetworkService.post("users/user_edit", body: formData);
         if (response.success) {
           PopupHelper.showSuccessToast("Başarıyla güncellendi");
-          ResponseModel response = await NetworkService.get(
-              "api/users/user_info/${formData["Email"]}");
+          ResponseModel response =
+              await NetworkService.get("users/user_info/${formData["Email"]}");
           if (response.success) {
             UserModel user = UserModel.fromJson(response.data);
             AuthService.login(user);
@@ -49,7 +49,7 @@ class UserProfileViewModel extends ChangeNotifier {
             AuthService.logout();
           }
         } else {
-          PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+          PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
         }
       }
       formKey.currentState!.save();

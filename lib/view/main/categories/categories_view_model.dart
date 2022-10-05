@@ -10,11 +10,11 @@ class CategoriesViewModel extends ChangeNotifier {
   Future<List<CategoryModel>?> getCategories() async {
     try {
       ResponseModelList response =
-          await NetworkService.get<List>("api/categories/getcategories/197");
+          await NetworkService.get<List>("categories/getcategories/197");
       if (response.success) {
-        return (response.data.map((e) => CategoryModel.fromJson(e)).toList());
+        return (response.data!.map((e) => CategoryModel.fromJson(e)).toList());
       } else {
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);

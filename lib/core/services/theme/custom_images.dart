@@ -43,16 +43,21 @@ abstract class CustomImages {
     var height = (AppTheme.imageData[name]["height"] as int).smh;
 
     if (isVector) {
-      return Center(
-        child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: width,
-              maxHeight: height,
-              minWidth: width,
-              minHeight: height,
-            ),
-            child: SvgPicture.asset(path, height: height, width: width)),
-      );
+      return SvgPicture.asset(path, height: height, width: width);
+      // SizedBox(
+      //     height: height,
+      //     width: width,
+      //     child: SvgPicture.asset(path, height: height, width: width));
+      // return Center(
+      //   child: ConstrainedBox(
+      //       constraints: BoxConstraints(
+      //         maxWidth: width,
+      //         maxHeight: height,
+      //         minWidth: width,
+      //         minHeight: height,
+      //       ),
+      //       child: SvgPicture.asset(path, height: height, width: width)),
+      // );
     } else {
       return Image.asset(path, width: width, height: height);
     }

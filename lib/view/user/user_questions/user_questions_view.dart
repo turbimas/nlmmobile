@@ -113,6 +113,20 @@ class _UserQuestionsViewState extends ConsumerState<UserQuestionsView> {
   }
 
   Widget _cards() {
+    if (ref.watch(provider).index == 0 &&
+        ref.watch(provider).answered.isEmpty) {
+      return Expanded(
+          child: Center(
+              child: CustomText("Cevaplanmış soru bulunamadı",
+                  style: CustomFonts.bodyText2(CustomColors.backgroundText))));
+    }
+    if (ref.watch(provider).index == 1 &&
+        ref.watch(provider).unanswered.isEmpty) {
+      return Expanded(
+          child: Center(
+              child: CustomText("Cevaplanmamış soru bulunamadı",
+                  style: CustomFonts.bodyText2(CustomColors.backgroundText))));
+    }
     return SizedBox(
       height: 670.smh,
       width: 340.smw,

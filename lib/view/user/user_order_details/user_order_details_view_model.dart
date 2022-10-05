@@ -21,14 +21,14 @@ class UserOrderDetailsViewModel extends ChangeNotifier {
   Future<void> getDetails() async {
     try {
       isLoading = true;
-      ResponseModel response = await NetworkService.get(
-          "api/users/order_detail/${orderTitle.orderId}");
+      ResponseModel response =
+          await NetworkService.get("users/order_detail/${orderTitle.orderId}");
       if (response.success) {
         orderLines = (response.data as List)
             .map((e) => OrderLinesModel.fromJson(e))
             .toList();
       } else {
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);

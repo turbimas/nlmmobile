@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nlmmobile/core/services/auth/authservice.dart';
 import 'package:nlmmobile/core/services/network/network_service.dart';
 import 'package:nlmmobile/core/services/network/response_model.dart';
+import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
 import 'package:nlmmobile/product/models/user/address_model.dart';
 
 class UserAddressesViewModel extends ChangeNotifier {
@@ -19,12 +20,29 @@ class UserAddressesViewModel extends ChangeNotifier {
     try {
       isLoading = true;
       ResponseModel response = await NetworkService.get(
-          "api/users/adresses/${AuthService.currentUser!.id}");
+          "users/adresses/${AuthService.currentUser!.id}");
       if (response.success) {
         addresses = (response.data as List)
             .map((e) => AddressModel.fromJson(e))
             .toList();
       }
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  Future<void> deleteAddress(int id) async {
+    try {
+      isLoading = true;
+      ResponseModel response =
+          await NetworkService.get("users/deleteadress/$id");
+      if (response.success) {
+        addresses!.removeWhere((element) => element.id == id);
+      } else {
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
+      }
+    } catch (e) {
+      PopupHelper.showErrorDialogWithCode(e);
     } finally {
       isLoading = false;
     }

@@ -82,6 +82,21 @@ class _LoginViewState extends ConsumerState<LoginView> {
   }
 
   Widget _registerButton() {
+    late Widget flag;
+    switch (context.locale.languageCode) {
+      case "tr":
+        flag = CustomImages.tr_flag;
+        break;
+      case "ar":
+        flag = CustomImages.ar_flag;
+        break;
+      case "en":
+        flag = CustomImages.en_flag;
+        break;
+      default:
+        flag = CustomImages.en_flag;
+        break;
+    }
     return Container(
       padding: EdgeInsets.only(bottom: 20.smh),
       height: 140.smh,
@@ -89,14 +104,17 @@ class _LoginViewState extends ConsumerState<LoginView> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Container(
-            height: 40.smh,
-            width: 40.smw,
-            padding: EdgeInsets.symmetric(vertical: 5.smh, horizontal: 5.smw),
-            decoration: BoxDecoration(
-                color: CustomColors.primary,
-                borderRadius: CustomThemeData.rightInfiniteRounded),
-            child: Center(child: CustomImages.tr_flag),
+          InkWell(
+            onTap: _showLanguageDialog,
+            child: Container(
+              height: 40.smh,
+              width: 40.smw,
+              padding: EdgeInsets.symmetric(vertical: 5.smh, horizontal: 5.smw),
+              decoration: BoxDecoration(
+                  color: CustomColors.primary,
+                  borderRadius: CustomThemeData.rightInfiniteRounded),
+              child: Center(child: flag),
+            ),
           ),
           InkWell(
             onTap: () => NavigationService.navigateToPage(const RegisterView()),
@@ -203,34 +221,27 @@ class _LoginViewState extends ConsumerState<LoginView> {
               child: Padding(
                   padding: EdgeInsets.only(
                       left: 20.smw, top: 8.smh, bottom: 7.smh, right: 20.smw),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomIcons.field_password_icon,
-                      SizedBox(width: 10.smw),
-                      Expanded(
-                        child: TextFormField(
-                          obscureText: ref.watch(provider).isHiding,
-                          controller: _password,
-                          textInputAction: TextInputAction.done,
-                          textAlignVertical: TextAlignVertical.center,
-                          style: CustomFonts.defaultField(
-                              CustomColors.primaryText),
-                          decoration: InputDecoration(
-                              isCollapsed: true,
-                              border: InputBorder.none,
-                              hintStyle: CustomFonts.defaultField(
-                                  CustomColors.primaryText),
-                              hintText: LocaleKeys.Login_password_hint.tr()),
-                        ),
+                  child: TextFormField(
+                    obscureText: ref.watch(provider).isHiding,
+                    controller: _password,
+                    onFieldSubmitted: (value) {
+                      () => ref.read(provider).login(
+                          loginInfo: _loginInfo.text, password: _password.text);
+                    },
+                    textInputAction: TextInputAction.done,
+                    textAlignVertical: TextAlignVertical.center,
+                    style: CustomFonts.defaultField(CustomColors.primaryText),
+                    decoration: InputDecoration(
+                      isCollapsed: true,
+                      border: InputBorder.none,
+                      hintStyle:
+                          CustomFonts.defaultField(CustomColors.primaryText),
+                      hintText: LocaleKeys.Login_password_hint.tr(),
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.only(right: 10.smw),
+                        child: CustomIcons.field_password_icon,
                       ),
-                      InkWell(
-                          onTap: () {
-                            ref.watch(provider).isHiding =
-                                !ref.watch(provider).isHiding;
-                          },
-                          child: CustomIcons.field_hide_password)
-                    ],
+                    ),
                   ))),
         ],
       ),
@@ -258,5 +269,41 @@ class _LoginViewState extends ConsumerState<LoginView> {
         ],
       ),
     );
+  }
+
+  void _showLanguageDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            backgroundColor: CustomColors.primary,
+            child: SizedBox(
+              height: 100.smh,
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                        onTap: () {
+                          setState(() {
+                            context.setLocale(const Locale("tr"));
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: CustomImages.tr_flag),
+                    InkWell(
+                        onTap: () {
+                          setState(() {
+                            context.setLocale(const Locale("en"));
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: CustomImages.en_flag),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 }

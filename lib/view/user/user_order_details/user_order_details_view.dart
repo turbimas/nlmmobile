@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
+import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
@@ -15,6 +16,7 @@ import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/product_overview_view.dart';
 import 'package:nlmmobile/product/widgets/try_again_widget.dart';
+import 'package:nlmmobile/view/order/order_cancel_return/order_cancel_return_view.dart';
 import 'package:nlmmobile/view/user/user_order_details/user_order_details_view_model.dart';
 
 class UserOrderDetailsView extends ConsumerStatefulWidget {
@@ -79,6 +81,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
             _paymentDetails(),
             _productsHeader(),
             const Divider(),
+            _cancelReturnButton(),
             ..._products(),
           ],
         ),
@@ -220,7 +223,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                   children: [
                     Expanded(
                       flex: 2,
-                      child: CustomTextLocale(LocaleKeys.UserOrderDetails_date,
+                      child: CustomText("Tahmini teslim",
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                     ),
@@ -229,8 +232,33 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.deliveryAddressDetail.deliveryDate
-                                .toString(),
+                            widget.orderTitle.deliveryAddressDetail
+                                    ?.deliveryDate
+                                    .toString() ??
+                                "-",
+                            style:
+                                CustomFonts.bodyText4(CustomColors.card2Text)),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: CustomText("Teslim tarihi",
+                          style: CustomFonts.bodyText4(
+                              CustomColors.card2TextPale)),
+                    ),
+                    Expanded(
+                      flex: 5,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 30.smw),
+                        child: CustomText(
+                            widget.orderTitle.realDeliveryDate != null
+                                ? "-"
+                                : widget.orderTitle.realDeliveryDate.toString(),
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -252,7 +280,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
                             widget.orderTitle.deliveryAddressDetail
-                                    .relatedPerson ??
+                                    ?.relatedPerson ??
                                 "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
@@ -274,7 +302,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.deliveryAddressDetail.phone ??
+                            widget.orderTitle.deliveryAddressDetail?.phone ??
                                 "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
@@ -297,7 +325,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.deliveryAddressDetail.address ??
+                            widget.orderTitle.deliveryAddressDetail?.address ??
                                 "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
@@ -357,7 +385,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
                             widget.orderTitle.invoiceAddressDetail
-                                    .relatedPerson ??
+                                    ?.relatedPerson ??
                                 "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
@@ -379,7 +407,8 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.invoiceAddressDetail.phone ?? "-",
+                            widget.orderTitle.invoiceAddressDetail?.phone ??
+                                "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -400,7 +429,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.invoiceAddressDetail.taxOffice ??
+                            widget.orderTitle.invoiceAddressDetail?.taxOffice ??
                                 "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
@@ -414,7 +443,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                     Expanded(
                       flex: 2,
                       child: CustomText(
-                          widget.orderTitle.invoiceAddressDetail.isPerson ??
+                          widget.orderTitle.invoiceAddressDetail?.isPerson ??
                                   false
                               ? "T.C. Kimlik No"
                               : "Vergi No",
@@ -425,18 +454,17 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       flex: 5,
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
-                        child:
-                            CustomText(
-                                widget.orderTitle.invoiceAddressDetail.isPerson ??
-                                        false
-                                    ? widget.orderTitle.invoiceAddressDetail
-                                            .tcNo ??
-                                        "-"
-                                    : widget.orderTitle.invoiceAddressDetail
-                                            .taxNumber ??
-                                        "-",
-                                style: CustomFonts.bodyText4(
-                                    CustomColors.card2Text)),
+                        child: CustomText(
+                            widget.orderTitle.invoiceAddressDetail?.isPerson ??
+                                    false
+                                ? widget.orderTitle.invoiceAddressDetail
+                                        ?.tcNo ??
+                                    "-"
+                                : widget.orderTitle.invoiceAddressDetail
+                                        ?.taxNumber ??
+                                    "-",
+                            style:
+                                CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
                     ),
                   ],
@@ -456,7 +484,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.invoiceAddressDetail.address ??
+                            widget.orderTitle.invoiceAddressDetail?.address ??
                                 "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
@@ -509,7 +537,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                       CustomText(
-                          "${widget.orderTitle.orderTotals.lineTotal.toStringAsFixed(2)} TL",
+                          "${widget.orderTitle.orderTotals?.lineTotal.toStringAsFixed(2)} TL",
                           style: CustomFonts.bodyText4(CustomColors.card2Text)),
                     ]),
                 Row(
@@ -520,7 +548,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                       CustomText(
-                          "${widget.orderTitle.orderTotals.deliveryTotal.toStringAsFixed(2)} TL",
+                          "${widget.orderTitle.orderTotals?.deliveryTotal.toStringAsFixed(2)} TL",
                           style: CustomFonts.bodyText4(CustomColors.card2Text)),
                     ]),
                 Row(
@@ -530,13 +558,38 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                       CustomText(
-                          "${widget.orderTitle.orderTotals.generalTotal.toStringAsFixed(2)} TL",
+                          "${widget.orderTitle.orderTotals?.generalTotal.toStringAsFixed(2)} TL",
                           style: CustomFonts.bodyText4(CustomColors.card2Text)),
                     ]),
               ],
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Widget _cancelReturnButton() {
+    late String text = "";
+    if (widget.orderTitle.refundable) {
+      text = "İade et";
+    } else if (widget.orderTitle.voidable) {
+      text = "İptal Et";
+    } else {
+      return Container();
+    }
+    return InkWell(
+      onTap: () {
+        NavigationService.navigateToPage(OrderCancelReturnView(
+            orderTitle: widget.orderTitle,
+            orderLines: ref.watch(provider).orderLines!));
+      },
+      child: Container(
+        height: 50.smh,
+        color: CustomColors.primary,
+        child: Center(
+            child: CustomText(text,
+                style: CustomFonts.bodyText2(CustomColors.primaryText))),
       ),
     );
   }
@@ -576,8 +629,15 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
           SizedBox(height: 20.smh),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.smw),
-            child: CustomText("Miktar: ${linesModel.amount}",
-                style: CustomFonts.bodyText4(CustomColors.cardTextPale)),
+            child: Row(
+              children: [
+                CustomText("Miktar: ${linesModel.amount}",
+                    style: CustomFonts.bodyText4(CustomColors.cardTextPale)),
+                SizedBox(width: 10.smw),
+                CustomText("Durum: ${linesModel.lineStatusName}",
+                    style: CustomFonts.bodyText4(CustomColors.cardTextPale)),
+              ],
+            ),
           ),
         ],
       ),

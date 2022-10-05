@@ -26,7 +26,7 @@ class ProductQuestionsViewModel extends ChangeNotifier {
     try {
       isLoading = true;
       ResponseModel response = await NetworkService.get(
-          "api/products/questions/${AuthService.currentUser!.id}/${product.barcode}");
+          "products/questions/${AuthService.currentUser!.id}/${product.barcode}");
       if (response.success) {
         questions = response.data
             .where((element) => element["Answer"] != null)
@@ -38,7 +38,7 @@ class ProductQuestionsViewModel extends ChangeNotifier {
         filteredQuestions.clear();
         filteredQuestions.addAll(questions!);
       } else {
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);
@@ -67,7 +67,7 @@ class ProductQuestionsViewModel extends ChangeNotifier {
         onSubmit: (String value) async {
           if (value.trim().isNotEmpty) {
             ResponseModel response =
-                await NetworkService.post("api/products/questionadd", body: {
+                await NetworkService.post("products/questionadd", body: {
               "Barcode": product.barcode,
               "CariID": AuthService.currentUser!.id,
               "ContentValue": value
@@ -76,7 +76,7 @@ class ProductQuestionsViewModel extends ChangeNotifier {
               PopupHelper.showSuccesDialog(
                   "Başarıyla sorunuz gönderildi! Cevaplandığı zaman profilinizde görünecektir.");
             } else {
-              PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+              PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
             }
           } else {
             PopupHelper.showErrorDialog(

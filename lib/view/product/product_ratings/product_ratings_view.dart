@@ -84,9 +84,9 @@ class ProductRatingsViewState extends ConsumerState<ProductRatingsView> {
   }
 
   Widget _empty() {
-    return const Center(
-      child: Text("BOş"),
-    );
+    return Center(
+        child: CustomText("Bu ürünün henüz yorumu yok.",
+            style: CustomFonts.bodyText2(CustomColors.backgroundText)));
   }
 
   Widget _header() {
@@ -105,12 +105,10 @@ class ProductRatingsViewState extends ConsumerState<ProductRatingsView> {
             SizedBox(
               width: 150.smw,
               child: Center(
-                child: Expanded(
-                  child: CustomText(
-                    ref.watch(provider).averageRating.toStringAsFixed(1),
-                    style: CustomFonts.bodyText1(CustomColors.primary)
-                        .copyWith(fontSize: 90.sp),
-                  ),
+                child: CustomText(
+                  ref.watch(provider).averageRating.toStringAsFixed(1),
+                  style: CustomFonts.bodyText1(CustomColors.primary)
+                      .copyWith(fontSize: 90.sp),
                 ),
               ),
             ),
@@ -145,7 +143,9 @@ class ProductRatingsViewState extends ConsumerState<ProductRatingsView> {
   }
 
   List<Widget> _selectableRatingBars() {
-    return ref.watch(provider).currentRatings.map((e) {
+    List<num> ordered = ref.watch(provider).currentRatings.toList();
+    ordered.sort((a, b) => b.compareTo(a));
+    return ordered.map((e) {
       return _selectableRatingBarTile(e);
     }).toList();
   }

@@ -22,19 +22,19 @@ class LoginViewModel extends ChangeNotifier {
       {required String loginInfo, required String password}) async {
     // // TODO : Validation uygulanacak
     ResponseModel loginResponse =
-        await NetworkService.get("api/users/login/$loginInfo/$password");
+        await NetworkService.get("users/login/$loginInfo/$password");
     if (loginResponse.success) {
       ResponseModel userResponse =
-          await NetworkService.get("api/users/user_info/$loginInfo");
+          await NetworkService.get("users/user_info/$loginInfo");
       if (userResponse.success) {
         UserModel user = UserModel.fromJson(userResponse.data);
         AuthService.login(user);
         NavigationService.navigateToPageAndRemoveUntil(const MainView());
       } else {
-        PopupHelper.showErrorDialog(errorMessage: userResponse.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: userResponse.errorMessage!);
       }
     } else {
-      PopupHelper.showErrorDialog(errorMessage: loginResponse.errorMessage);
+      PopupHelper.showErrorDialog(errorMessage: loginResponse.errorMessage!);
     }
   }
 }

@@ -60,11 +60,13 @@ class _UserRatingsViewState extends ConsumerState<UserRatingsView> {
         child: CustomCircularProgressIndicator(),
       );
 
-  Widget _content() => Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [_filters(), _cards()],
-      );
+  Widget _content() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [_filters(), _cards()],
+    );
+  }
 
   Widget _filters() {
     return Container(
@@ -123,6 +125,21 @@ class _UserRatingsViewState extends ConsumerState<UserRatingsView> {
   }
 
   Widget _cards() {
+    if (ref.watch(provider).index == 0 && ref.watch(provider).rated.isEmpty) {
+      return Expanded(
+        child: Center(
+            child: CustomText("Değerlendirme bulunamadı",
+                style: CustomFonts.bodyText2(CustomColors.backgroundText))),
+      );
+    }
+    if (ref.watch(provider).index == 1 && ref.watch(provider).unrated.isEmpty) {
+      return Expanded(
+        child: Center(
+            child: CustomText("Değerlendirebileceğiniz ürün bulunamadı",
+                style: CustomFonts.bodyText2(CustomColors.backgroundText))),
+      );
+    }
+    //TODO: burayı expanded e çevir
     return SizedBox(
       height: 670.smh,
       width: 340.smw,

@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
@@ -29,12 +28,14 @@ class PopupHelper {
         barrierDismissible: dismissible,
         builder: (context) => AlertDialog(
               backgroundColor: CustomColors.cancel,
-              title: Text(
-                errorMessage.tr(),
+              title: CustomText(
+                errorMessage,
+                maxLines: 3,
                 style: CustomFonts.bodyText3(CustomColors.cancelText),
               ),
               content: error != null
-                  ? Text(error.toString(),
+                  ? CustomText(error.toString(),
+                      maxLines: 3,
                       style: CustomFonts.bodyText4(CustomColors.cancelText))
                   : null,
               actions: actions.keys
@@ -49,7 +50,7 @@ class PopupHelper {
   }
 
   static Future<void> showErrorDialogWithCode(Object e) async {
-    showErrorDialog(errorMessage: LocaleKeys.ErrorCodes_ERROR, error: e);
+    showErrorDialog(errorMessage: "ERROR".tr(), error: e);
   }
 
   static Future<void> showSuccesDialog(String message) async {

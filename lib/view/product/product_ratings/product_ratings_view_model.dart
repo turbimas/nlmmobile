@@ -12,8 +12,8 @@ class ProductRatingsViewModel extends ChangeNotifier {
   List<ProductRatingModel>? ratings;
   List<ProductRatingModel> filteredRatings = [];
 
-  Set currentRatings = {};
-  Set currentRatingsFilter = {};
+  Set<num> currentRatings = {};
+  Set<num> currentRatingsFilter = {};
 
   void addRemoveFilter(num rating) {
     if (currentRatingsFilter.contains(rating)) {
@@ -100,7 +100,7 @@ class ProductRatingsViewModel extends ChangeNotifier {
       ratings = null;
       isLoading = true;
       ResponseModel response = await NetworkService.get(
-          "api/products/evaluations/${AuthService.currentUser!.id}/${product.barcode}");
+          "products/evaluations/${AuthService.currentUser!.id}/${product.barcode}");
 
       if (response.success) {
         ratings = response.data

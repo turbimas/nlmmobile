@@ -3,11 +3,14 @@ import 'package:nlmmobile/core/services/auth/authservice.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/network/network_service.dart';
 import 'package:nlmmobile/core/services/network/response_model.dart';
+import 'package:nlmmobile/core/services/theme/custom_colors.dart';
+import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
 import 'package:nlmmobile/product/models/order/basket_data_model.dart';
 import 'package:nlmmobile/product/models/order/basket_total_model.dart';
 import 'package:nlmmobile/product/models/product_over_view_model.dart';
 import 'package:nlmmobile/product/models/user/address_model.dart';
+import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/view/order/basket_detail/basket_detail_view.dart';
 import 'package:nlmmobile/view/user/user_address_add/user_address_add_view.dart';
 
@@ -15,6 +18,7 @@ class BasketViewModel extends ChangeNotifier {
   BasketViewModel();
 
   List<ProductOverViewModel> products = [];
+  List<ProductOverViewModel> filteredProducts = [];
 
   BasketTotalModel? basketTotal;
 
@@ -29,28 +33,31 @@ class BasketViewModel extends ChangeNotifier {
 
   Future<void> getBasket() async {
     retrieving = true;
+    filteredProducts.clear();
     try {
       ResponseModelList basketResponse = await NetworkService.get<List>(
-          "api/orders/getbasket/${AuthService.currentUser!.id}");
+          "orders/getbasket/${AuthService.currentUser!.id}");
       ResponseModel totalResponse = await NetworkService.get(
-          "api/orders/calculatetotals/${AuthService.currentUser!.id}");
+          "orders/calculatetotals/${AuthService.currentUser!.id}");
 
       if (basketResponse.success && totalResponse.success) {
-        products = basketResponse.data
+        products = basketResponse.data!
             .map((e) => BasketDataModel.fromJson(e).product)
             .toList()
             .where((element) => element.barcode != "DELIVERY")
             .map((e) => e)
             .toList();
+        filteredProducts.addAll(products);
 
         basketTotal = BasketTotalModel.fromJson(totalResponse.data);
       } else {
         if (!totalResponse.success) {
-          PopupHelper.showErrorDialog(errorMessage: totalResponse.errorMessage);
+          PopupHelper.showErrorDialog(
+              errorMessage: totalResponse.errorMessage!);
         }
         if (!basketResponse.success) {
           PopupHelper.showErrorDialog(
-              errorMessage: basketResponse.errorMessage);
+              errorMessage: basketResponse.errorMessage!);
         }
       }
     } catch (e) {
@@ -63,7 +70,7 @@ class BasketViewModel extends ChangeNotifier {
   Future<void> goBasketDetail() async {
     try {
       ResponseModel response = await NetworkService.get(
-          "api/users/adresses/${AuthService.currentUser!.id}");
+          "users/adresses/${AuthService.currentUser!.id}");
       if (response.success) {
         List<AddressModel> addresses = (response.data as List)
             .map((e) => AddressModel.fromJson(e))
@@ -82,10 +89,73 @@ class BasketViewModel extends ChangeNotifier {
           });
         }
       } else {
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);
     }
+  }
+
+  void searchOnBasket(String value) {
+    filteredProducts.clear();
+    if (value.isNotEmpty) {
+      filteredProducts = products
+          .where((element) =>
+              element.name.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    } else {
+      filteredProducts.addAll(products);
+    }
+    notifyListeners();
+  }
+
+  Future<void> clearAll(BuildContext context) async {
+    await showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: CustomColors.primary,
+            title: CustomText(
+              "Sepeti Temizle",
+              style: CustomFonts.bodyText1(CustomColors.primaryText),
+            ),
+            content: CustomText("Sepeti temizlemek istediğinize emin misiniz?",
+                maxLines: 2,
+                style: CustomFonts.bodyText4(CustomColors.primaryText)),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: CustomText("Hayır",
+                      style: CustomFonts.bodyText2(CustomColors.primaryText))),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: CustomText("Evet",
+                      style: CustomFonts.bodyText2(CustomColors.primaryText))),
+            ],
+          );
+        }).then((value) async {
+      if (value == true) {
+        retrieving = true;
+        try {
+          ResponseModel response = await NetworkService.get(
+              "orders/clearbasket/${AuthService.currentUser!.id}");
+          if (response.success) {
+            products.clear();
+            filteredProducts.clear();
+            basketTotal = null;
+          } else {
+            PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
+          }
+        } catch (e) {
+          PopupHelper.showErrorDialogWithCode(e);
+        } finally {
+          retrieving = false;
+        }
+      }
+    });
   }
 }

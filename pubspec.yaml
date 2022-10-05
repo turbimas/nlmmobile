@@ -55,6 +55,8 @@ dependencies:
   permission_handler: ^10.0.0
   geolocator: ^9.0.1
   fluttertoast: ^8.0.9
+  webview_flutter: ^3.0.4
+  url_launcher: ^6.1.6
 
 
 dev_dependencies:

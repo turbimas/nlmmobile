@@ -76,22 +76,24 @@ class SearchResultViewModel extends ChangeNotifier {
 
   SearchResultViewModel(
       {required this.products, this.categoryModel, this.searchText}) {
-    filteredProducts.addAll(products);
-    List<num> prices = products.map<num>((e) => e.unitPrice).toList();
-    prices.sort((a, b) => a.compareTo(b));
-    minPrice = prices.first;
-    maxPrice = prices.last;
+    if (products.isNotEmpty) {
+      filteredProducts.addAll(products);
+      List<num> prices = products.map<num>((e) => e.unitPrice).toList();
+      prices.sort((a, b) => a.compareTo(b));
+      minPrice = prices.first;
+      maxPrice = prices.last;
 
-    tradeMarks = {};
-    for (var element in products) {
-      if (element.tradeMark != null) {
-        tradeMarks.add(element.tradeMark!);
+      tradeMarks = {};
+      for (var element in products) {
+        if (element.tradeMark != null) {
+          tradeMarks.add(element.tradeMark!);
+        }
       }
-    }
 
-    unitCodes = {};
-    for (var element in products) {
-      unitCodes.add(element.unitCode);
+      unitCodes = {};
+      for (var element in products) {
+        unitCodes.add(element.unitCode);
+      }
     }
   }
 }

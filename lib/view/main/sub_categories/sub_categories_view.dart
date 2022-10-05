@@ -111,7 +111,8 @@ class _SubCategoriesViewState extends ConsumerState<SubCategoriesView> {
               crossAxisSpacing: 10.smw,
               mainAxisSpacing: 10.smh),
           itemBuilder: (context, index) {
-            CategoryModel category = widget.masterCategories![index];
+            CategoryModel category =
+                ref.watch(provider).masterCategories![index];
             bool isSelected =
                 ref.watch(provider).selectedCategories.contains(category);
             return InkWell(

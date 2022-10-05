@@ -1,71 +1,72 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nlmmobile/core/services/theme/theme_manager.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 
 abstract class CustomIcons {
-  static late final SvgPicture menu_search_icon;
-  static late final SvgPicture menu_favorite_icon;
-  static late final SvgPicture menu_home_icon;
-  static late final SvgPicture menu_basket_icon;
-  static late final SvgPicture menu_profile_icon;
-  static late final SvgPicture cancel_icon__medium;
-  static late final SvgPicture cancel_icon__large;
-  static late final SvgPicture check_icon;
-  static late final SvgPicture favorite_circle_icon;
-  static late final SvgPicture non_favorite_circle_icon;
-  static late final SvgPicture add_icon;
-  static late final SvgPicture minus_icon;
-  static late final SvgPicture add_basket_outlined_icon;
-  static late final SvgPicture add_basket_icon;
-  static late final SvgPicture edit_icon__small;
-  static late final SvgPicture edit_icon__medium;
-  static late final SvgPicture back_icon_light;
-  static late final SvgPicture back_icon_dark;
-  static late final SvgPicture forward_icon_light;
-  static late final SvgPicture forward_icon_dark;
-  static late final SvgPicture radio_checked_light_icon;
-  static late final SvgPicture radio_unchecked_light_icon;
-  static late final SvgPicture radio_checked_dark_icon;
-  static late final SvgPicture radio_unchecked_dark_icon;
-  static late final SvgPicture checkbox_checked_icon;
-  static late final SvgPicture checkbox_unchecked_icon;
-  static late final SvgPicture add_radiused_icon;
-  static late final SvgPicture enter_icon;
-  static late final SvgPicture credit_card_icon_dark;
-  static late final SvgPicture credit_card_icon_light;
-  static late final SvgPicture search_icon;
-  static late final SvgPicture field_profile_icon;
-  static late final SvgPicture field_phone_icon;
-  static late final SvgPicture field_mail_icon;
-  static late final SvgPicture field_password_icon;
-  static late final SvgPicture field_hide_password;
-  static late final SvgPicture arrow_right_circle_icon;
-  static late final SvgPicture answer_icon;
-  static late final SvgPicture success_icon_big;
-  static late final SvgPicture questions_icon;
-  static late final SvgPicture clipboard_icon;
-  static late final SvgPicture profile_delivery;
-  static late final SvgPicture profile_gift;
-  static late final SvgPicture profile_address;
-  static late final SvgPicture profile_cards;
-  static late final SvgPicture profile_ratings;
-  static late final SvgPicture profile_questions;
-  static late final SvgPicture profile_logout;
-  static late final SvgPicture notification_icon;
-  static late final SvgPicture evaluations;
-  static late final SvgPicture questions;
-  static late final SvgPicture star_selected;
-  static late final SvgPicture start_unselected;
-  static late final SvgPicture star_white;
-  static late final SvgPicture order_icon;
-  static late final SvgPicture filter_icon;
-  static late final SvgPicture categories_icon;
-  static late final SvgPicture order_done_icon;
-  static late final SvgPicture star_chip_icon;
-  static late final SvgPicture garbage_icon_dark;
-  static late final SvgPicture garbage_icon_light;
+  static late final Widget menu_search_icon;
+  static late final Widget menu_favorite_icon;
+  static late final Widget menu_home_icon;
+  static late final Widget menu_basket_icon;
+  static late final Widget menu_profile_icon;
+  static late final Widget cancel_icon__medium;
+  static late final Widget cancel_icon__large;
+  static late final Widget check_icon;
+  static late final Widget favorite_circle_icon;
+  static late final Widget non_favorite_circle_icon;
+  static late final Widget add_icon;
+  static late final Widget minus_icon;
+  static late final Widget add_basket_outlined_icon;
+  static late final Widget add_basket_icon;
+  static late final Widget edit_icon__small;
+  static late final Widget edit_icon__medium;
+  static late final Widget back_icon_light;
+  static late final Widget back_icon_dark;
+  static late final Widget forward_icon_light;
+  static late final Widget forward_icon_dark;
+  static late final Widget radio_checked_light_icon;
+  static late final Widget radio_unchecked_light_icon;
+  static late final Widget radio_checked_dark_icon;
+  static late final Widget radio_unchecked_dark_icon;
+  static late final Widget checkbox_checked_icon;
+  static late final Widget checkbox_unchecked_icon;
+  static late final Widget add_radiused_icon;
+  static late final Widget enter_icon;
+  static late final Widget credit_card_icon_dark;
+  static late final Widget credit_card_icon_light;
+  static late final Widget search_icon;
+  static late final Widget field_profile_icon;
+  static late final Widget field_phone_icon;
+  static late final Widget field_mail_icon;
+  static late final Widget field_password_icon;
+  static late final Widget field_hide_password;
+  static late final Widget arrow_right_circle_icon;
+  static late final Widget answer_icon;
+  static late final Widget success_icon_big;
+  static late final Widget questions_icon;
+  static late final Widget clipboard_icon;
+  static late final Widget profile_delivery;
+  static late final Widget profile_gift;
+  static late final Widget profile_address;
+  static late final Widget profile_cards;
+  static late final Widget profile_ratings;
+  static late final Widget profile_questions;
+  static late final Widget profile_logout;
+  static late final Widget notification_icon;
+  static late final Widget evaluations;
+  static late final Widget questions;
+  static late final Widget star_selected;
+  static late final Widget start_unselected;
+  static late final Widget star_white;
+  static late final Widget order_icon;
+  static late final Widget filter_icon;
+  static late final Widget categories_icon;
+  static late final Widget order_done_icon;
+  static late final Widget star_chip_icon;
+  static late final Widget garbage_icon_dark;
+  static late final Widget garbage_icon_light;
 
   static void loadIcons() {
     menu_search_icon = _svgPicture("menu_search_icon");
@@ -132,9 +133,9 @@ abstract class CustomIcons {
   }
 
   // static SvgPicture? _;
-  // static SvgPicture get _ => _ ??= _svgPicture("");
+  // static Widget get _ => _ ??= _svgPicture("");
 
-  static SvgPicture _svgPicture(
+  static Widget _svgPicture(
     String assetName,
   ) {
     Map<String, dynamic> iconData = AppTheme.iconData[assetName];
@@ -144,9 +145,21 @@ abstract class CustomIcons {
     String path = iconData['path'];
 
     if (size == null && height != null && width != null) {
-      return SvgPicture.asset(path, height: height.smh, width: width.smw);
+      return SizedBox(
+          height: height.smh,
+          width: width.smw,
+          child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: SvgPicture.asset(path,
+                  height: height.smh, width: width.smw)));
     } else if (size != null) {
-      return SvgPicture.asset(path, height: size.smh, width: size.smh);
+      return SizedBox(
+          height: size.smh,
+          width: size.smh,
+          child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child:
+                  SvgPicture.asset(path, height: size.smh, width: size.smh)));
     } else {
       throw Exception("Wrong size info");
     }

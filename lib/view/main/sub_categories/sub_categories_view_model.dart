@@ -40,12 +40,12 @@ class SubCategoriesViewModel extends ChangeNotifier {
     try {
       retrieving = true;
       ResponseModelList response =
-          await NetworkService.get<List>("api/categories/getcategories/197");
+          await NetworkService.get<List>("categories/getcategories/197");
       if (response.success) {
         masterCategories =
-            response.data.map((e) => CategoryModel.fromJson(e)).toList();
+            response.data!.map((e) => CategoryModel.fromJson(e)).toList();
       } else {
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);
@@ -64,14 +64,14 @@ class SubCategoriesViewModel extends ChangeNotifier {
       }
       retrieving = true;
       ResponseModelList response = await NetworkService.get<List>(
-          "api/categories/getcategories/${model.id}");
+          "categories/getcategories/${model.id}");
       if (response.success) {
         List<CategoryModel> responseList =
-            response.data.map((e) => CategoryModel.fromJson(e)).toList();
+            response.data!.map((e) => CategoryModel.fromJson(e)).toList();
         subCategories.add(responseList);
         selectedCategories.add(model);
       } else {
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);
@@ -90,9 +90,9 @@ class SubCategoriesViewModel extends ChangeNotifier {
     try {
       retrieving = true;
       ResponseModelList responseModel = await NetworkService.get<List>(
-          "api/categories/getCategoryMembers/${AuthService.currentUser!.id}/${selectedCategories.last.id}");
+          "categories/getCategoryMembers/${AuthService.currentUser!.id}/${selectedCategories.last.id}");
       if (responseModel.success) {
-        List<ProductOverViewModel> products = responseModel.data.map((e) {
+        List<ProductOverViewModel> products = responseModel.data!.map((e) {
           return ProductOverViewModel.fromJson(e["Product"]);
         }).toList();
         NavigationService.navigateToPage(SearchResultView(
@@ -101,7 +101,7 @@ class SubCategoriesViewModel extends ChangeNotifier {
             masterCategories: masterCategories,
             isSearch: false));
       } else {
-        PopupHelper.showErrorDialog(errorMessage: responseModel.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: responseModel.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);

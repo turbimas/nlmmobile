@@ -17,7 +17,6 @@ import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/cubits/home_index_cubit/home_index_cubit.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_circular.dart';
-import 'package:nlmmobile/product/widgets/custom_searchbar_view.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/product_overview_view.dart';
 import 'package:nlmmobile/view/order/basket/basket_view_model.dart';
@@ -59,6 +58,7 @@ class _BasketViewState extends ConsumerState<BasketView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: _body(),
       appBar: CustomAppBar.inactiveBack(LocaleKeys.Basket_appbar_title.tr()),
     );
@@ -85,7 +85,42 @@ class _BasketViewState extends ConsumerState<BasketView>
           right: 15.smw,
           bottom: 75.smh,
           child: Column(children: [
-            CustomSearchBarView(hint: LocaleKeys.Basket_search_hint.tr()),
+            Row(
+              children: [
+                Container(
+                  height: 50.smh,
+                  padding: EdgeInsets.symmetric(horizontal: 20.smw),
+                  decoration: BoxDecoration(
+                      color: CustomColors.primary,
+                      borderRadius: CustomThemeData.fullRounded),
+                  width: 270.smw,
+                  child: TextField(
+                      onChanged: ref.read(provider).searchOnBasket,
+                      style: CustomFonts.defaultField(CustomColors.primaryText),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintStyle:
+                            CustomFonts.defaultField(CustomColors.primaryText),
+                        hintText: LocaleKeys.Basket_search_hint.tr(),
+                      )),
+                ),
+                SizedBox(width: 10.smw),
+                InkWell(
+                  onTap: () => ref.read(provider).clearAll(context),
+                  child: Container(
+                    height: 50.smh,
+                    width: 50.smw,
+                    decoration: BoxDecoration(
+                        color: CustomColors.primary,
+                        borderRadius: CustomThemeData.fullRounded),
+                    child: SizedBox(
+                        height: 20.smh,
+                        width: 15.smw,
+                        child: CustomIcons.garbage_icon_light),
+                  ),
+                )
+              ],
+            ),
             SizedBox(height: 10.smh),
             SizedBox(
               height: 500.smh,
@@ -96,11 +131,11 @@ class _BasketViewState extends ConsumerState<BasketView>
                   crossAxisSpacing: 10.smw,
                   builder: (context, index) => Center(
                         child: ProductOverviewVerticalView(
-                          product: ref.watch(provider).products[index],
+                          product: ref.watch(provider).filteredProducts[index],
                           onBasketChanged: ref.read(provider).getBasket,
                         ),
                       ),
-                  itemCount: ref.watch(provider).products.length,
+                  itemCount: ref.watch(provider).filteredProducts.length,
                   crossAxisCount: 2),
             ),
           ]),

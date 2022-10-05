@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +7,7 @@ import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmmobile/product/models/user/address_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
@@ -75,7 +74,7 @@ class _UserAddressesViewState extends ConsumerState<UserAddressesView> {
 
   Widget _empty() {
     return Center(
-      child: CustomText("Hiçbir adres bulunaamadı",
+      child: CustomText("Kayıtlı adresiniz bulunamadı",
           style: CustomFonts.bodyText2(CustomColors.backgroundText)),
     );
   }
@@ -83,7 +82,10 @@ class _UserAddressesViewState extends ConsumerState<UserAddressesView> {
   InkWell _fab(BuildContext context) {
     return InkWell(
       onTap: () {
-        NavigationService.navigateToPage(const UserAddressAddView());
+        NavigationService.navigateToPage(const UserAddressAddView())
+            .then((value) {
+          ref.read(provider).getAddresses();
+        });
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
@@ -105,9 +107,7 @@ class _UserAddressesViewState extends ConsumerState<UserAddressesView> {
     );
   }
 
-  Widget _addressTile(
-    address,
-  ) {
+  Widget _addressTile(AddressModel address) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.smh, horizontal: 20.smw),
       margin: EdgeInsets.only(bottom: 10.smh),
@@ -131,10 +131,7 @@ class _UserAddressesViewState extends ConsumerState<UserAddressesView> {
                 ],
               )),
           InkWell(
-            onTap: () {
-              log("delete");
-              // NavigationService.navigateToPage(const UserAddressDetailView());
-            },
+            onTap: () => ref.read(provider).deleteAddress(address.id),
             child: SizedBox(
               width: 50.smw,
               child: CustomIcons.garbage_icon_light,

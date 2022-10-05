@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/network/response_model.dart';
 
 abstract class NetworkService {
@@ -10,7 +12,6 @@ abstract class NetworkService {
   static void init() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: 'http://api.goldenerp.com/',
         connectTimeout: 5000,
         receiveTimeout: 5000,
         contentType: Headers.jsonContentType,
@@ -20,13 +21,15 @@ abstract class NetworkService {
 
   static Future<ResponseModel<T>> get<T>(String url,
       {Map<String, dynamic>? queryParameters}) async {
+    String fullUrl =
+        "http://api.goldenerp.com/api/${NavigationService.context.locale.languageCode}/$url";
     try {
       if (debug) {
-        log("GET : $url");
+        log("GET : $fullUrl");
       }
       Response<Map<String, dynamic>> data =
           await _dio.get<Map<String, dynamic>>(
-        url,
+        fullUrl,
         queryParameters: queryParameters,
       );
       if (debug) {
@@ -37,20 +40,22 @@ abstract class NetworkService {
       if (debug) {
         log("GET ERROR: $e");
       }
-      return ResponseModel<T>.error();
+      return ResponseModel<T>.networkError();
     }
   }
 
   static Future<ResponseModel<T>> post<T>(String url,
       {Map<String, dynamic>? queryParameters, dynamic body}) async {
+    String fullUrl =
+        "http://api.goldenerp.com/api/${NavigationService.context.locale.languageCode}/$url";
     try {
       if (debug) {
-        log("POST: $url");
+        log("POST: $fullUrl");
         log("POST BODY: $body");
       }
       Response<Map<String, dynamic>> response =
           await _dio.post<Map<String, dynamic>>(
-        url,
+        fullUrl,
         queryParameters: queryParameters,
         data: body,
       );
@@ -63,7 +68,7 @@ abstract class NetworkService {
         log("POST ERROR: $e");
       }
 
-      return ResponseModel.error();
+      return ResponseModel.networkError();
     }
   }
 }

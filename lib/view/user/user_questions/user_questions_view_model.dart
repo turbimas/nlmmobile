@@ -23,7 +23,7 @@ class UserQuestionsViewModel extends ChangeNotifier {
   Future<void> getQuestions() async {
     try {
       ResponseModel response = await NetworkService.get(
-          "api/users/questions/${AuthService.currentUser!.id}");
+          "users/questions/${AuthService.currentUser!.id}");
 
       if (response.success) {
         List<UserQuestionModel> questions = response.data!
@@ -38,7 +38,7 @@ class UserQuestionsViewModel extends ChangeNotifier {
         }
         notifyListeners();
       } else {
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);

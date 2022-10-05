@@ -35,22 +35,22 @@ class SearchViewModel extends ChangeNotifier {
   Future<void> getLastData() async {
     try {
       ResponseModelList lastSearches = await NetworkService.get<List>(
-          "api/users/last_search_keywords/${AuthService.currentUser!.id}/$lastSearchCount");
+          "users/last_search_keywords/${AuthService.currentUser!.id}/$lastSearchCount");
       ResponseModelList lastVieweds = await NetworkService.get<List>(
-          "api/users/lastviewed/${AuthService.currentUser!.id}/$lastViewedCount");
+          "users/lastviewed/${AuthService.currentUser!.id}/$lastViewedCount");
       if (lastSearches.success && lastVieweds.success) {
-        lastSearched = lastSearches.data
+        lastSearched = lastSearches.data!
             .map((e) => LastSearchedModel.fromJson(e))
             .toList();
         lastViewed =
-            lastVieweds.data.map((e) => LastViewedModel.fromJson(e)).toList();
+            lastVieweds.data!.map((e) => LastViewedModel.fromJson(e)).toList();
         _loaded = true;
       } else {
         if (!lastSearches.success) {
-          PopupHelper.showErrorDialog(errorMessage: lastSearches.errorMessage);
+          PopupHelper.showErrorDialog(errorMessage: lastSearches.errorMessage!);
         }
         if (!lastVieweds.success) {
-          PopupHelper.showErrorDialog(errorMessage: lastVieweds.errorMessage);
+          PopupHelper.showErrorDialog(errorMessage: lastVieweds.errorMessage!);
         }
       }
     } catch (e) {
@@ -62,15 +62,14 @@ class SearchViewModel extends ChangeNotifier {
 
   Future<void> searchKeywordDelete(int id) async {
     try {
-      ResponseModel lastSearches = await NetworkService.post(
-          "api/users/searchkeyworddelete",
-          body: [id]);
+      ResponseModel lastSearches =
+          await NetworkService.post("users/searchkeyworddelete", body: [id]);
       if (lastSearches.success) {
         lastSearched.removeWhere((element) => element.id == id);
         notifyListeners();
         PopupHelper.showSuccessToast("Arama geçmişi silindi");
       } else {
-        PopupHelper.showErrorDialog(errorMessage: lastSearches.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: lastSearches.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);
@@ -80,14 +79,14 @@ class SearchViewModel extends ChangeNotifier {
   Future<void> deleteAllKeywords() async {
     try {
       ResponseModel lastSearches = await NetworkService.post(
-          "api/users/searchkeyworddelete/",
+          "users/searchkeyworddelete/",
           body: lastSearched.map((e) => e.id).toList());
       if (lastSearches.success) {
         lastSearched.clear();
         notifyListeners();
         PopupHelper.showSuccessToast("Tüm arama geçmişi silindi");
       } else {
-        PopupHelper.showErrorDialog(errorMessage: lastSearches.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: lastSearches.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);
@@ -97,7 +96,7 @@ class SearchViewModel extends ChangeNotifier {
   Future<void> search(String searchKey) async {
     try {
       ResponseModel searchResults = await NetworkService.get(
-          "api/products/productsearch/${AuthService.currentUser!.id}/$searchKey");
+          "products/productsearch/${AuthService.currentUser!.id}/$searchKey");
 
       if (searchResults.success) {
         var products = searchResults.data
@@ -110,7 +109,7 @@ class SearchViewModel extends ChangeNotifier {
           getLastData();
         });
       } else {
-        PopupHelper.showErrorDialog(errorMessage: searchResults.errorMessage);
+        PopupHelper.showErrorDialog(errorMessage: searchResults.errorMessage!);
       }
 
       notifyListeners();

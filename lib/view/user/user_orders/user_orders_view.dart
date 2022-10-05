@@ -11,8 +11,10 @@ import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/models/user/user_orders_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
+import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
+import 'package:nlmmobile/product/widgets/try_again_widget.dart';
 import 'package:nlmmobile/view/user/user_order_details/user_order_details_view.dart';
 import 'package:nlmmobile/view/user/user_orders/user_orders_view_model.dart';
 
@@ -41,15 +43,41 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
       child: Scaffold(
         appBar:
             CustomAppBar.activeBack(LocaleKeys.UserOrders_appbar_title.tr()),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [_filters(), ..._cards()],
-          ),
-        ),
+        body: _body(),
       ),
     );
   }
+
+  Widget _body() {
+    if (ref.watch(provider).isLoading) {
+      return _loading();
+    } else {
+      return _content();
+    }
+  }
+
+  Widget _content() {
+    List<UserOrdersModel>? orders = ref.watch(provider).orders;
+    if (orders == null) {
+      return Center(child: TryAgain(callBack: ref.read(provider).getOrders));
+    }
+    if (ref.watch(provider).orders!.isEmpty) {
+      return Center(
+          child: CustomText(
+        "Siparişiniz bulunmamaktadır",
+        style: CustomFonts.bodyText2(CustomColors.backgroundText),
+      ));
+    }
+
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [_filters(), ..._cards()],
+      ),
+    );
+  }
+
+  Widget _loading() => const Center(child: CustomCircularProgressIndicator());
 
   Widget _filters() {
     return Container(
@@ -69,34 +97,27 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
             curve: Curves.easeInOut,
             margin: EdgeInsets.symmetric(horizontal: 10.smw),
             height: 60.smh,
-            constraints: BoxConstraints(
-                minWidth: ref.watch(provider).statuses.length > 1
-                    ? (AppConstants.designWidth /
-                                ref.watch(provider).statuses.length -
-                            0.5)
-                        .smw
-                    : 360.smw),
             decoration: BoxDecoration(
               borderRadius: CustomThemeData.fullRounded,
               border: Border.all(color: CustomColors.primary, width: 1),
-              color: ref
-                      .watch(provider)
-                      .filterStatuses
-                      .contains(ref.watch(provider).statuses[index])
-                  ? CustomColors.primary
-                  : CustomColors.card,
+              color: CustomColors.card,
             ),
             padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 5.smh),
-            child: Center(
-              child: CustomText(
-                ref.watch(provider).statuses[index],
-                style: CustomFonts.bigButton(ref
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomText(
+                  ref.watch(provider).statuses[index],
+                  style: CustomFonts.bigButton(CustomColors.cardText),
+                ),
+                SizedBox(width: 10.smw),
+                ref
                         .watch(provider)
                         .filterStatuses
                         .contains(ref.watch(provider).statuses[index])
-                    ? CustomColors.primaryText
-                    : CustomColors.cardText),
-              ),
+                    ? CustomIcons.checkbox_checked_icon
+                    : CustomIcons.checkbox_unchecked_icon
+              ],
             ),
           ),
         ),
@@ -189,26 +210,7 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(5.smh),
-                        child: ClipRRect(
-                          borderRadius: CustomThemeData.fullRounded,
-                          child: Image.network("https://picsum.photos/200",
-                              height: 90.smh, width: 90.smh),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(5.smh),
-                        child: ClipRRect(
-                          borderRadius: CustomThemeData.fullRounded,
-                          child: Image.network("https://picsum.photos/200",
-                              height: 90.smh, width: 90.smh),
-                        ),
-                      ),
-                    ],
-                  ),
+                  order.image(height: 90.smh, width: 90.smh),
                   Row(
                     children: [
                       CustomTextLocale(LocaleKeys.UserOrders_total_product,
