@@ -1,36 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:nlmmobile/core/services/auth/authservice.dart';
 import 'package:nlmmobile/core/services/network/network_service.dart';
 import 'package:nlmmobile/core/services/network/response_model.dart';
 import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
 import 'package:nlmmobile/product/models/category_model.dart';
+import 'package:nlmmobile/product/models/home_banner_model.dart';
 
 class HomeViewModel extends ChangeNotifier {
-  bool _categoriesLoading = true;
-  bool get categoriesLoading => _categoriesLoading;
-  set categoriesLoading(bool value) {
-    _categoriesLoading = value;
+  bool _homeLoading = true;
+  bool get homeLoading => _homeLoading;
+  set homeLoading(bool value) {
+    _homeLoading = value;
     notifyListeners();
   }
 
   List<CategoryModel> categories = [];
+  List<HomeBannerModel> banners = [];
   HomeViewModel();
 
   Future<void> getHomeData() async {
     try {
-      categoriesLoading = true;
-      ResponseModelList responseModel =
+      homeLoading = true;
+      ResponseModelList categoriesResponse =
           await NetworkService.get<List>("categories/getcategories/0");
-      if (responseModel.success) {
-        categories = (responseModel.data)!
+
+      ResponseModelList bannersResponse = await NetworkService.get(
+          "main/homeviews/${AuthService.currentUser!.id}");
+
+      if (categoriesResponse.success && bannersResponse.success) {
+        categories = (categoriesResponse.data)!
             .map((e) => CategoryModel.fromJson(e))
             .toList();
+        banners = (bannersResponse.data!)
+            .map((e) => HomeBannerModel.fromJson(e))
+            .toList();
       } else {
-        PopupHelper.showErrorDialog(errorMessage: responseModel.errorMessage!);
+        PopupHelper.showErrorDialog(
+            errorMessage: "İnternet bağlatınızı kontrol ediniz.");
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);
     } finally {
-      categoriesLoading = false;
+      homeLoading = false;
     }
   }
 }
