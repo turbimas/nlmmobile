@@ -14,8 +14,8 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<CategoryModel> categories = [];
-  List<HomeBannerModel> banners = [];
+  List<CategoryModel>? categories;
+  List<HomeBannerModel>? banners;
   HomeViewModel();
 
   Future<void> getHomeData() async {

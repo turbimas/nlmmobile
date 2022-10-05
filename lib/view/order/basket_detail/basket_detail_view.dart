@@ -314,7 +314,7 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CustomIcons.credit_card_icon_dark,
-                  CustomTextLocale(LocaleKeys.Basket_continue_basket,
+                  CustomTextLocale(LocaleKeys.BasketDetail_done_delivery,
                       style: CustomFonts.bodyText2(CustomColors.cardText))
                 ],
               ),

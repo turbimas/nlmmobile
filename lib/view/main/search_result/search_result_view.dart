@@ -302,6 +302,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
                               ref.read(provider).orderPrice = true;
                             },
                             child: Container(
+                                margin: EdgeInsets.only(bottom: 5.smh),
                                 padding: EdgeInsets.symmetric(vertical: 10.smh),
                                 width: 300,
                                 decoration: BoxDecoration(
@@ -336,6 +337,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
                               ref.read(provider).orderPrice = false;
                             },
                             child: Container(
+                                margin: EdgeInsets.only(bottom: 5.smh),
                                 padding: EdgeInsets.symmetric(vertical: 10.smh),
                                 width: 300,
                                 decoration: BoxDecoration(
@@ -370,6 +372,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
                               ref.read(provider).orderName = true;
                             },
                             child: Container(
+                                margin: EdgeInsets.only(bottom: 5.smh),
                                 padding: EdgeInsets.symmetric(vertical: 10.smh),
                                 width: 300,
                                 decoration: BoxDecoration(
@@ -404,6 +407,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
                               ref.read(provider).orderName = false;
                             },
                             child: Container(
+                                margin: EdgeInsets.only(bottom: 5.smh),
                                 padding: EdgeInsets.symmetric(vertical: 10.smh),
                                 width: 300,
                                 decoration: BoxDecoration(

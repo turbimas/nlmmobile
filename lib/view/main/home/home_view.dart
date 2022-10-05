@@ -17,9 +17,11 @@ import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/models/category_model.dart';
 import 'package:nlmmobile/product/models/home_banner_model.dart';
 import 'package:nlmmobile/product/models/product_over_view_model.dart';
+import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_searchbar_view.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/product_overview_view.dart';
+import 'package:nlmmobile/product/widgets/try_again_widget.dart';
 import 'package:nlmmobile/view/main/home/home_view_model.dart';
 import 'package:nlmmobile/view/main/search/search_view.dart';
 import 'package:nlmmobile/view/main/search_result/search_result_view.dart';
@@ -47,30 +49,59 @@ class _HomeViewState extends ConsumerState<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 10.smh),
-            child: InkWell(
-                onTap: () {
-                  NavigationService.navigateToPage(const SearchView());
-                },
-                child: AbsorbPointer(
-                    child: CustomSearchBarView(
-                        hint: LocaleKeys.Home_search_hint.tr()))),
-          ),
-          _content(),
-        ],
-      ),
+      body: _body(),
+    );
+  }
+
+  Widget _body() {
+    if (ref.watch(provider).homeLoading) {
+      return _loading();
+    } else if (ref.watch(provider).categories != null &&
+        ref.watch(provider).banners != null) {
+      return _content();
+    } else {
+      return TryAgain(callBack: ref.read(provider).getHomeData);
+    }
+  }
+
+  Widget _loading() {
+    return const Center(
+      child: CustomCircularProgressIndicator(),
     );
   }
 
   Widget _content() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 10.smh),
+          child: InkWell(
+              onTap: () {
+                NavigationService.navigateToPage(const SearchView());
+              },
+              child: AbsorbPointer(
+                  child: CustomSearchBarView(
+                      hint: LocaleKeys.Home_search_hint.tr()))),
+        ),
+        _bannersContent(),
+      ],
+    );
+  }
+
+  Widget _bannersContent() {
+    List<Widget> banners = _banners();
     return SizedBox(
       height: 650.smh,
-      child: ListView(
-        children: [_fastCategories(), ..._banners()],
+      child: ListView.builder(
+        itemCount: banners.length + 1,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return _fastCategories();
+          } else {
+            return banners[index - 1];
+          }
+        },
       ),
     );
   }
@@ -87,9 +118,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
         radius: CustomThemeData.fullInfiniteRounded.topLeft,
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: ref.watch(provider).categories.length,
+            itemCount: ref.watch(provider).categories!.length,
             itemBuilder: (context, index) {
-              CategoryModel category = ref.watch(provider).categories[index];
+              CategoryModel category = ref.watch(provider).categories![index];
               return InkWell(
                 onTap: () => NavigationService.navigateToPage(SubCategoriesView(
                     masterCategory: category,
@@ -97,7 +128,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 child: Container(
                   margin: EdgeInsets.only(
                       left: 10.smw,
-                      right: index == ref.watch(provider).categories.length - 1
+                      right: index == ref.watch(provider).categories!.length - 1
                           ? 0
                           : 10.smw),
                   width: 60.smw,
@@ -132,103 +163,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
     );
   }
 
-  // _imageBanner() {
-  //   return _bannerBackground(
-  //       height: 220.smh,
-  //       child: Padding(
-  //         padding: EdgeInsets.only(
-  //             bottom: 15.smh, top: 5.smh, left: 15.smw, right: 15.smw),
-  //         child: Column(
-  //           mainAxisAlignment: MainAxisAlignment.start,
-  //           children: [
-  //             Padding(
-  //                 padding: EdgeInsets.symmetric(horizontal: 15.smw),
-  //                 child: _allRow("Kampanyalar")),
-  //             SizedBox(height: 5.smh),
-  //             Expanded(
-  //               child: Stack(
-  //                 children: [
-  //                   Positioned.fill(
-  //                     child: ClipRRect(
-  //                       borderRadius: BorderRadius.circular(30),
-  //                       child: PageView.builder(
-  //                         scrollDirection: Axis.horizontal,
-  //                         itemCount: 20,
-  //                         itemBuilder: (context, index) {
-  //                           return SizedBox(
-  //                               height: 170.smh,
-  //                               width: 330.smw,
-  //                               child: ClipRRect(
-  //                                 borderRadius: BorderRadius.circular(30),
-  //                                 child: Image.network(
-  //                                   'https://picsum.photos/id/${index + 1}/330/170',
-  //                                   fit: BoxFit.cover,
-  //                                 ),
-  //                               ));
-  //                         },
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   Positioned(
-  //                     top: 15.smh,
-  //                     right: 15.smw,
-  //                     child: Container(
-  //                       width: 40.smw,
-  //                       height: 20.smh,
-  //                       decoration: BoxDecoration(
-  //                         color: CustomColors.card,
-  //                         borderRadius: BorderRadius.circular(80),
-  //                       ),
-  //                       child: Center(
-  //                         child: CustomText("2/16",
-  //                             textAlign: TextAlign.center,
-  //                             style: TextStyle(fontSize: 10.sp)),
-  //                       ),
-  //                     ),
-  //                   )
-  //                 ],
-  //               ),
-  //             )
-  //           ],
-  //         ),
-  //       ));
-  // }
-
-  // _productBanner(HomeBannerModel model) {
-  //   return Padding(
-  //     padding: EdgeInsets.only(
-  //         top: 5.smh, left: 15.smw, right: 15.smw, bottom: 25.smh),
-  //     child: Column(
-  //       mainAxisAlignment: MainAxisAlignment.start,
-  //       children: [
-  //         Padding(
-  //             padding: EdgeInsets.symmetric(horizontal: 15.smw),
-  //             child: _allRow("En çok satılanlar")),
-  //         SizedBox(height: 5.smh),
-  //         SizedBox(
-  //           width: 330.smw,
-  //           height: 250.smh,
-  //           child: ListView.builder(
-  //             shrinkWrap: true,
-  //             scrollDirection: Axis.horizontal,
-  //             itemCount: 20,
-  //             itemBuilder: (context, index) {
-  //               if (index % 2 == 0) {
-  //                 ProductOverViewModel product = model.products[index ~/ 2];
-  //                 return ProductOverviewVerticalView(product: product);
-  //               } else {
-  //                 return SizedBox(width: 10.smw);
-  //               }
-  //             },
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   List<Widget> _banners() {
-    List<HomeBannerModel> banners = ref.watch(provider).banners;
+    List<HomeBannerModel> banners = ref.watch(provider).banners!;
     return List.generate(banners.length, (index) {
       HomeBannerModel banner = banners[index];
       if (banner.type == 2) {

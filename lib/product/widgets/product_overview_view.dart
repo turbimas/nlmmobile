@@ -44,11 +44,16 @@ class _ProductOverviewViewVerticalState
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: CustomThemeData.animationDurationMedium,
       constraints: BoxConstraints(minHeight: 250.smh, maxWidth: 160.smw),
       width: 160.smw,
       decoration: BoxDecoration(
-          borderRadius: CustomThemeData.fullRounded, color: Colors.transparent),
+          border: widget.product.basketQuantity != null
+              ? Border.all(color: CustomColors.secondary)
+              : null,
+          borderRadius: CustomThemeData.fullRounded,
+          color: Colors.transparent),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
