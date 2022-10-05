@@ -4,6 +4,8 @@ class ProductDetailModel {
   final String name;
   final String? tradeMark;
   final double unitPrice;
+  final List<ProductPropertyModel> productNutritiveValue;
+  final ProductPropertyModel productDetails;
   // final int varyantId;
   // final String colorName;
   // final String beden;
@@ -36,6 +38,12 @@ class ProductDetailModel {
         name = json['Name'],
         tradeMark = json['TradeMark'],
         unitPrice = json['UnitPrice'],
+        productNutritiveValue = (json['ProductNutritiveValue'] as List)
+            .map((e) => ProductPropertyModel.fromJson(e))
+            .toList(),
+        productDetails = (json['ProductDetails'] as List)
+            .map((e) => ProductPropertyModel.fromJson(e))
+            .first,
         // varyantId = json['VaryantID'],
         // colorName = json['ColorName'],
         // beden = json['Beden'],
@@ -68,4 +76,15 @@ class ProductDetailModel {
       'Thumbnails': thumbNails,
     };
   }
+}
+
+class ProductPropertyModel {
+  String itemProperty;
+  num value;
+  num forValue;
+
+  ProductPropertyModel.fromJson(Map<String, dynamic> json)
+      : itemProperty = json['ItemProperty'],
+        value = json['Value'],
+        forValue = json['ForValue'];
 }

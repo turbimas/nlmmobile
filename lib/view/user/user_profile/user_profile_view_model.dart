@@ -11,6 +11,13 @@ class UserProfileViewModel extends ChangeNotifier {
   Map<String, dynamic> formData = {};
   Map<String, dynamic> readOnlyFormData = {};
 
+  bool _changePassword = false;
+  bool get changePassword => _changePassword;
+  set changePassword(bool value) {
+    _changePassword = value;
+    notifyListeners();
+  }
+
   GlobalKey<FormState> formKey;
 
   UserProfileViewModel(this.formKey);
@@ -23,18 +30,39 @@ class UserProfileViewModel extends ChangeNotifier {
   Future<void> save() async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
+
+      if (changePassword) {
+        if (formData["oldPassword"] == AuthService.currentUser!.password) {
+          if (formData["newPassword"] == formData["newPasswordAgain"]) {
+            formData.remove("oldPassword");
+            formData.remove("newPasswordAgain");
+            formData["Password"] = formData["newPassword"];
+            formData.remove("newPassword");
+          }
+        } else {
+          PopupHelper.showErrorDialog(
+              errorMessage: "Eski şifreniz doğru değil");
+          return;
+        }
+      } else {
+        formData.remove("oldPassword");
+        formData.remove("newPasswordAgain");
+        formData.remove("newPassword");
+      }
       if (AuthService.currentUser!.email != formData["Email"]) {
+        Map<String, dynamic> registerData = {
+          "Name": AuthService.currentUser!.nameSurname,
+          "MobilePhone": AuthService.currentUser!.phone,
+          "Email": formData["Email"],
+        };
+        if (changePassword) {
+          registerData["Password"] = formData["Password"];
+        }
         NavigationService.navigateToPage(ValidationView(
-          registerData: {
-            "Name": AuthService.currentUser!.nameSurname,
-            "MobilePhone": AuthService.currentUser!.phone,
-            "Email": formData["Email"],
-            "Password": formData["Password"],
-          },
+          registerData: registerData,
           isUpdate: true,
         ));
       } else {
-        formData["Password"] = AuthService.currentUser!.password;
         formData["ID"] = AuthService.currentUser!.id;
         ResponseModel response =
             await NetworkService.post("users/user_edit", body: formData);

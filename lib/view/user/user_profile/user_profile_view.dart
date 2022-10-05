@@ -61,9 +61,11 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20.smh),
-                CustomText("Kişisel Bilgiler"),
-                SizedBox(height: 20.smh),
+                Container(
+                    margin: EdgeInsets.symmetric(vertical: 20.smh),
+                    child: CustomText("Kişisel Bilgiler",
+                        style: CustomFonts.bodyText2(
+                            CustomColors.backgroundText))),
                 _customTextField(
                     hintText: "Ad Soyad",
                     formKey: "Name",
@@ -97,11 +99,20 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                     hintText: "E-posta",
                     formKey: "Email",
                     initialValue: AuthService.currentUser!.email),
-                _customTextField(
-                    hintText: "Şifre",
-                    formKey: "Password",
-                    initialValue: AuthService.currentUser!.password,
-                    obscureText: true)
+                Container(
+                    margin: EdgeInsets.symmetric(vertical: 20.smh),
+                    child: SwitchListTile(
+                        title: CustomText("Şifremi değiştir",
+                            style: CustomFonts.bodyText2(
+                                CustomColors.backgroundText)),
+                        activeColor: CustomColors.primary,
+                        value: ref.watch(provider).changePassword,
+                        onChanged: (value) {
+                          ref.watch(provider).changePassword = value;
+                        })),
+                ref.watch(provider).changePassword
+                    ? _passwordForm()
+                    : Container()
               ],
             ),
           ),
@@ -166,6 +177,18 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                 borderRadius: CustomThemeData.fullInfiniteRounded,
                 borderSide: BorderSide.none)),
       )),
+    );
+  }
+
+  Widget _passwordForm() {
+    return Column(
+      children: [
+        _customTextField(
+            hintText: "Eski şifre", formKey: "oldPassword", obscureText: true),
+        _customTextField(hintText: "Yeni şifre", formKey: "newPassword"),
+        _customTextField(
+            hintText: "Yeni şifre tekrar", formKey: "newPasswordAgain"),
+      ],
     );
   }
 }

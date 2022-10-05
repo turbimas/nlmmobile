@@ -379,16 +379,13 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
       duration: CustomThemeData.animationDurationShort,
       color: CustomColors.card,
       width: 360.smw,
-      height: ref.watch(provider).infoExpanded ? 300.smh : 150.smh,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomText(
-            product.name,
-            style: CustomFonts.bodyText2(CustomColors.backgroundTextPale),
-            maxLines: ref.watch(provider).infoExpanded ? 10 : 5,
-          ),
+          ref.watch(provider).selectedPropertyIndex == 0
+              ? _productDetailsContent(product)
+              : _productProperties(product),
           InkWell(
             onTap: () {
               ref.read(provider).infoExpanded =
@@ -419,6 +416,17 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Padding _productDetailsContent(ProductDetailModel product) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15.smw, vertical: 10.smh),
+      child: CustomText(
+        product.productDetails.itemProperty * 100,
+        style: CustomFonts.bodyText2(CustomColors.backgroundTextPale),
+        maxLines: ref.watch(provider).infoExpanded ? 1000 : 3,
       ),
     );
   }
@@ -473,6 +481,13 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _productProperties(ProductDetailModel product) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 25.smh),
+      child: const Text("Tablo olacak"),
     );
   }
 }
