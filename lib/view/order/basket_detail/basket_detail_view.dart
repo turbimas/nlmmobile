@@ -1,22 +1,28 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nlmmobile/core/services/auth/authservice.dart';
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/services/theme/custom_images.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/models/order/basket_total_model.dart';
 import 'package:nlmmobile/product/models/user/address_model.dart';
+import 'package:nlmmobile/product/models/user/delivery_time_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
-import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
+import 'package:nlmmobile/product/widgets/terms/mesafeli_satis_sozlesmesi.dart';
+import 'package:nlmmobile/product/widgets/terms/on_bilgilendirme_formu.dart';
 import 'package:nlmmobile/product/widgets/try_again_widget.dart';
 import 'package:nlmmobile/view/order/basket_detail/basket_detail_view_model.dart';
+import 'package:nlmmobile/view/order/delivery_times/delivery_times.dart';
 import 'package:nlmmobile/view/user/user_addresses/user_addresses_view.dart';
 
 class BasketDetailView extends ConsumerStatefulWidget {
@@ -32,12 +38,30 @@ class BasketDetailView extends ConsumerStatefulWidget {
 
 class _BasketDetailState extends ConsumerState<BasketDetailView> {
   late final ChangeNotifierProvider<BasketDetailViewModel> provider;
+  bool isDisposed = false;
 
   @override
   void initState() {
     provider = ChangeNotifierProvider((ref) => BasketDetailViewModel(
         basketTotal: widget.basketTotal, addresses: widget.addresses));
+    Future.delayed(Duration.zero, () {
+      ref.read(provider).getData();
+    });
+    Future.delayed(const Duration(minutes: 5), () {
+      if (isDisposed) {
+        NavigationService.back();
+        PopupHelper.showErrorDialog(
+            errorMessage:
+                "Uzun süredir işlem yapmadığınız için, işleminiz iptal edildi.");
+      }
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    isDisposed = true;
+    super.dispose();
   }
 
   @override
@@ -54,8 +78,8 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
     if (ref.watch(provider).isLoading == true) {
       return _loading();
     }
-    if (ref.watch(provider).isLoading == null) {
-      return TryAgain(callBack: ref.read(provider).getAddresses);
+    if (ref.watch(provider).times == null) {
+      return TryAgain(callBack: ref.read(provider).getData);
     }
     if (ref.watch(provider).addresses.isEmpty) {
       return _empty();
@@ -63,7 +87,7 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
     return _content();
   }
 
-  Widget _loading() => const Center(child: CustomCircularProgressIndicator());
+  Widget _loading() => Center(child: CustomImages.loading);
 
   Widget _empty() {
     return Center(
@@ -209,6 +233,13 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
   }
 
   _deliveryTime() {
+    List<Widget> timesWidgets = ref.watch(provider).times!.map((e) {
+      if (e.dates.length == 1) {
+        return _hemenTeslimAlWidget(e);
+      } else {
+        return _teslimatSuresiSec(e);
+      }
+    }).toList();
     return SizedBox(
       child: Column(
         children: [
@@ -221,7 +252,7 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
             ],
           ),
           SizedBox(height: 10.smh),
-          _radioContainer(title: "Hemen teslim al", isSelected: true),
+          ...timesWidgets
         ],
       ),
     );
@@ -253,7 +284,7 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
       onTap: () {
         NavigationService.navigateToPage(const UserAddressesView())
             .then((value) {
-          ref.read(provider).getAddresses();
+          ref.read(provider).getData();
         });
       },
       child: Container(
@@ -457,13 +488,55 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
         subtitle: "Ürünlerinizi kapınıza bırakıp sizi arıyacağız",
         checked: ref.watch(provider).contactlessDelivery));
     options.add(SizedBox(height: 15.smh));
-    options.add(_optionTile(
-        onTap: () {
-          ref.read(provider).acceptTerms = !ref.watch(provider).acceptTerms;
-        },
-        title: "Kullanım koşullarını okudum ve kabul ediyorum.",
-        checked: ref.watch(provider).acceptTerms));
-
+    options.add(InkWell(
+      onTap: () {
+        ref.read(provider).acceptTerms = !ref.watch(provider).acceptTerms;
+      },
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          ref.watch(provider).acceptTerms
+              ? CustomIcons.checkbox_checked_icon
+              : CustomIcons.checkbox_unchecked_icon,
+          SizedBox(width: 10.smw),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                InkWell(
+                    onTap: _mesafeliSatisSozlesmesiFunction,
+                    child: CustomText("Mesafeli satış sözleşmesini",
+                        style: CustomFonts.bodyText4(CustomColors.primary))),
+                SizedBox(width: 5.smw),
+                CustomText("ve",
+                    style: CustomFonts.bodyText4(CustomColors.backgroundText)),
+                SizedBox(width: 5.smw),
+                InkWell(
+                  onTap: _onBilgilendirmeFormuFunction,
+                  child: CustomText("Ön Bilgilendirme",
+                      style: CustomFonts.bodyText4(CustomColors.primary)),
+                )
+              ]),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  InkWell(
+                      onTap: _onBilgilendirmeFormuFunction,
+                      child: CustomText("formunu",
+                          style: CustomFonts.bodyText4(CustomColors.primary))),
+                  SizedBox(width: 5.smw),
+                  CustomText("okudum ve kabul ediyorum",
+                      style:
+                          CustomFonts.bodyText4(CustomColors.backgroundText)),
+                ],
+              )
+            ],
+          ),
+        ],
+      ),
+    ));
     return options;
   }
 
@@ -492,14 +565,13 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(title,
+                        CustomText(title,
                             maxLines: 2,
                             style: CustomFonts.bodyText4(
                                 CustomColors.backgroundText)),
                         CustomText(subtitle,
                             maxLines: 2,
-                            style: CustomFonts.bodyText5(
-                                CustomColors.backgroundTextPale))
+                            style: CustomFonts.bodyText5(CustomColors.primary))
                       ],
                     )
             ]),
@@ -523,6 +595,116 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
             border: InputBorder.none,
             contentPadding:
                 EdgeInsets.symmetric(horizontal: 20.smw, vertical: 20.smh)),
+      ),
+    );
+  }
+
+  Future<void> _mesafeliSatisSozlesmesiFunction() async {
+    NavigationService.navigateToPage(MesafeliSatisSozlesmesi(
+      cariId: AuthService.currentUser!.id,
+      deliveryAdressId: ref.watch(provider).selectedDeliveryAddress.id,
+      invoiceAdressId: ref.watch(provider).selectedTaxAddress.id,
+    ));
+  }
+
+  Future<void> _onBilgilendirmeFormuFunction() async {
+    NavigationService.navigateToPage(OnBilgilendirmeFormuView(
+      cariId: AuthService.currentUser!.id,
+      deliveryAdressId: ref.watch(provider).selectedDeliveryAddress.id,
+      invoiceAdressId: ref.watch(provider).selectedTaxAddress.id,
+    ));
+  }
+
+  Widget _hemenTeslimAlWidget(DeliveryTimeModel deliveryTimeModel) {
+    return InkWell(
+      onTap: () {
+        ref.read(provider).selectedHour =
+            deliveryTimeModel.dates.first.hours.first;
+        ref.read(provider).selectedDate =
+            deliveryTimeModel.dates.first.dayDateTime;
+        ref.read(provider).hemenTeslimAl = true;
+      },
+      child: Container(
+        height: 60.smh,
+        width: 330.smw,
+        decoration: BoxDecoration(
+            borderRadius: CustomThemeData.fullRounded,
+            color: CustomColors.primary),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Expanded(
+                flex: 1,
+                child: Center(
+                  child: ref.watch(provider).hemenTeslimAl
+                      ? CustomIcons.radio_checked_light_icon
+                      : CustomIcons.radio_unchecked_light_icon,
+                )),
+            Expanded(
+                flex: 5,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomText(deliveryTimeModel.typeName,
+                        style: CustomFonts.bodyText2(CustomColors.primaryText)),
+                    CustomText(
+                        "Tahmini teslimat süresi: ${deliveryTimeModel.dates.first.hours.first}",
+                        style: CustomFonts.bodyText4(CustomColors.primaryText)),
+                  ],
+                )),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _teslimatSuresiSec(DeliveryTimeModel deliveryTimeModel) {
+    return InkWell(
+      onTap: () {
+        NavigationService.navigateToPage<Map<String, String>?>(
+                DeliveryTimesView(deliveryTimeModel: deliveryTimeModel))
+            .then((value) {
+          if (value != null) {
+            ref.read(provider).selectedHour = value["Hour"]!;
+            ref.read(provider).selectedDate = value["Date"]!;
+            ref.read(provider).hemenTeslimAl = false;
+          }
+        });
+      },
+      child: Container(
+        height: 60.smh,
+        width: 330.smw,
+        decoration: BoxDecoration(
+            borderRadius: CustomThemeData.fullRounded,
+            color: CustomColors.primary),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Expanded(
+                flex: 1,
+                child: Center(
+                    child: !ref.watch(provider).hemenTeslimAl
+                        ? CustomIcons.radio_checked_light_icon
+                        : CustomIcons.radio_unchecked_light_icon)),
+            Expanded(
+              flex: 5,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText(deliveryTimeModel.typeName,
+                      style: CustomFonts.bodyText2(CustomColors.primaryText)),
+                  ref.watch(provider).hemenTeslimAl
+                      ? Container()
+                      : CustomText(ref.watch(provider).selectedHour!,
+                          style:
+                              CustomFonts.bodyText4(CustomColors.primaryText)),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

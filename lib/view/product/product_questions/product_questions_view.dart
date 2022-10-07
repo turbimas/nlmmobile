@@ -6,6 +6,7 @@ import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/services/theme/custom_images.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
@@ -13,7 +14,6 @@ import 'package:nlmmobile/product/models/product_detail_model.dart';
 import 'package:nlmmobile/product/models/product_over_view_model.dart';
 import 'package:nlmmobile/product/models/user/user_question_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
-import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_searchbar_view.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
@@ -77,11 +77,7 @@ class _ProductQuestionsViewState extends ConsumerState<ProductQuestionsView> {
                 : _content();
   }
 
-  Widget _loading() {
-    return const Center(
-      child: CustomCircularProgressIndicator(),
-    );
-  }
+  Widget _loading() => Center(child: CustomImages.loading);
 
   Widget _empty() {
     return Center(child: _totalQuestions());

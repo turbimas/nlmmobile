@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
+import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
@@ -13,6 +14,7 @@ import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
+import 'package:nlmmobile/product/widgets/terms/kayit_on_bilgilendirme_formu.dart';
 import 'package:nlmmobile/view/auth/register/register_view_model.dart';
 
 class RegisterView extends ConsumerStatefulWidget {
@@ -55,8 +57,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
     return CustomSafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar:
-            CustomAppBar.inactiveBack(LocaleKeys.Register_appbar_title.tr()),
+        appBar: CustomAppBar.activeBack(LocaleKeys.Register_appbar_title.tr()),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [_image(), _form(), _agreement(), _registerButton()],
@@ -107,7 +108,15 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
               ? CustomIcons.checkbox_checked_icon
               : CustomIcons.checkbox_unchecked_icon,
           SizedBox(width: 5.smw),
-          CustomText(LocaleKeys.Register_accept_agreement.tr(),
+          InkWell(
+              onTap: () {
+                NavigationService.navigateToPage(
+                    const KayitOnBilgilendirmeFormu());
+              },
+              child: CustomText("Üyelik sözleşmesini",
+                  style: CustomFonts.bodyText4(CustomColors.primary))),
+          SizedBox(width: 5.smw),
+          CustomText("Okudum, kabul ediyorum",
               style: CustomFonts.bodyText4(CustomColors.backgroundText))
         ]),
       ),

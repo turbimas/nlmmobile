@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
+import 'package:nlmmobile/core/services/theme/custom_images.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
-import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_searchbar_view.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
@@ -57,8 +57,8 @@ class _FavoritesViewState extends ConsumerState<FavoritesView> {
   }
 
   Widget _loading() {
-    return const Center(
-      child: CustomCircularProgressIndicator(),
+    return Center(
+      child: CustomImages.loading,
     );
   }
 

@@ -6,13 +6,13 @@ import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/services/theme/custom_images.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/models/product_detail_model.dart';
 import 'package:nlmmobile/product/models/product_over_view_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
-import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/try_again_widget.dart';
@@ -106,8 +106,8 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
   }
 
   Widget _loading() {
-    return const Center(
-      child: CustomCircularProgressIndicator(),
+    return Center(
+      child: CustomImages.loading,
     );
   }
 
@@ -485,9 +485,63 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
   }
 
   Widget _productProperties(ProductDetailModel product) {
+    List<ProductPropertyModel> productNutritiveValue =
+        product.productNutritiveValue.toList();
+    if (productNutritiveValue.isEmpty) {
+      return Container();
+    }
+
+    productNutritiveValue.sort((a, b) => a.forValue.compareTo(b.forValue));
+    int max = productNutritiveValue.last.forValue.toInt();
     return Padding(
-      padding: EdgeInsets.only(bottom: 25.smh),
-      child: const Text("Tablo olacak"),
+      padding: EdgeInsets.symmetric(horizontal: 15.smw, vertical: 15.smh),
+      child: Container(
+        decoration: BoxDecoration(
+          color: CustomColors.card,
+          borderRadius: CustomThemeData.fullRounded,
+          border: Border.all(color: CustomColors.primary, width: 1.smw),
+        ),
+        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+          Container(
+            decoration: BoxDecoration(
+                color: CustomColors.primary,
+                borderRadius: CustomThemeData.topRounded),
+            height: 35.smh,
+            width: 330.smw,
+            child: Center(
+                child: CustomText(
+              "$max g/ml",
+              style: CustomFonts.bodyText2(CustomColors.primaryText),
+            )),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 15.smw, vertical: 10.smh),
+            decoration: BoxDecoration(
+                color: CustomColors.card,
+                borderRadius: CustomThemeData.bottomRounded),
+            child: Column(
+              children: List.generate(
+                  product.productNutritiveValue.length,
+                  (index) => Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomText(
+                            product.productNutritiveValue[index].itemProperty,
+                            style: CustomFonts.bodyText4(CustomColors.cardText),
+                          ),
+                          CustomText(
+                            product.productNutritiveValue[index].value
+                                .toInt()
+                                .toString(),
+                            style: CustomFonts.bodyText4(
+                                CustomColors.cardTextPale),
+                          ),
+                        ],
+                      )),
+            ),
+          )
+        ]),
+      ),
     );
   }
 }

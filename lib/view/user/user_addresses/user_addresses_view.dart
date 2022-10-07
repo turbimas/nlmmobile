@@ -6,10 +6,10 @@ import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/services/theme/custom_images.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/models/user/address_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
-import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/try_again_widget.dart';
@@ -58,7 +58,7 @@ class _UserAddressesViewState extends ConsumerState<UserAddressesView> {
                 : _content();
   }
 
-  Widget _loading() => const Center(child: CustomCircularProgressIndicator());
+  Widget _loading() => Center(child: CustomImages.loading);
 
   Widget _content() {
     return Padding(

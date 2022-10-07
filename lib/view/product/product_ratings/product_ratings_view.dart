@@ -7,13 +7,13 @@ import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/services/theme/custom_images.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/models/product/product_rating_model.dart';
 import 'package:nlmmobile/product/models/product_detail_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
-import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_searchbar_view.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
@@ -54,9 +54,11 @@ class ProductRatingsViewState extends ConsumerState<ProductRatingsView> {
     );
   }
 
+  Widget _loading() => Center(child: CustomImages.loading);
+
   Widget _body() {
     if (ref.watch(provider).isLoading) {
-      return const Center(child: CustomCircularProgressIndicator());
+      return _loading();
     } else {
       if (ref.watch(provider).ratings != null) {
         if (ref.watch(provider).ratings!.isNotEmpty) {

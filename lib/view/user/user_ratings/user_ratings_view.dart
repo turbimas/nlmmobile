@@ -8,13 +8,13 @@ import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/services/theme/custom_images.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
 import 'package:nlmmobile/product/models/product_over_view_model.dart';
 import 'package:nlmmobile/product/models/user/user_rating_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
-import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/product_overview_view.dart';
@@ -56,9 +56,7 @@ class _UserRatingsViewState extends ConsumerState<UserRatingsView> {
     return ref.watch(provider).isLoading ? _loading() : _content();
   }
 
-  Widget _loading() => const Center(
-        child: CustomCircularProgressIndicator(),
-      );
+  Widget _loading() => Center(child: CustomImages.loading);
 
   Widget _content() {
     return Column(

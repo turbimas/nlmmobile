@@ -77,6 +77,8 @@ class UserAddressAddViewModel extends ChangeNotifier {
       });
       if (response.success) {
         googleAddressModel = GoogleAddressModel.fromJson(response.data);
+        googleAddressModel!.lat = marker.position.latitude;
+        googleAddressModel!.lng = marker.position.longitude;
         countryController.text = googleAddressModel!.country;
         cityController.text = googleAddressModel!.city;
         regionController.text = googleAddressModel!.region;

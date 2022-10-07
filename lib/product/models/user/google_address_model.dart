@@ -8,6 +8,8 @@ class GoogleAddressModel {
   String country;
   String postalCode;
   String formatAddress;
+  late num lat;
+  late num lng;
 
   GoogleAddressModel.fromJson(Map<String, dynamic> json)
       : buildingNo = json["BuildingNo"],
@@ -31,6 +33,8 @@ class GoogleAddressModel {
       "Country": country,
       "PostalCode": postalCode,
       "format_adress": formatAddress,
+      "lat": lat,
+      "lng": lng
     };
   }
 }

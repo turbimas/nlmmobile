@@ -26,14 +26,8 @@ class SplashView extends ConsumerStatefulWidget {
 class _SplashViewState extends ConsumerState<SplashView>
     with SingleTickerProviderStateMixin {
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   void initState() {
     super.initState();
-
     _load();
   }
 

@@ -10,6 +10,7 @@ import 'package:nlmmobile/core/services/network/response_model.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/services/theme/custom_images.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
@@ -17,7 +18,6 @@ import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/models/category_model.dart';
 import 'package:nlmmobile/product/models/home_banner_model.dart';
 import 'package:nlmmobile/product/models/product_over_view_model.dart';
-import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_searchbar_view.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/product_overview_view.dart';
@@ -65,8 +65,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
   }
 
   Widget _loading() {
-    return const Center(
-      child: CustomCircularProgressIndicator(),
+    return Center(
+      child: CustomImages.loading,
     );
   }
 

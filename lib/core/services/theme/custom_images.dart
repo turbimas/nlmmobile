@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nlmmobile/core/services/theme/theme_manager.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmmobile/product/widgets/custom_gif_viewer.dart';
 
 abstract class CustomImages {
   static late final Widget basket_empty;
@@ -19,6 +20,7 @@ abstract class CustomImages {
   static late final Widget en_flag;
   static late final Widget ar_flag;
   static late final Widget image_not_found;
+  static late final Widget loading;
 
   static void loadImages() {
     basket_empty = _image("basket_empty");
@@ -34,15 +36,29 @@ abstract class CustomImages {
     en_flag = _image("en_flag");
     ar_flag = _image("ar_flag");
     image_not_found = _image("image_not_found");
+    loading = _image("loading");
   }
 
   static Widget _image(String name) {
-    bool isVector = AppTheme.imageData[name]["type"] == "vector";
+    String type = AppTheme.imageData[name]!["type"];
+    _ImageType? imageType;
+    switch (type) {
+      case "vector":
+        imageType = _ImageType.vector;
+        break;
+      case "pixel":
+        imageType = _ImageType.pixel;
+        break;
+      case "gif":
+        imageType = _ImageType.gif;
+        break;
+      default:
+    }
     var path = AppTheme.imageData[name]["path"];
     var width = (AppTheme.imageData[name]["width"] as int).smw;
     var height = (AppTheme.imageData[name]["height"] as int).smh;
 
-    if (isVector) {
+    if (imageType == _ImageType.vector) {
       return SvgPicture.asset(path, height: height, width: width);
       // SizedBox(
       //     height: height,
@@ -58,8 +74,26 @@ abstract class CustomImages {
       //       ),
       //       child: SvgPicture.asset(path, height: height, width: width)),
       // );
-    } else {
+    }
+    if (imageType == _ImageType.pixel) {
       return Image.asset(path, width: width, height: height);
     }
+    if (imageType == _ImageType.gif) {
+      double height = (AppTheme.imageData[name]["height"] as int).toDouble();
+      double width = (AppTheme.imageData[name]["width"] as int).toDouble();
+      double frameCount =
+          (AppTheme.imageData[name]["frame_count"] as int).toDouble();
+      Duration period = Duration(
+          milliseconds: AppTheme.imageData[name]["duration_ms"] as int);
+      return CustomGifViewer(
+          frame: frameCount,
+          assetPath: path,
+          period: period,
+          height: height.smh,
+          width: width.smw);
+    }
+    return Container();
   }
 }
+
+enum _ImageType { vector, pixel, gif }

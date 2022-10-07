@@ -9,7 +9,6 @@ import 'package:nlmmobile/core/services/theme/custom_images.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/core/utils/validators/validators.dart';
-import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/ok_cancel_prompt.dart';
@@ -47,14 +46,20 @@ class _ValidationViewState extends ConsumerState<ValidationView> {
               if (snapshot.data!) {
                 return _form();
               } else {
-                return const Center(child: CustomCircularProgressIndicator());
+                return _loading();
               }
             } else {
-              return const Center(child: CustomCircularProgressIndicator());
+              return _loading();
             }
           },
         ),
       ),
+    );
+  }
+
+  Widget _loading() {
+    return Center(
+      child: CustomImages.loading,
     );
   }
 

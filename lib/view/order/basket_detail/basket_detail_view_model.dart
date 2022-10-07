@@ -6,6 +6,7 @@ import 'package:nlmmobile/core/services/network/response_model.dart';
 import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
 import 'package:nlmmobile/product/models/order/basket_total_model.dart';
 import 'package:nlmmobile/product/models/user/address_model.dart';
+import 'package:nlmmobile/product/models/user/delivery_time_model.dart';
 import 'package:nlmmobile/view/order/order_success/order_success_view.dart';
 
 class BasketDetailViewModel extends ChangeNotifier {
@@ -14,7 +15,22 @@ class BasketDetailViewModel extends ChangeNotifier {
   BasketDetailViewModel({required this.basketTotal, required this.addresses}) {
     _selectedDeliveryAddress = addresses.first;
     _selectedTaxAddress = addresses.first;
+    pageCreatedTime = DateTime.now();
   }
+
+  // bool get _hemenTeslimAlSelected => _selectedDeliveryTime.dates.length == 1;
+
+  late DateTime pageCreatedTime;
+
+  bool _hemenTeslimAl = true;
+  bool get hemenTeslimAl => _hemenTeslimAl;
+  set hemenTeslimAl(bool value) {
+    _hemenTeslimAl = value;
+    notifyListeners();
+  }
+
+  String? selectedHour;
+  String? selectedDate;
 
   bool _deliveryTaxSame = true;
   bool get deliveryTaxSame => _deliveryTaxSame;
@@ -45,6 +61,7 @@ class BasketDetailViewModel extends ChangeNotifier {
   }
 
   List<AddressModel> addresses;
+  List<DeliveryTimeModel>? times;
 
   late AddressModel _selectedDeliveryAddress;
   AddressModel get selectedDeliveryAddress => _selectedDeliveryAddress;
@@ -87,12 +104,16 @@ class BasketDetailViewModel extends ChangeNotifier {
       ResponseModel response =
           await NetworkService.post("orders/createorder", body: {
         "CariID": AuthService.currentUser!.id,
-        "DeliveryDate": DateTime.now().toIso8601String(),
         "DeliveryAdressID": selectedDeliveryAddress.id,
         "InvoiceAdressID": deliveryTaxSame
             ? selectedDeliveryAddress.id
             : selectedTaxAddress.id,
         "OrderNotes": orderNotes.isEmpty ? "" : orderNotes.join("\n"),
+        "DeliveryOverTime": {
+          "Hour": selectedHour,
+          "Date": selectedDate,
+          "overTime": DateTime.now().difference(pageCreatedTime).inSeconds
+        }
       });
       if (response.success) {
         NavigationService.navigateToPage(
@@ -105,29 +126,35 @@ class BasketDetailViewModel extends ChangeNotifier {
     }
   }
 
-  bool? _isLoading = false;
-  bool? get isLoading => _isLoading;
-  set isLoading(bool? value) {
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+  set isLoading(bool value) {
     _isLoading = value;
     notifyListeners();
   }
 
-  Future<void> getAddresses() async {
+  Future<void> getData() async {
     try {
       isLoading = true;
-      ResponseModel response = await NetworkService.get(
-          "users/adresses/${AuthService.currentUser!.id}");
-      if (response.success) {
-        addresses = (response.data as List)
-            .map((e) => AddressModel.fromJson(e))
-            .toList();
+      ResponseModel timeResponse =
+          await NetworkService.post("orders/deliverySummary", body: {
+        "lat": selectedDeliveryAddress.lat,
+        "lng": selectedDeliveryAddress.lng,
+      });
+      if (timeResponse.success) {
         isLoading = false;
+        times = timeResponse.data
+            .map<DeliveryTimeModel>((e) => DeliveryTimeModel.fromJson(e))
+            .toList();
+        selectedDate = times!.first.dates.first.dayDateTime;
+        selectedHour = times!.first.dates.first.hours.first;
       } else {
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
-        isLoading = null;
+        PopupHelper.showErrorDialog(errorMessage: timeResponse.errorMessage!);
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);
+    } finally {
+      isLoading = false;
     }
   }
 }

@@ -16,7 +16,6 @@ import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/cubits/home_index_cubit/home_index_cubit.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
-import 'package:nlmmobile/product/widgets/custom_circular.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/product_overview_view.dart';
 import 'package:nlmmobile/view/order/basket/basket_view_model.dart';
@@ -69,7 +68,9 @@ class _BasketViewState extends ConsumerState<BasketView>
   }
 
   Widget _loading() {
-    return const Center(child: CustomCircularProgressIndicator());
+    return Center(
+      child: CustomImages.loading,
+    );
   }
 
   Widget _content() {
