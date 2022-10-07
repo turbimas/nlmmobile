@@ -141,10 +141,15 @@ class BasketDetailViewModel extends ChangeNotifier {
         "lat": selectedDeliveryAddress.lat,
         "lng": selectedDeliveryAddress.lng,
       });
-      if (timeResponse.success) {
+      ResponseModel addressResponse = await NetworkService.get(
+          "users/adresses/${AuthService.currentUser!.id}");
+      if (timeResponse.success && addressResponse.success) {
         isLoading = false;
         times = timeResponse.data
             .map<DeliveryTimeModel>((e) => DeliveryTimeModel.fromJson(e))
+            .toList();
+        addresses = addressResponse.data
+            .map<AddressModel>((e) => AddressModel.fromJson(e))
             .toList();
         selectedDate = times!.first.dates.first.dayDateTime;
         selectedHour = times!.first.dates.first.hours.first;

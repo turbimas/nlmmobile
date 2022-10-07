@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,6 +41,10 @@ class BasketDetailView extends ConsumerStatefulWidget {
 class _BasketDetailState extends ConsumerState<BasketDetailView> {
   late final ChangeNotifierProvider<BasketDetailViewModel> provider;
   bool isDisposed = false;
+  int timeLapse = 0;
+
+  Stream<int> stream = Stream.periodic(const Duration(seconds: 1), (x) => x);
+  StreamSubscription<int>? subscription;
 
   @override
   void initState() {
@@ -47,20 +53,22 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
     Future.delayed(Duration.zero, () {
       ref.read(provider).getData();
     });
-    Future.delayed(const Duration(minutes: 5), () {
-      if (isDisposed) {
-        NavigationService.back();
-        PopupHelper.showErrorDialog(
-            errorMessage:
-                "Uzun süredir işlem yapmadığınız için, işleminiz iptal edildi.");
+    subscription = stream.listen((event) {
+      if (mounted && ModalRoute.of(context)!.isCurrent) {
+        timeLapse++;
+        if (timeLapse > 300) {
+          PopupHelper.showErrorToast("İşlem süresini aştınız");
+          NavigationService.back(times: 5);
+        }
       }
     });
+
     super.initState();
   }
 
   @override
   void dispose() {
-    isDisposed = true;
+    subscription!.cancel();
     super.dispose();
   }
 
@@ -413,13 +421,13 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomTextLocale(LocaleKeys.Basket_total,
+                  CustomText("Toplam tutar",
                       style: CustomFonts.bodyText2(CustomColors.cardText)),
                   CustomText(
                       ref
                           .watch(provider)
                           .basketTotal
-                          .lineTotal
+                          .generalTotal
                           .toStringAsFixed(2),
                       style: CustomFonts.bodyText4(CustomColors.cardText))
                 ],
@@ -627,6 +635,7 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
       child: Container(
         height: 60.smh,
         width: 330.smw,
+        margin: EdgeInsets.only(bottom: 10.smh),
         decoration: BoxDecoration(
             borderRadius: CustomThemeData.fullRounded,
             color: CustomColors.primary),
