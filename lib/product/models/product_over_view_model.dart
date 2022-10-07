@@ -15,7 +15,7 @@ class ProductOverViewModel {
   final String unitCode;
   final String? _thumbnail;
   double? basketQuantity;
-  double? basketFactor;
+  double basketFactor;
   int _favoriteId;
   bool get isFavorite => _favoriteId > 0;
   set favoriteId(int id) {

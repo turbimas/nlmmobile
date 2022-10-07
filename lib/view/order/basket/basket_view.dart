@@ -182,131 +182,161 @@ class _BasketViewState extends ConsumerState<BasketView>
     return AnimatedBuilder(
       animation: _animationController,
       builder: (context, child) => Positioned(
-        bottom: (-125 + _animationController.value * 200).smh,
-        child: Container(
-          height: 200.smh,
-          width: AppConstants.designWidth.smw,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: CustomColors.paymentCard,
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-            boxShadow: [
-              BoxShadow(
-                  color: const Color(0xFF50745C).withOpacity(0.5),
-                  blurRadius: 25,
-                  blurStyle: BlurStyle.inner)
-            ],
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InkWell(
-                onTap: ref.read(provider).goBasketDetail,
+        bottom: (-150 + _animationController.value * 225).smh,
+        child: Column(
+          children: [
+            SizedBox(
+                height: 25.smh,
+                width: 300.smw,
                 child: Container(
-                  height: 50.smh,
-                  width: 300.smw,
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30)),
-                      gradient: LinearGradient(
-                        colors: CustomColors.paymentCard,
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                      )),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CustomIcons.credit_card_icon_dark,
-                      CustomTextLocale(LocaleKeys.Basket_continue_basket,
-                          style: CustomFonts.bodyText2(CustomColors.cardText))
-                    ],
+                    padding: EdgeInsets.symmetric(horizontal: 10.smw),
+                    decoration: BoxDecoration(
+                        color: CustomColors.card2,
+                        borderRadius: CustomThemeData.topInfiniteRounded),
+                    child: Center(
+                        child: CustomText(
+                            ref.watch(provider).basketTotal!.lineTotal >
+                                    ref
+                                        .watch(provider)
+                                        .basketTotal!
+                                        .deliveryFreeAmount
+                                ? "Ücretsiz teslimat!"
+                                : "Ücretsiz teslimat için ${ref.watch(provider).basketTotal!.deliveryFreeAmount - ref.watch(provider).basketTotal!.lineTotal} TL daha !",
+                            style: CustomFonts.bodyText4(
+                                CustomColors.card2TextPale))))),
+            Container(
+              height: 200.smh,
+              width: AppConstants.designWidth.smw,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: CustomColors.paymentCard,
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                      color: const Color(0xFF50745C).withOpacity(0.5),
+                      blurRadius: 25,
+                      blurStyle: BlurStyle.inner)
+                ],
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  InkWell(
+                    onTap: ref.read(provider).goBasketDetail,
+                    child: Container(
+                      height: 50.smh,
+                      width: 300.smw,
+                      decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              bottomRight: Radius.circular(30)),
+                          gradient: LinearGradient(
+                            colors: CustomColors.paymentCard,
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                          )),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          CustomIcons.credit_card_icon_dark,
+                          CustomTextLocale(LocaleKeys.Basket_continue_basket,
+                              style:
+                                  CustomFonts.bodyText2(CustomColors.cardText))
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Container(
-                color: Colors.transparent,
-                margin:
-                    EdgeInsets.symmetric(horizontal: 25.smw, vertical: 10.smh),
-                height: 80.smh,
-                width: AppConstants.designWidth.smw,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
+                  Container(
+                    color: Colors.transparent,
+                    margin: EdgeInsets.symmetric(
+                        horizontal: 25.smw, vertical: 10.smh),
+                    height: 80.smh,
+                    width: AppConstants.designWidth.smw,
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CustomTextLocale(LocaleKeys.Basket_subtotal,
-                            style:
-                                CustomFonts.bodyText4(CustomColors.cardText)),
-                        CustomText(
-                            ref
-                                .watch(provider)
-                                .basketTotal!
-                                .lineTotal
-                                .toStringAsFixed(2),
-                            style: CustomFonts.bodyText4(CustomColors.cardText))
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomTextLocale(LocaleKeys.Basket_subtotal,
+                                style: CustomFonts.bodyText4(
+                                    CustomColors.cardText)),
+                            CustomText(
+                                ref
+                                    .watch(provider)
+                                    .basketTotal!
+                                    .lineTotal
+                                    .toStringAsFixed(2),
+                                style: CustomFonts.bodyText4(
+                                    CustomColors.cardText))
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomTextLocale(LocaleKeys.Basket_delivery_cost,
+                                style: CustomFonts.bodyText4(
+                                    CustomColors.cardText)),
+                            CustomText(
+                                ref
+                                    .watch(provider)
+                                    .basketTotal!
+                                    .deliveryTotal
+                                    .toStringAsFixed(2),
+                                style: CustomFonts.bodyText4(
+                                    CustomColors.cardText))
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomTextLocale(LocaleKeys.Basket_discount_cost,
+                                style: CustomFonts.bodyText4(
+                                    CustomColors.cardText)),
+                            CustomText(
+                                ref
+                                    .watch(provider)
+                                    .basketTotal!
+                                    .promotionTotal
+                                    .toStringAsFixed(2),
+                                style: CustomFonts.bodyText4(
+                                    CustomColors.cardText))
+                          ],
+                        )
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomTextLocale(LocaleKeys.Basket_delivery_cost,
-                            style:
-                                CustomFonts.bodyText4(CustomColors.cardText)),
-                        CustomText(
-                            ref
-                                .watch(provider)
-                                .basketTotal!
-                                .deliveryTotal
-                                .toStringAsFixed(2),
-                            style: CustomFonts.bodyText4(CustomColors.cardText))
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomTextLocale(LocaleKeys.Basket_discount_cost,
-                            style:
-                                CustomFonts.bodyText4(CustomColors.cardText)),
-                        CustomText(
-                            ref
-                                .watch(provider)
-                                .basketTotal!
-                                .promotionTotal
-                                .toStringAsFixed(2),
-                            style: CustomFonts.bodyText4(CustomColors.cardText))
-                      ],
-                    )
-                  ],
-                ),
+                  ),
+                  Divider(thickness: 1.smh, height: 1.smh),
+                  Container(
+                      padding: EdgeInsets.symmetric(horizontal: 25.smw),
+                      color: Colors.transparent,
+                      height: 49.smh,
+                      width: AppConstants.designWidth.smw,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomTextLocale(LocaleKeys.Basket_total,
+                              style:
+                                  CustomFonts.bodyText2(CustomColors.cardText)),
+                          CustomText(
+                              ref
+                                  .watch(provider)
+                                  .basketTotal!
+                                  .generalTotal
+                                  .toStringAsFixed(2),
+                              style:
+                                  CustomFonts.bodyText4(CustomColors.cardText))
+                        ],
+                      ))
+                ],
               ),
-              Divider(thickness: 1.smh, height: 1.smh),
-              Container(
-                  padding: EdgeInsets.symmetric(horizontal: 25.smw),
-                  color: Colors.transparent,
-                  height: 49.smh,
-                  width: AppConstants.designWidth.smw,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomTextLocale(LocaleKeys.Basket_total,
-                          style: CustomFonts.bodyText2(CustomColors.cardText)),
-                      CustomText(
-                          ref
-                              .watch(provider)
-                              .basketTotal!
-                              .generalTotal
-                              .toStringAsFixed(2),
-                          style: CustomFonts.bodyText4(CustomColors.cardText))
-                    ],
-                  ))
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -202,13 +202,14 @@ class _ProductOverviewViewVerticalState
           await NetworkService.post("orders/addbasket", body: {
         "CariID": AuthService.currentUser!.id,
         "Barcode": widget.product.barcode,
-        "Quantity": widget.product.basketFactor ?? 1,
+        "Quantity": widget.product.basketFactor,
       });
 
       if (response.success) {
         setState(() {
           widget.product.basketQuantity ??= 0;
-          widget.product.basketQuantity = widget.product.basketQuantity! + 1;
+          widget.product.basketQuantity =
+              widget.product.basketQuantity! + widget.product.basketFactor;
           widget.onBasketChanged?.call();
         });
       } else {
@@ -244,14 +245,14 @@ class _ProductOverviewViewVerticalState
         "CariID": AuthService.currentUser!.id,
         "Barcode": widget.product.barcode,
         "Quantity": widget.product.basketQuantity != null
-            ? (widget.product.basketQuantity! -
-                (widget.product.basketFactor ?? 1))
+            ? (widget.product.basketQuantity! - widget.product.basketFactor)
             : 0
       });
       if (response.success) {
         setState(() {
           widget.onBasketChanged?.call();
-          widget.product.basketQuantity = widget.product.basketQuantity! - 1;
+          widget.product.basketQuantity =
+              widget.product.basketQuantity! - widget.product.basketFactor;
           if (widget.product.basketQuantity! <= 0) {
             widget.product.basketQuantity = null;
           }
