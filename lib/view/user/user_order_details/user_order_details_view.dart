@@ -223,7 +223,8 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                   children: [
                     Expanded(
                       flex: 2,
-                      child: CustomText("Tahmini teslim",
+                      child: CustomTextLocale(
+                          LocaleKeys.UserOrderDetails_estimated_delivery_time,
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                     ),
@@ -247,7 +248,8 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                   children: [
                     Expanded(
                       flex: 2,
-                      child: CustomText("Teslim tarihi",
+                      child: CustomTextLocale(
+                          LocaleKeys.UserOrderDetails_delivery_time,
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                     ),
@@ -361,7 +363,8 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                 borderRadius: CustomThemeData.topRounded,
               ),
               child: Center(
-                  child: CustomText("Fatura Bilgileri",
+                  child: CustomTextLocale(
+                      LocaleKeys.UserOrderDetails_invoice_info,
                       style: CustomFonts.bodyText3(CustomColors.primaryText)))),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
@@ -420,7 +423,8 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                   children: [
                     Expanded(
                       flex: 2,
-                      child: CustomText("Vergi dairesi",
+                      child: CustomTextLocale(
+                          LocaleKeys.UserOrderDetails_tax_office,
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                     ),
@@ -445,8 +449,8 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: CustomText(
                           widget.orderTitle.invoiceAddressDetail?.isPerson ??
                                   false
-                              ? "T.C. Kimlik No"
-                              : "Vergi No",
+                              ? LocaleKeys.UserOrderDetails_identity_no
+                              : LocaleKeys.UserOrderDetails_tax_no,
                           style: CustomFonts.bodyText4(
                               CustomColors.card2TextPale)),
                     ),
@@ -572,9 +576,9 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
   Widget _cancelReturnButton() {
     late String text = "";
     if (widget.orderTitle.refundable) {
-      text = "İade et";
+      text = LocaleKeys.UserOrderDetails_return.tr();
     } else if (widget.orderTitle.voidable) {
-      text = "İptal Et";
+      text = LocaleKeys.UserOrderDetails_cancel.tr();
     } else {
       return Container();
     }
@@ -631,10 +635,12 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
             padding: EdgeInsets.symmetric(horizontal: 10.smw),
             child: Row(
               children: [
-                CustomText("Miktar: ${linesModel.amount}",
+                CustomTextLocale(LocaleKeys.UserOrderDetails_amount,
+                    args: [linesModel.amount.toStringAsFixed(2)],
                     style: CustomFonts.bodyText4(CustomColors.cardTextPale)),
                 SizedBox(width: 10.smw),
-                CustomText("Durum: ${linesModel.lineStatusName}",
+                CustomTextLocale(LocaleKeys.UserOrderDetails_status,
+                    args: [linesModel.lineStatusName],
                     style: CustomFonts.bodyText4(CustomColors.cardTextPale)),
               ],
             ),

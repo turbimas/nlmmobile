@@ -194,16 +194,29 @@ class _BasketViewState extends ConsumerState<BasketView>
                         color: CustomColors.card2,
                         borderRadius: CustomThemeData.topInfiniteRounded),
                     child: Center(
-                        child: CustomText(
-                            ref.watch(provider).basketTotal!.lineTotal >
-                                    ref
-                                        .watch(provider)
-                                        .basketTotal!
-                                        .deliveryFreeAmount
-                                ? "Ücretsiz teslimat!"
-                                : "Ücretsiz teslimat için ${(ref.watch(provider).basketTotal!.deliveryFreeAmount - ref.watch(provider).basketTotal!.lineTotal).toStringAsFixed(2)} TL daha !",
-                            style: CustomFonts.bodyText4(
-                                CustomColors.card2TextPale))))),
+                        child: ref.watch(provider).basketTotal!.lineTotal >
+                                ref
+                                    .watch(provider)
+                                    .basketTotal!
+                                    .deliveryFreeAmount
+                            ? CustomTextLocale(LocaleKeys.Basket_free_delivery,
+                                style: CustomFonts.bodyText4(
+                                    CustomColors.card2TextPale))
+                            : CustomTextLocale(
+                                LocaleKeys.Basket_for_free_delivery,
+                                args: [
+                                  (ref
+                                              .watch(provider)
+                                              .basketTotal!
+                                              .deliveryFreeAmount -
+                                          ref
+                                              .watch(provider)
+                                              .basketTotal!
+                                              .lineTotal)
+                                      .toStringAsFixed(2)
+                                ],
+                                style: CustomFonts.bodyText4(
+                                    CustomColors.card2TextPale))))),
             Container(
               height: 200.smh,
               width: AppConstants.designWidth.smw,

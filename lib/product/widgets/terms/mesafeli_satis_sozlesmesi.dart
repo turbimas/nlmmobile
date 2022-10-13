@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/network/network_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_images.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
@@ -11,7 +13,8 @@ class MesafeliSatisSozlesmesi extends StatefulWidget {
   final int deliveryAdressId;
   final int invoiceAdressId;
   const MesafeliSatisSozlesmesi(
-      {required this.cariId,
+      {super.key,
+      required this.cariId,
       required this.deliveryAdressId,
       required this.invoiceAdressId});
 
@@ -34,7 +37,8 @@ class _MesafeliSatisSozlesmesiState extends State<MesafeliSatisSozlesmesi> {
   Widget build(BuildContext context) {
     return CustomSafeArea(
         child: Scaffold(
-      appBar: CustomAppBar.activeBack("Mesafeli Satış Sözleşmesi"),
+      appBar: CustomAppBar.activeBack(
+          LocaleKeys.MesafeliSatisSozlesmesi_appbar_title.tr()),
       body: Center(
           child: isLoading
               ? CustomImages.loading

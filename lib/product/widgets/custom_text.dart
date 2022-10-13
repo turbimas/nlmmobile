@@ -1,5 +1,7 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class CustomText extends StatelessWidget {
   String data;
@@ -8,7 +10,8 @@ class CustomText extends StatelessWidget {
   // double? minFontSize;
   TextAlign textAlign;
   CustomText(this.data,
-      {this.style,
+      {super.key,
+      this.style,
       // this.minFontSize,
       this.maxLines = 1,
       this.textAlign = TextAlign.start});
@@ -39,7 +42,8 @@ class CustomTextLocale extends StatelessWidget {
   // double? minFontSize;
   TextAlign textAlign;
   CustomTextLocale(this.data,
-      {this.args = const [],
+      {super.key,
+      this.args = const [],
       this.style,
       // this.minFontSize,
       this.maxLines = 1,

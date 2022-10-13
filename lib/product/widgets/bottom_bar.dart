@@ -13,6 +13,8 @@ class BottomBar extends StatelessWidget {
 
   static const _animationDuration = Duration(milliseconds: 100);
 
+  const BottomBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = ScreenUtil.defaultSize.width;

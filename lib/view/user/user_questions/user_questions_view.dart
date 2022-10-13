@@ -117,14 +117,16 @@ class _UserQuestionsViewState extends ConsumerState<UserQuestionsView> {
         ref.watch(provider).answered.isEmpty) {
       return Expanded(
           child: Center(
-              child: CustomText("Cevaplanmış soru bulunamadı",
+              child: CustomTextLocale(
+                  LocaleKeys.UserQuestions_answered_question_not_found,
                   style: CustomFonts.bodyText2(CustomColors.backgroundText))));
     }
     if (ref.watch(provider).index == 1 &&
         ref.watch(provider).unanswered.isEmpty) {
       return Expanded(
           child: Center(
-              child: CustomText("Cevaplanmamış soru bulunamadı",
+              child: CustomTextLocale(
+                  LocaleKeys.UserQuestions_unanswered_question_not_found,
                   style: CustomFonts.bodyText2(CustomColors.backgroundText))));
     }
     return SizedBox(

@@ -74,7 +74,7 @@ class _UserAddressesViewState extends ConsumerState<UserAddressesView> {
 
   Widget _empty() {
     return Center(
-      child: CustomText("Kayıtlı adresiniz bulunamadı",
+      child: CustomTextLocale(LocaleKeys.UserAddresses_no_address,
           style: CustomFonts.bodyText2(CustomColors.backgroundText)),
     );
   }

@@ -126,14 +126,15 @@ class _UserRatingsViewState extends ConsumerState<UserRatingsView> {
     if (ref.watch(provider).index == 0 && ref.watch(provider).rated.isEmpty) {
       return Expanded(
         child: Center(
-            child: CustomText("Değerlendirme bulunamadı",
+            child: CustomTextLocale(LocaleKeys.UserRatings_no_rating_found,
                 style: CustomFonts.bodyText2(CustomColors.backgroundText))),
       );
     }
     if (ref.watch(provider).index == 1 && ref.watch(provider).unrated.isEmpty) {
       return Expanded(
         child: Center(
-            child: CustomText("Değerlendirebileceğiniz ürün bulunamadı",
+            child: CustomTextLocale(
+                LocaleKeys.UserRatings_no_rating_found_for_rate,
                 style: CustomFonts.bodyText2(CustomColors.backgroundText))),
       );
     }

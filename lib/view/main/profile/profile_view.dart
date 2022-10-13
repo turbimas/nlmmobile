@@ -83,7 +83,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   CustomIcons.edit_icon__medium,
-                  CustomText(LocaleKeys.Profile_edit_profile.tr(),
+                  CustomTextLocale(LocaleKeys.Profile_edit_profile,
                       style: CustomFonts.bodyText2(CustomColors.secondaryText))
                 ],
               ),

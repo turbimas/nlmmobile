@@ -1,24 +1,7 @@
 {
-    "Validation": {
-        "sent_message": "{} mail adresine bir onay kodu ilettik",
-        "validation_hint": "Onay kodunu girin",
-        "wrong_code": "Onay kodu yanlış!",
-        "go_back": "Geri dön",
-        "resend": "Onay kodunu tekrar gönder",
-        "resended": "Onay kodu tekrar gönderildi"
-    },
     "ForgotPassword": {
         "prompt_message": "Lütfen aşşağıdaki alana mail adresinizi girin. Size göndereceğimiz mail ile giriş bilgilerinizi hatırlatacağız.",
         "email_hint":"Mail adresinizi girin"
-    },
-    "Register":{
-        "appbar_title":"Hesap Oluştur",
-        "full_name_hint":"Ad Soyad",
-        "phone_hint":"Numara",
-        "email_hint":"E-posta adresi",
-        "password_hint":"Şifre",
-        "accept_agreement": "Üyelik sözleşmesini okudum ve kabul ediyorum",
-        "register_button": "Kayıt ol"
     },
     "Login": {
         "appbar_title": "Giriş Yap",
@@ -29,13 +12,34 @@
         "not_registered_yet": "Henüz üye olmadıysanız",
         "register_button":"Kayıt ol"
     },
+    "Register":{
+        "appbar_title":"Hesap Oluştur",
+        "full_name_hint":"Ad Soyad",
+        "phone_hint":"Numara",
+        "email_hint":"E-posta adresi",
+        "password_hint":"Şifre",
+        "accept_agreement": "Üyelik sözleşmesini okudum ve kabul ediyorum",
+        "register_button": "Kayıt ol",
+        "term_condition_1":"Üyelik sözleşmesini",
+        "term_condition_2":"Okudum, kabul ediyorum"
+    },
+    "Validation": {
+        "sent_message": "{} mail adresine bir onay kodu ilettik",
+        "validation_hint": "Onay kodunu girin",
+        "wrong_code": "Onay kodu yanlış!",
+        "go_back": "Geri dön",
+        "resend": "Onay kodunu tekrar gönder",
+        "resent": "Onay kodu tekrar gönderildi"
+        
+    },
     "Home": {
         "search_hint":"Ürün veya kategori ara",
         "all":"Tümü"
     },
     "Favorites": {
         "appbar_title": "Favorileri ürünlerim",
-        "search_hint":"Ürün veya kategori ara"
+        "search_hint":"Ürün veya kategori ara",
+        "non_favorite": "Favori ürününüz bulunmamaktadır"
     },
     "Categories":{
         "appbar_title":"Ürün kategorileri",
@@ -55,10 +59,15 @@
     },
     "SearchResult": {
         "appbar_title": "Arama sonuçları",
-        "order":"Sırala",
-        "filter":"Filtrele",
+        "order":"Sıralama",
+        "filter":"Filtreleme",
         "search": "Ara",
-        "change_category": "Kategori değiştir"
+        "change_category": "Kategori değiştir",
+        "not_found":"Aradığınız kriterlere uygun sonuç bulunamadı",
+        "name_a_z":"İsme göre A-Z",
+        "name_z_a":"İsme göre Z-A",
+        "price_low_high":"Fiyat (Küçükten büyüğe)",
+        "price_high_low":"Fiyat (Büyükten küçüğe)"
     },
     "BasketEmpty":{
         "appbar_title":"Sepetim",
@@ -72,25 +81,60 @@
         "subtotal":"Ara toplam",
         "delivery_cost":"Teslimat tutarı",
         "discount_cost": "İndirim tutarı",
-        "total":"Toplam tutar"
+        "total":"Toplam tutar",
+        "free_delivery":"Ücretsiz teslimat!",
+        "for_free_delivery":"Ücretsiz teslimat için {} TL daha !"
     },
     "BasketDetail": {
         "appbar_title":"Sipariş detayları",
         "edit":"Düzenle",
         "choice_address":"Teslimat adresi seçin",
+        "choice_tax_address":"Fatura adresi seçin",
         "choice_time":"Teslimat tarihi seçin",
+        "pay_on_door":"Kapıda ödeme",
+        "pay_on_door_or_card": "Kapıda nakit veya pos cihazı ile ödeme",
+        "term_contactless_part_1":"Mesafeli satış sözleşmesini",
+        "term_contactless_part_2":"ve",
+        "term_contactless_part_3":"Ön Bilgilendirme",
+        "term_contactless_part_4":"formunu",
+        "term_contactless_part_5":"okudum ve kabul ediyorum",
         "choice_promotion":"Promosyon seçin",
         "choice_payment_method":"Ödeme yöntemi seçin",
         "do_not_ring":"Zili çalma",
         "contactless_payment":"Temazsız ödeme",
+        "contactless_payment_tip":"Ürünlerinizi kapınıza bırakıp sizi arıyacağız",
         "done_delivery":"Siparişi bitir",
         "subtotal":"Ara toplam",
         "delivery_cost":"Teslimat tutarı",
         "discount_cost": "İndirim tutarı",
-        "total":"Toplam tutar"
+        "total":"Toplam tutar",
+        "order_note":"Sipariş notu",
+        "estimated_delivery_time":"Tahmini teslimat süresi: {}",
+        "out_off_process_time":"İşlem süresini aştınız",
+        "non_address":"Hiçbir adres bulunamadı",
+        "delivery_tax_separate":"Fatura ve teslimat adresi aynı"
     },
+    
     "DeliveryTime":{
         "appbar_title":"Teslimat süresi seç"
+    },
+    "OrderCancelReturn": {
+        "cancel":"İptal et",
+        "return":"İade et",
+        "count":"Miktar: {}",
+        "state": "Durum: {}"
+    },
+    "OrderSuccess": {
+        "success_message":"Siparişinizi aldık",
+        "order_number":"Sipariş numaranız: {}",
+        "success_clipboard":"Sipariş numaranız panoya kopyalandı",
+        "continue":"Devam et"
+    },
+    "ReturnSuccess": {
+        "success_message":"İade talebiniz alındı",
+        "return_number":"İade numaranız: {}",
+        "success_clipboard":"İade numaranız panoya kopyalandı",
+        "continue":"Devam et"
     },
     "Promotions": {
         "appbar_title":"Promosyonlar",
@@ -103,16 +147,10 @@
         "continue":"Devam et",
         "cancel":"İptal et"
     },
-    "ReturnSuccess": {
-        "appbar_title": "İade başarılı",
-        "inform_message": "İade işleminizi aldık",
-        "return_number": "İade numaranız: {}",
-        "continue":"Devam et"
-    },
+  
     "CancelSuccess": {
         "appbar_title": "İptal başarılı",
-        "inform_message": "İptal işleminizi aldık",
-        "cancel_number": "İptal numaranız: {}",
+        "inform_message": "İptal talebinizi aldık",
         "continue":"Devam et"
     },
     "ProductDetail":{
@@ -134,7 +172,8 @@
         "appbar_title": "{}",
         "rating_comment_count": "{} Değerlendirme | {} Yorum",
         "active_comments": "Şuan derecelendirme derecesi {} olan yorumları görebiliyorsunuz",
-        "search_hint":"Yorumlarda ara"
+        "search_hint":"Yorumlarda ara",
+        "no_rating_found_yet":"Bu ürünün henüz yorumu yok."
     },
     "ProductQuestions":{
         "appbar_title": "{}",
@@ -159,16 +198,46 @@
         "appbar_title":"Sorularım",
         "answered":"Cevaplanmış",
         "unanswered":"Cevaplanmamış",
-        "seller_answer":"Satıcı yanıtı"
+        "seller_answer":"Satıcı yanıtı",
+        "unanswered_question_not_found":"Cevaplanmamış soru bulunamadı",
+        "answered_question_not_found":"Cevaplanmış soru bulunamadı"
     },
     "UserRatings":{
         "appbar_title":"Değerlendirmelerim",
         "rating":"Değerlendirdiklerim",
-        "rate_now":"Şimdi değerlendir"
+        "rate_now":"Şimdi değerlendir",
+        "no_rating_found":"Değerlendirme bulunamadı",
+        "no_rating_found_for_rate":"Değerlendirebileceğiniz ürün bulunamadı"
+    },
+    "UserAddressAdd": {
+        "appbar_title":"Yeni adres ekle",
+        "use_current_location":"Mevcut konumu kullan",
+        "open_map":"Haritayı aç",
+        "country":"Ülke",
+        "city":"Şehir",
+        "region":"Bölge",
+        "district":"Semt",
+        "town":"Mahalle",
+        "street":"Sokak",
+        "building":"Bina no",
+        "postal_code":"Posta kodu",
+        "address_header":"Adres başlığı",
+        "name_surname":"Ad Soyad",
+        "email":"E-posta",
+        "phone":"Telefon",
+        "note":"Not",
+        "add_tax_info":"Fatura bilgilerini ekle",
+        "location_retrieving":"Konum bilgisi alınıyor...",
+        "person": "Şahıs",
+        "corporate": "Kurumsal",
+        "identity_no": "TCKN no",
+        "tax_number": "Vergi no",
+        "tax_office": "Vergi dairesi"
     },
     "UserAddresses":{
         "appbar_title":"Adreslerim",
-        "add_address":"Yeni Adres ekle"
+        "add_address":"Yeni Adres ekle",
+        "no_address":"Henüz adresiniz yok"
     },
     "UserCards":{
         "appbar_title":"Kartlarım",
@@ -180,7 +249,20 @@
         "date":"Tarih: ",
         "status":"Durumu: ",
         "order_total":"Sipariş tutarı: ",
-        "total_product":"Toplam\n{}\nÜrün"
+        "total_product":"Toplam\n{}\nÜrün",
+        "non_order":"Siparişiniz bulunmamaktadır"
+    },
+    "UserProfile": {
+        "appbar_title":"Profilim",
+        "personal_info": "Kişisel bilgilerim",
+        "name_surname": "Ad Soyad",
+        "born_date": "Doğum tarihi",
+        "phone": "Telefon",
+        "email":"E-posta",
+        "change_password": "Şifremi değiştir",
+        "old_password": "Eski şifre",
+        "new_password": "Yeni şifre",
+        "new_password_again": "Yeni şifre tekrar"
     },
     "UserSettings":{
         "appbar_title":"Profili düzenle",
@@ -199,7 +281,7 @@
         "order_info":"Sipariş bilgileri",
         "no":"No",
         "date":"Tarih",
-        "status":"Durumu",
+        "status":"Durum: {}",
         "order_total":"Sipariş tutarı",
         "delivery_info":"Teslimat bilgileri",
         "name":"Kişi",
@@ -211,7 +293,15 @@
         "discount_cost": "İndirim tutarı",
         "total":"Genel toplam",
         "products": "Ürünler",
-        "amount": "Miktar"
+        "amount": "Miktar: {}",
+        "estimated_delivery_time": "Tahmini teslimat",
+        "delivery_time": "Teslimat tarihi",
+        "invoice_info": "Fatura bilgileri",
+        "tax_office": "Vergi dairesi",
+        "tax_no": "Vergi no",
+        "identity_no":"TCKN no",
+        "return":"İade et",
+        "cancel":"İptal et"
     },
     "UserPromotions":{
         "appbar_title":"Promosyonlar"
@@ -266,6 +356,28 @@
         "ok_cancel_prompt_ok": "Onayla",
         "ok_cancel_prompt_cancel": "İptal",
         "add_to_basket": "Sepete Ekle"
+    },
+    "PopupHelper": {
+        "rating_text_optional":"Değerlendirme metni (isteğe bağlı)",
+        "send_rating":"Değerlendirmeyi Gönder",
+        "enter_question_text":"Soru metni girin",
+        "ask":"Sor"
+    },
+    "TryAgainWidget": {
+        "try_again":"Tekrar deneyin"
+    },
+    "MesafeliSatisSozlesmesi": {
+        "appbar_title":"Mesafeli Satış Sözleşmesi"
+    },
+    "KayitOnBilgilendirmeFormu": {
+        "appbar_title":"Kayıt On Bilgilendirme Formu"
+    },
+    "OnBilgilendirmeFormu": {
+        "appbar_title":"On Bilgilendirme Formu"
+    },
+    "ProductOverView": {
+        "product_added_favorites":"Ürün favorilerinize eklendi",
+        "product_removed_favorites":"Ürün favorilerinizden kaldırıldı"
     },
     "ERROR": "Bilinmeyen bir hata oluştu"
 }

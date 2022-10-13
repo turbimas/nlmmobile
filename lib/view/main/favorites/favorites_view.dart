@@ -68,8 +68,7 @@ class _FavoritesViewState extends ConsumerState<FavoritesView> {
         height: 50.smh,
         width: 300.smw,
         child: Center(
-          // TODO: Add localization
-          child: CustomText("Favori ürününüz bulunmamaktadır.",
+          child: CustomTextLocale(LocaleKeys.Favorites_non_favorite,
               style: CustomFonts.bodyText1(CustomColors.backgroundText)),
         ),
       ),

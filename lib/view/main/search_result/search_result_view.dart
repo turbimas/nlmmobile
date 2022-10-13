@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -209,7 +211,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
       return SizedBox(
         height: 535.smh,
         child: Center(
-            child: CustomText("Aradığınız kriterlere uygun sonuç bulunamadı",
+            child: CustomTextLocale(LocaleKeys.SearchResult_not_found,
                 maxLines: 2,
                 style: CustomFonts.bodyText2(CustomColors.backgroundText))),
       );
@@ -251,8 +253,8 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
                       padding: EdgeInsets.symmetric(horizontal: 30.smw),
                       child: Align(
                           alignment: Alignment.centerLeft,
-                          child: CustomText(
-                            "Filitreleme",
+                          child: CustomTextLocale(
+                            LocaleKeys.SearchResult_filter,
                             style:
                                 CustomFonts.bodyText1(CustomColors.primaryText),
                           )),
@@ -291,8 +293,8 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
                             padding: EdgeInsets.symmetric(horizontal: 30.smw),
                             child: Align(
                                 alignment: Alignment.centerLeft,
-                                child: CustomText(
-                                  "Sıralama",
+                                child: CustomTextLocale(
+                                  LocaleKeys.SearchResult_order,
                                   style: CustomFonts.bodyText1(
                                       CustomColors.primaryText),
                                 )),
@@ -325,8 +327,9 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
                                                       .radio_unchecked_light_icon)),
                                       Expanded(
                                           flex: 5,
-                                          child: CustomText(
-                                            "Fiyat (Küçükten büyüğe)",
+                                          child: CustomTextLocale(
+                                            LocaleKeys
+                                                .SearchResult_price_low_high,
                                             style: CustomFonts.bodyText4(
                                                 CustomColors.secondaryText),
                                           ))
@@ -360,8 +363,9 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
                                                       .radio_unchecked_light_icon)),
                                       Expanded(
                                           flex: 5,
-                                          child: CustomText(
-                                            "Fiyat (Büyükten küçüğe)",
+                                          child: CustomTextLocale(
+                                            LocaleKeys
+                                                .SearchResult_price_high_low,
                                             style: CustomFonts.bodyText4(
                                                 CustomColors.secondaryText),
                                           ))
@@ -395,8 +399,8 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
                                                       .radio_unchecked_light_icon)),
                                       Expanded(
                                           flex: 5,
-                                          child: CustomText(
-                                            "İsim (A-Z)",
+                                          child: CustomTextLocale(
+                                            LocaleKeys.SearchResult_name_a_z,
                                             style: CustomFonts.bodyText4(
                                                 CustomColors.secondaryText),
                                           ))
@@ -430,8 +434,8 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
                                                       .radio_unchecked_light_icon)),
                                       Expanded(
                                           flex: 5,
-                                          child: CustomText(
-                                            "İsim (Z-A)",
+                                          child: CustomTextLocale(
+                                            LocaleKeys.SearchResult_name_z_a,
                                             style: CustomFonts.bodyText4(
                                                 CustomColors.secondaryText),
                                           ))

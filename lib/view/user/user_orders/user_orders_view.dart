@@ -63,8 +63,8 @@ class _UserOrdersViewState extends ConsumerState<UserOrdersView> {
     }
     if (ref.watch(provider).orders!.isEmpty) {
       return Center(
-          child: CustomText(
-        "Siparişiniz bulunmamaktadır",
+          child: CustomTextLocale(
+        LocaleKeys.UserOrders_non_order,
         style: CustomFonts.bodyText2(CustomColors.backgroundText),
       ));
     }

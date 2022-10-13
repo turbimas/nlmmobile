@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
@@ -33,7 +35,8 @@ class _DeliveryTimesViewState extends ConsumerState<DeliveryTimesView> {
   Widget build(BuildContext context) {
     return CustomSafeArea(
         child: Scaffold(
-      appBar: CustomAppBar.activeBack("Teslimat Süresi seçin"),
+      appBar:
+          CustomAppBar.activeBack(LocaleKeys.DeliveryTime_appbar_title.tr()),
       body: Padding(
         padding: EdgeInsets.only(left: 0, top: 10.smh),
         child: Column(

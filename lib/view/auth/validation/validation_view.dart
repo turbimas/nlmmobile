@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -118,9 +120,8 @@ class _ValidationViewState extends ConsumerState<ValidationView> {
       height: 80.smh,
       width: 300.smw,
       child: Center(
-        child: CustomText(
-            LocaleKeys.Validation_sent_message.tr(
-                args: [widget.registerData["Email"]]),
+        child: CustomTextLocale(LocaleKeys.Validation_sent_message,
+            args: [widget.registerData["Email"]],
             style: CustomFonts.bodyText4(CustomColors.backgroundText)),
       ),
     );
@@ -147,7 +148,7 @@ class _ValidationViewState extends ConsumerState<ValidationView> {
         child: Align(
             alignment: Alignment.centerRight,
             child: CustomTextLocale(ref.watch(provider).resented
-                ? LocaleKeys.Validation_resended
+                ? LocaleKeys.Validation_resent
                 : LocaleKeys.Validation_resend)),
       ),
     );

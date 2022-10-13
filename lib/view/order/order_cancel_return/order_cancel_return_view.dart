@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_icons.dart';
@@ -37,12 +38,14 @@ class _OrderCancelReturnViewState extends ConsumerState<OrderCancelReturnView> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
           onPressed: ref.read(provider).createRequest,
-          label:
-              CustomText(widget.orderTitle.refundable ? "İade et" : "İptal et"),
+          label: CustomTextLocale(widget.orderTitle.refundable
+              ? LocaleKeys.OrderCancelReturn_return
+              : LocaleKeys.OrderCancelReturn_cancel),
           icon: const Icon(Icons.check),
         ),
-        appBar: CustomAppBar.activeBack(
-            widget.orderTitle.refundable ? "İade et" : "İptal et"),
+        appBar: CustomAppBar.activeBack(widget.orderTitle.refundable
+            ? LocaleKeys.OrderCancelReturn_return
+            : LocaleKeys.OrderCancelReturn_cancel),
         body: _body(),
       ),
     );
@@ -92,11 +95,13 @@ class _OrderCancelReturnViewState extends ConsumerState<OrderCancelReturnView> {
                 children: [
                   Row(
                     children: [
-                      CustomText("Miktar: ${linesModel.amount}",
+                      CustomTextLocale(LocaleKeys.OrderCancelReturn_count,
+                          args: [linesModel.amount.toStringAsFixed(2)],
                           style:
                               CustomFonts.bodyText4(CustomColors.cardTextPale)),
                       SizedBox(width: 10.smw),
-                      CustomText("Durum: ${linesModel.lineStatusName}",
+                      CustomTextLocale(LocaleKeys.OrderCancelReturn_state,
+                          args: [linesModel.lineStatusName],
                           style:
                               CustomFonts.bodyText4(CustomColors.cardTextPale)),
                     ],

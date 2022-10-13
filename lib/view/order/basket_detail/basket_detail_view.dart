@@ -57,7 +57,8 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
       if (mounted && ModalRoute.of(context)!.isCurrent) {
         timeLapse++;
         if (timeLapse > 300) {
-          PopupHelper.showErrorToast("İşlem süresini aştınız");
+          PopupHelper.showErrorToast(
+              LocaleKeys.BasketDetail_out_off_process_time.tr());
           NavigationService.back(times: 5);
         }
       }
@@ -107,7 +108,7 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CustomText("Hiçbir adres bulunamadı",
+            CustomTextLocale(LocaleKeys.BasketDetail_non_address,
                 style: CustomFonts.bodyText2(CustomColors.primaryText)),
             Icon(Icons.location_city, color: CustomColors.primaryText),
           ],
@@ -166,8 +167,8 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
               ? CustomIcons.checkbox_checked_icon
               : CustomIcons.checkbox_unchecked_icon,
           SizedBox(width: 10.smw),
-          CustomText(
-            "Fatura ve teslimat adresi aynı",
+          CustomTextLocale(
+            LocaleKeys.BasketDetail_delivery_tax_separate,
             style: CustomFonts.bodyText3(CustomColors.backgroundText),
           ),
         ],
@@ -216,7 +217,7 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomText("Fatura adresi seçin",
+              CustomTextLocale(LocaleKeys.BasketDetail_choice_tax_address,
                   style: CustomFonts.bodyText2(CustomColors.backgroundText)),
             ],
           ),
@@ -279,9 +280,9 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
           ),
           SizedBox(height: 10.smh),
           _radioContainer(
-              title: "Kapıda ödeme",
+              title: LocaleKeys.BasketDetail_pay_on_door,
               isSelected: true,
-              description: "Kapıda nakit veya pos cihazı ile ödeme"),
+              description: LocaleKeys.BasketDetail_pay_on_door_or_card),
         ],
       ),
     );
@@ -421,7 +422,7 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomText("Toplam tutar",
+                  CustomTextLocale(LocaleKeys.BasketDetail_total,
                       style: CustomFonts.bodyText2(CustomColors.cardText)),
                   CustomText(
                       ref
@@ -462,10 +463,10 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CustomText(title,
+                    CustomTextLocale(title,
                         style: CustomFonts.bodyText4(CustomColors.primaryText)),
                     description != null
-                        ? CustomText(description,
+                        ? CustomTextLocale(description,
                             style:
                                 CustomFonts.bodyText5(CustomColors.primaryText),
                             maxLines: 2)
@@ -481,7 +482,7 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
   List<Widget> _optionsList() {
     List<Widget> options = [];
     options.add(_optionTile(
-        title: "Zili Çalma",
+        title: LocaleKeys.BasketDetail_do_not_ring,
         checked: ref.watch(provider).doNotRingBell,
         onTap: () {
           ref.read(provider).doNotRingBell = !ref.watch(provider).doNotRingBell;
@@ -492,8 +493,8 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
           ref.read(provider).contactlessDelivery =
               !ref.watch(provider).contactlessDelivery;
         },
-        title: "Temassız alışveriş",
-        subtitle: "Ürünlerinizi kapınıza bırakıp sizi arıyacağız",
+        title: LocaleKeys.BasketDetail_contactless_payment,
+        subtitle: LocaleKeys.BasketDetail_contactless_payment_tip,
         checked: ref.watch(provider).contactlessDelivery));
     options.add(SizedBox(height: 15.smh));
     options.add(InkWell(
@@ -515,15 +516,18 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
               Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 InkWell(
                     onTap: _mesafeliSatisSozlesmesiFunction,
-                    child: CustomText("Mesafeli satış sözleşmesini",
+                    child: CustomTextLocale(
+                        LocaleKeys.BasketDetail_term_contactless_part_1,
                         style: CustomFonts.bodyText4(CustomColors.primary))),
                 SizedBox(width: 5.smw),
-                CustomText("ve",
+                CustomTextLocale(
+                    LocaleKeys.BasketDetail_term_contactless_part_2,
                     style: CustomFonts.bodyText4(CustomColors.backgroundText)),
                 SizedBox(width: 5.smw),
                 InkWell(
                   onTap: _onBilgilendirmeFormuFunction,
-                  child: CustomText("Ön Bilgilendirme",
+                  child: CustomTextLocale(
+                      LocaleKeys.BasketDetail_term_contactless_part_3,
                       style: CustomFonts.bodyText4(CustomColors.primary)),
                 )
               ]),
@@ -532,10 +536,12 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
                 children: [
                   InkWell(
                       onTap: _onBilgilendirmeFormuFunction,
-                      child: CustomText("formunu",
+                      child: CustomTextLocale(
+                          LocaleKeys.BasketDetail_term_contactless_part_4,
                           style: CustomFonts.bodyText4(CustomColors.primary))),
                   SizedBox(width: 5.smw),
-                  CustomText("okudum ve kabul ediyorum",
+                  CustomTextLocale(
+                      LocaleKeys.BasketDetail_term_contactless_part_5,
                       style:
                           CustomFonts.bodyText4(CustomColors.backgroundText)),
                 ],
@@ -566,18 +572,18 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
                   : CustomIcons.checkbox_unchecked_icon,
               SizedBox(width: 10.smw),
               subtitle == null
-                  ? CustomText(title,
+                  ? CustomTextLocale(title,
                       maxLines: 2,
                       style: CustomFonts.bodyText4(CustomColors.backgroundText))
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomText(title,
+                        CustomTextLocale(title,
                             maxLines: 2,
                             style: CustomFonts.bodyText4(
                                 CustomColors.backgroundText)),
-                        CustomText(subtitle,
+                        CustomTextLocale(subtitle,
                             maxLines: 2,
                             style: CustomFonts.bodyText5(CustomColors.primary))
                       ],
@@ -598,7 +604,7 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
         maxLines: 3,
         style: CustomFonts.defaultField(CustomColors.primaryText),
         decoration: InputDecoration(
-            hintText: "Sipariş notu",
+            hintText: LocaleKeys.BasketDetail_order_note.tr(),
             hintStyle: CustomFonts.defaultField(CustomColors.primaryText),
             border: InputBorder.none,
             contentPadding:
@@ -657,8 +663,9 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
                   children: [
                     CustomText(deliveryTimeModel.typeName,
                         style: CustomFonts.bodyText2(CustomColors.primaryText)),
-                    CustomText(
-                        "Tahmini teslimat süresi: ${deliveryTimeModel.dates.first.hours.first}",
+                    CustomTextLocale(
+                        LocaleKeys.BasketDetail_estimated_delivery_time,
+                        args: [deliveryTimeModel.dates.first.hours.first],
                         style: CustomFonts.bodyText4(CustomColors.primaryText)),
                   ],
                 )),

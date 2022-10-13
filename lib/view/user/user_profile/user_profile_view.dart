@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nlmmobile/core/services/auth/authservice.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
@@ -41,7 +43,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
   Widget build(BuildContext context) {
     return CustomSafeArea(
         child: Scaffold(
-      appBar: CustomAppBar.activeBack("Profilim"),
+      appBar: CustomAppBar.activeBack(LocaleKeys.UserProfile_appbar_title.tr()),
       body: _body(),
     ));
   }
@@ -63,11 +65,12 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
               children: [
                 Container(
                     margin: EdgeInsets.symmetric(vertical: 20.smh),
-                    child: CustomText("Kişisel Bilgiler",
+                    child: CustomTextLocale(
+                        LocaleKeys.UserProfile_personal_info,
                         style: CustomFonts.bodyText2(
                             CustomColors.backgroundText))),
                 _customTextField(
-                    hintText: "Ad Soyad",
+                    hintText: LocaleKeys.UserProfile_name_surname.tr(),
                     formKey: "Name",
                     initialValue: AuthService.currentUser!.nameSurname),
                 InkWell(
@@ -86,23 +89,24 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                     },
                     child: _customReadOnlyField(
                         readKey: "BornDate",
-                        hint: "Doğum tarihi",
+                        hint: LocaleKeys.UserProfile_born_date.tr(),
                         initialValue: AuthService.currentUser!.birthDate
                             ?.toString()
                             .split(" ")[0])),
                 _customTextField(
-                    hintText: "Telefon numarası",
+                    hintText: LocaleKeys.UserProfile_phone,
                     formKey: "MobilePhone",
                     initialValue:
                         (AuthService.currentUser!.phone ?? "").toString()),
                 _customTextField(
-                    hintText: "E-posta",
+                    hintText: LocaleKeys.UserProfile_email,
                     formKey: "Email",
                     initialValue: AuthService.currentUser!.email),
                 Container(
                     margin: EdgeInsets.symmetric(vertical: 20.smh),
                     child: SwitchListTile(
-                        title: CustomText("Şifremi değiştir",
+                        title: CustomTextLocale(
+                            LocaleKeys.UserProfile_change_password,
                             style: CustomFonts.bodyText2(
                                 CustomColors.backgroundText)),
                         activeColor: CustomColors.primary,
@@ -184,10 +188,15 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     return Column(
       children: [
         _customTextField(
-            hintText: "Eski şifre", formKey: "oldPassword", obscureText: true),
-        _customTextField(hintText: "Yeni şifre", formKey: "newPassword"),
+            hintText: LocaleKeys.UserProfile_old_password,
+            formKey: "oldPassword",
+            obscureText: true),
         _customTextField(
-            hintText: "Yeni şifre tekrar", formKey: "newPasswordAgain"),
+            hintText: LocaleKeys.UserProfile_new_password,
+            formKey: "newPassword"),
+        _customTextField(
+            hintText: LocaleKeys.UserProfile_new_password_again,
+            formKey: "newPasswordAgain"),
       ],
     );
   }

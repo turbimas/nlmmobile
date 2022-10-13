@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
@@ -23,10 +24,9 @@ class TryAgain extends StatelessWidget {
           ),
           height: 50.smh,
           width: 300.smw,
-          // TODO : Add localization
           child: Center(
-            child: CustomText(
-              "Tekrar deneyin",
+            child: CustomTextLocale(
+              LocaleKeys.TryAgainWidget_try_again,
               style: CustomFonts.bigButton(CustomColors.backgroundText),
             ),
           ),

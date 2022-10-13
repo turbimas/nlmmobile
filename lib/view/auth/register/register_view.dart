@@ -83,7 +83,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomText(LocaleKeys.Register_register_button.tr(),
+                  CustomTextLocale(LocaleKeys.Register_register_button.tr(),
                       style: CustomFonts.bigButton(CustomColors.secondaryText)),
                   CustomIcons.enter_icon
                 ]),
@@ -113,10 +113,10 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                 NavigationService.navigateToPage(
                     const KayitOnBilgilendirmeFormu());
               },
-              child: CustomText("Üyelik sözleşmesini",
+              child: CustomTextLocale(LocaleKeys.Register_term_condition_1,
                   style: CustomFonts.bodyText4(CustomColors.primary))),
           SizedBox(width: 5.smw),
-          CustomText("Okudum, kabul ediyorum",
+          CustomTextLocale(LocaleKeys.Register_term_condition_2,
               style: CustomFonts.bodyText4(CustomColors.backgroundText))
         ]),
       ),

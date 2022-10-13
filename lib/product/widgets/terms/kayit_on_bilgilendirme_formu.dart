@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/network/network_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_images.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
@@ -28,7 +30,8 @@ class _KayitOnBilgilendirmeFormuState extends State<KayitOnBilgilendirmeFormu> {
   Widget build(BuildContext context) {
     return CustomSafeArea(
         child: Scaffold(
-      appBar: CustomAppBar.activeBack("Kayıt Ön Bilgilendirme"),
+      appBar: CustomAppBar.activeBack(
+          LocaleKeys.KayitOnBilgilendirmeFormu_appbar_title.tr()),
       body: Center(
           child: isLoading
               ? CustomImages.loading

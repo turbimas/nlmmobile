@@ -87,7 +87,7 @@ class ProductRatingsViewState extends ConsumerState<ProductRatingsView> {
 
   Widget _empty() {
     return Center(
-        child: CustomText("Bu ürünün henüz yorumu yok.",
+        child: CustomTextLocale(LocaleKeys.ProductRatings_no_rating_found_yet,
             style: CustomFonts.bodyText2(CustomColors.backgroundText)));
   }
 

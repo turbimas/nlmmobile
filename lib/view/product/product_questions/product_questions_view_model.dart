@@ -73,7 +73,7 @@ class ProductQuestionsViewModel extends ChangeNotifier {
               "ContentValue": value
             });
             if (response.success) {
-              PopupHelper.showSuccesDialog(
+              PopupHelper.showSuccessDialog(
                   "Başarıyla sorunuz gönderildi! Cevaplandığı zaman profilinizde görünecektir.");
             } else {
               PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);

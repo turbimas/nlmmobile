@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
@@ -53,7 +54,7 @@ class PopupHelper {
     showErrorDialog(errorMessage: "ERROR".tr(), error: e);
   }
 
-  static Future<void> showSuccesDialog(String message) async {
+  static Future<void> showSuccessDialog(String message) async {
     showDialog(
         context: _context,
         barrierDismissible: true,
@@ -187,8 +188,8 @@ class _RatingDialogState extends State<RatingDialog> {
                   style: CustomFonts.bodyText4(CustomColors.cardInnerText),
                   decoration: InputDecoration(
                       border: InputBorder.none,
-                      // TODO: Add localization
-                      hintText: "Değerlendirme metni (isteğe bağlı)",
+                      hintText:
+                          LocaleKeys.PopupHelper_rating_text_optional.tr(),
                       hintStyle: CustomFonts.bodyText4(
                           CustomColors.cardInnerTextPale)),
                 )),
@@ -201,7 +202,7 @@ class _RatingDialogState extends State<RatingDialog> {
                       color: CustomColors.secondary,
                       borderRadius: CustomThemeData.fullRounded),
                   child: Center(
-                    child: CustomText("Değerlendirmeyi Gönder",
+                    child: CustomTextLocale(LocaleKeys.PopupHelper_send_rating,
                         style:
                             CustomFonts.bodyText3(CustomColors.secondaryText)),
                   )),
@@ -268,8 +269,8 @@ class _QuestionDialogState extends State<QuestionDialog> {
                 width: 320.smw,
                 child: Align(
                     alignment: Alignment.centerLeft,
-                    child: CustomText(
-                      "Soru metni girin",
+                    child: CustomTextLocale(
+                      LocaleKeys.PopupHelper_enter_question_text,
                       style: CustomFonts.bodyText4(CustomColors.primaryText),
                     ))),
             SizedBox(height: 15.smh),
@@ -287,7 +288,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
                 style: CustomFonts.bodyText4(CustomColors.cardInnerText),
                 decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: "Soru metni girin",
+                    hintText: LocaleKeys.PopupHelper_enter_question_text.tr(),
                     hintStyle:
                         CustomFonts.bodyText4(CustomColors.cardInnerTextPale)),
               ),
@@ -305,7 +306,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
                     borderRadius: CustomThemeData.fullRounded,
                     color: CustomColors.secondary),
                 child: Center(
-                  child: CustomText("Sor",
+                  child: CustomTextLocale(LocaleKeys.PopupHelper_ask,
                       style: CustomFonts.bigButton(CustomColors.secondaryText)),
                 ),
               ),

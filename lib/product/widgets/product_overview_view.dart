@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -326,8 +328,8 @@ class _ProductOverviewViewVerticalState
       } else {
         widget.onFavoriteChanged?.call();
         PopupHelper.showSuccessToast(widget.product.isFavorite
-            ? "Ürün favorilere eklendi"
-            : "Ürün favorilerden çıkarıldı");
+            ? LocaleKeys.ProductOverView_product_added_favorites.tr()
+            : LocaleKeys.ProductOverView_product_removed_favorites.tr());
       }
     } catch (e) {
       PopupHelper.showErrorDialogWithCode(e);

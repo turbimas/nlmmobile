@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
@@ -40,7 +42,7 @@ class ReturnSuccessView extends StatelessWidget {
                     child: Center(
                         child: Icon(Icons.check,
                             color: Colors.white, size: 20.smh))),
-                CustomText("İade talebinizi aldık",
+                CustomTextLocale(LocaleKeys.ReturnSuccess_success_message,
                     style: CustomFonts.bodyText1(CustomColors.backgroundText)),
               ]),
               SizedBox(height: 40.smh),
@@ -50,7 +52,8 @@ class ReturnSuccessView extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CustomText("İade numaranız: $returnId",
+                    CustomTextLocale(LocaleKeys.ReturnSuccess_return_number,
+                        args: [returnId],
                         maxLines: 2,
                         style:
                             CustomFonts.bodyText2(CustomColors.backgroundText)),
@@ -58,8 +61,8 @@ class ReturnSuccessView extends StatelessWidget {
                     InkWell(
                         onTap: () {
                           Clipboard.setData(ClipboardData(text: returnId));
-                          PopupHelper.showSuccesDialog(
-                              "Sipariş numarası başarıyla kopyalandı!");
+                          PopupHelper.showSuccessDialog(
+                              LocaleKeys.ReturnSuccess_success_clipboard.tr());
                         },
                         child: const Icon(Icons.copy))
                   ],
@@ -84,8 +87,8 @@ class ReturnSuccessView extends StatelessWidget {
                           height: 80.smh,
                           width: 225.smw,
                           child: Center(
-                              child: CustomText(
-                            "Devam et",
+                              child: CustomTextLocale(
+                            LocaleKeys.ReturnSuccess_continue,
                             style: CustomFonts.bigButton(
                                 CustomColors.secondaryText),
                           ))),

@@ -87,9 +87,6 @@ class _LoginViewState extends ConsumerState<LoginView> {
       case "tr":
         flag = CustomImages.tr_flag;
         break;
-      case "ar":
-        flag = CustomImages.ar_flag;
-        break;
       case "en":
         flag = CustomImages.en_flag;
         break;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nlmmobile/product/widgets/bottom_bar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
-import 'package:nlmmobile/product/widgets/main/main_viewmodel.dart';
+import 'package:nlmmobile/product/widgets/main/main_view_model.dart';
 
 class MainView extends ConsumerStatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class _MainViewState extends ConsumerState<MainView> {
               child: ref.watch(provider).activePage(context) ??
                   const CircularProgressIndicator(color: Colors.green),
             ),
-            Positioned(
+            const Positioned(
               bottom: 0,
               left: 0,
               right: 0,

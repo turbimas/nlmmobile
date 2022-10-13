@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nlmmobile/core/services/auth/authservice.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
@@ -52,7 +54,8 @@ class _UserAddressAddViewState extends ConsumerState<UserAddressAddView> {
   Widget build(BuildContext context) {
     return CustomSafeArea(
       child: Scaffold(
-        appBar: CustomAppBar.activeBack("Adres ekle"),
+        appBar: CustomAppBar.activeBack(
+            LocaleKeys.UserAddressAdd_appbar_title.tr()),
         body: _content(),
       ),
     );
@@ -113,7 +116,9 @@ class _UserAddressAddViewState extends ConsumerState<UserAddressAddView> {
                             height: 50.smh,
                             width: 200.smw,
                             child: Center(
-                              child: CustomText("Bu konumu kullan",
+                              child: CustomTextLocale(
+                                  LocaleKeys
+                                      .UserAddressAdd_use_current_location,
                                   style: CustomFonts.bodyText2(
                                       CustomColors.primaryText)),
                             )),
@@ -160,7 +165,7 @@ class _UserAddressAddViewState extends ConsumerState<UserAddressAddView> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CustomText("Haritayı aç",
+                          CustomTextLocale(LocaleKeys.UserAddressAdd_open_map,
                               style: CustomFonts.bodyText2(
                                   CustomColors.primaryText)),
                           SizedBox(width: 10.smw),
@@ -202,58 +207,62 @@ class _UserAddressAddViewState extends ConsumerState<UserAddressAddView> {
                     children: [
                       _addressSummary(),
                       _customTextField(
-                          label: "Ülke",
+                          label: LocaleKeys.UserAddressAdd_country,
                           formKey: "Country",
                           controller: ref.read(provider).countryController),
                       _customTextField(
-                          label: "Şehir",
+                          label: LocaleKeys.UserAddressAdd_city,
                           formKey: "City",
                           controller: ref.read(provider).cityController),
                       _customTextField(
-                          label: "Bölge",
+                          label: LocaleKeys.UserAddressAdd_region,
                           formKey: "Region",
                           controller: ref.read(provider).regionController),
                       _customTextField(
-                          label: "Semt",
+                          label: LocaleKeys.UserAddressAdd_district,
                           formKey: "District",
                           controller: ref.read(provider).districtController),
                       _customTextField(
-                          label: "Mahalle",
+                          label: LocaleKeys.UserAddressAdd_town,
                           formKey: "Town",
                           controller: ref.read(provider).townController),
                       _customTextField(
-                          label: "Sokak",
+                          label: LocaleKeys.UserAddressAdd_street,
                           formKey: "Street",
                           controller: ref.read(provider).streetController),
                       _customTextField(
-                          label: "Bina no",
+                          label: LocaleKeys.UserAddressAdd_building,
                           formKey: "BuildingNo",
                           controller: ref.read(provider).buildingController),
                       _customTextField(
-                          label: "Posta kodu",
+                          label: LocaleKeys.UserAddressAdd_postal_code,
                           formKey: "PostalCode",
                           keyboardType: TextInputType.number,
                           controller: ref.read(provider).postalCodeController),
                       _customTextField(
-                          label: "Adres başlığı", formKey: "AdresBasligi"),
+                          label: LocaleKeys.UserAddressAdd_address_header,
+                          formKey: "AdresBasligi"),
                       _customTextField(
-                          label: "İsim soyisim",
+                          label: LocaleKeys.UserAddressAdd_name_surname,
                           formKey: "RelatedPerson",
                           initialValue: AuthService.currentUser!.nameSurname),
                       _customTextField(
-                          label: "Email",
+                          label: LocaleKeys.UserAddressAdd_email,
                           formKey: "Email",
                           initialValue: AuthService.currentUser!.email,
                           keyboardType: TextInputType.emailAddress),
                       _customTextField(
-                          label: "Telefon",
+                          label: LocaleKeys.UserAddressAdd_phone,
                           formKey: "MobilePhone",
                           initialValue: AuthService.currentUser!.phone,
                           keyboardType: TextInputType.phone),
                       _customTextField(
-                          label: "Not", formKey: "Notes", lines: 3),
+                          label: LocaleKeys.UserAddressAdd_note,
+                          formKey: "Notes",
+                          lines: 3),
                       CheckboxListTile(
-                          title: CustomText("Fatura bilgisi ekle",
+                          title: CustomTextLocale(
+                              LocaleKeys.UserAddressAdd_add_tax_info,
                               style: CustomFonts.bodyText2(
                                   CustomColors.primaryText)),
                           value: ref.watch(provider).isInvoice,
@@ -290,7 +299,7 @@ class _UserAddressAddViewState extends ConsumerState<UserAddressAddView> {
           child: CustomText(
         ref.watch(provider).googleAddressModel != null
             ? ref.watch(provider).googleAddressModel!.formatAddress
-            : "Adres bilgisi alınıyor...",
+            : LocaleKeys.UserAddressAdd_location_retrieving.tr(),
         style: CustomFonts.bodyText2(CustomColors.secondaryText),
         maxLines: 3,
       )),
@@ -351,7 +360,7 @@ class _UserAddressAddViewState extends ConsumerState<UserAddressAddView> {
                         ? CustomIcons.radio_checked_dark_icon
                         : CustomIcons.radio_unchecked_dark_icon,
                     SizedBox(width: 15.smw),
-                    CustomText("Şahıs",
+                    CustomTextLocale(LocaleKeys.UserAddressAdd_person,
                         style: CustomFonts.bodyText2(CustomColors.primaryText))
                   ])),
               InkWell(
@@ -363,7 +372,7 @@ class _UserAddressAddViewState extends ConsumerState<UserAddressAddView> {
                         ? CustomIcons.radio_checked_dark_icon
                         : CustomIcons.radio_unchecked_dark_icon,
                     SizedBox(width: 15.smw),
-                    CustomText("Kurumsal",
+                    CustomTextLocale(LocaleKeys.UserAddressAdd_corporate,
                         style: CustomFonts.bodyText2(CustomColors.primaryText))
                   ])),
             ],
@@ -384,14 +393,17 @@ class _UserAddressAddViewState extends ConsumerState<UserAddressAddView> {
 
   List<Widget> _personalInvoice() {
     return [
-      _customTextField(label: "TC No", formKey: "TCKNo"),
+      _customTextField(
+          label: LocaleKeys.UserAddressAdd_identity_no, formKey: "TCKNo"),
     ];
   }
 
   List<Widget> _companyInvoice() {
     return [
-      _customTextField(label: "Vergi numarası", formKey: "TaxNumber"),
-      _customTextField(label: "Vergi dairesi", formKey: "TaxOffice"),
+      _customTextField(
+          label: LocaleKeys.UserAddressAdd_tax_number, formKey: "TaxNumber"),
+      _customTextField(
+          label: LocaleKeys.UserAddressAdd_tax_office, formKey: "TaxOffice"),
     ];
   }
 }

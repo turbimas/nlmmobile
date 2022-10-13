@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
@@ -37,7 +38,7 @@ class CancelSuccessView extends StatelessWidget {
                     child: Center(
                         child: Icon(Icons.check,
                             color: Colors.white, size: 20.smh))),
-                CustomText("İptal talebinizi aldık",
+                CustomTextLocale(LocaleKeys.CancelSuccess_inform_message,
                     style: CustomFonts.bodyText1(CustomColors.backgroundText)),
               ]),
               SizedBox(height: 40.smh),
@@ -61,8 +62,8 @@ class CancelSuccessView extends StatelessWidget {
                           height: 80.smh,
                           width: 225.smw,
                           child: Center(
-                              child: CustomText(
-                            "Devam et",
+                              child: CustomTextLocale(
+                            LocaleKeys.CancelSuccess_continue,
                             style: CustomFonts.bigButton(
                                 CustomColors.secondaryText),
                           ))),
