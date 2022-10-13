@@ -201,7 +201,7 @@ class _BasketViewState extends ConsumerState<BasketView>
                                         .basketTotal!
                                         .deliveryFreeAmount
                                 ? "Ücretsiz teslimat!"
-                                : "Ücretsiz teslimat için ${ref.watch(provider).basketTotal!.deliveryFreeAmount - ref.watch(provider).basketTotal!.lineTotal} TL daha !",
+                                : "Ücretsiz teslimat için ${(ref.watch(provider).basketTotal!.deliveryFreeAmount - ref.watch(provider).basketTotal!.lineTotal).toStringAsFixed(2)} TL daha !",
                             style: CustomFonts.bodyText4(
                                 CustomColors.card2TextPale))))),
             Container(
