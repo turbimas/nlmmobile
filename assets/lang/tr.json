@@ -264,18 +264,7 @@
         "new_password": "Yeni şifre",
         "new_password_again": "Yeni şifre tekrar"
     },
-    "UserSettings":{
-        "appbar_title":"Profili düzenle",
-        "personal_info":"Kişisel bilgiler",
-        "full_name_hint":"Ad Soyad",
-        "birthday_hint":"Doğum tarihi",
-        "phone_hint":"Telefon",
-        "email_hint":"E-posta",
-        "password_hint":"Yeni şifreniz",
-        "password_confirm_hint":"Yeni şifrenizi tekrar giriniz",
-        "old_password_hint":"Eski şifreniz",
-        "forgot_password":"Şifrenizi mi unuttunuz ?"
-    },
+
     "UserOrderDetails":{
         "appbar_title":"Sipariş detaylar",
         "order_info":"Sipariş bilgileri",
