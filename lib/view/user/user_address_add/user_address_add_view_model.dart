@@ -9,16 +9,24 @@ import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
 import 'package:nlmmobile/product/models/user/google_address_model.dart';
 
 class UserAddressAddViewModel extends ChangeNotifier {
-  TextEditingController countryController = TextEditingController();
-  TextEditingController cityController = TextEditingController();
-  TextEditingController regionController = TextEditingController();
-  TextEditingController districtController = TextEditingController();
-  TextEditingController townController = TextEditingController();
-  TextEditingController streetController = TextEditingController();
-  TextEditingController buildingController = TextEditingController();
-  TextEditingController postalCodeController = TextEditingController();
+  late TextEditingController countryController;
+  late TextEditingController cityController;
+  late TextEditingController regionController;
+  late TextEditingController districtController;
+  late TextEditingController townController;
+  late TextEditingController streetController;
+  late TextEditingController buildingController;
+  late TextEditingController postalCodeController;
 
-  UserAddressAddViewModel();
+  UserAddressAddViewModel(
+      {required this.countryController,
+      required this.cityController,
+      required this.regionController,
+      required this.districtController,
+      required this.townController,
+      required this.streetController,
+      required this.buildingController,
+      required this.postalCodeController});
   late GoogleMapController mapController;
   GoogleAddressModel? _googleAddressModel;
   GoogleAddressModel? get googleAddressModel => _googleAddressModel;
