@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/network/response_model.dart';
+import 'package:nlmmobile/product/constants/app_constants.dart';
 
 abstract class NetworkService {
   static late final Dio _dio;
@@ -12,17 +13,16 @@ abstract class NetworkService {
   static void init() {
     _dio = Dio(
       BaseOptions(
-        connectTimeout: 5000,
-        receiveTimeout: 5000,
-        contentType: Headers.jsonContentType,
-      ),
+          connectTimeout: 5000,
+          receiveTimeout: 5000,
+          contentType: Headers.jsonContentType,
+          baseUrl: AppConstants.APP_API,
     );
   }
 
   static Future<ResponseModel<T>> get<T>(String url,
       {Map<String, dynamic>? queryParameters}) async {
-    String fullUrl =
-        "http://api.goldenerp.com/api/${NavigationService.context.locale.languageCode}/$url";
+    String fullUrl = "${NavigationService.context.locale.languageCode}/$url";
     try {
       if (debug) {
         log("GET : $fullUrl");
@@ -46,8 +46,7 @@ abstract class NetworkService {
 
   static Future<ResponseModel<T>> post<T>(String url,
       {Map<String, dynamic>? queryParameters, dynamic body}) async {
-    String fullUrl =
-        "http://api.goldenerp.com/api/${NavigationService.context.locale.languageCode}/$url";
+    String fullUrl = "${NavigationService.context.locale.languageCode}/$url";
     try {
       if (debug) {
         log("POST: $fullUrl");
