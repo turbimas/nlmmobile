@@ -30,23 +30,40 @@ class _UserAddressAddViewState extends ConsumerState<UserAddressAddView> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GlobalKey<FormState> invoiceFormKey = GlobalKey<FormState>();
 
+  TextEditingController countryController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController regionController = TextEditingController();
+  TextEditingController districtController = TextEditingController();
+  TextEditingController townController = TextEditingController();
+  TextEditingController streetController = TextEditingController();
+  TextEditingController buildingController = TextEditingController();
+  TextEditingController postalCodeController = TextEditingController();
+
   @override
   void initState() {
-    provider = ChangeNotifierProvider((ref) => UserAddressAddViewModel());
+    provider = ChangeNotifierProvider((ref) => UserAddressAddViewModel(
+        countryController: countryController,
+        cityController: cityController,
+        regionController: regionController,
+        districtController: districtController,
+        townController: townController,
+        streetController: streetController,
+        buildingController: buildingController,
+        postalCodeController: postalCodeController));
     ref.read(provider).goCurrentLocation();
     super.initState();
   }
 
   @override
   void dispose() {
-    ref.watch(provider).countryController.dispose();
-    ref.watch(provider).cityController.dispose();
-    ref.watch(provider).regionController.dispose();
-    ref.watch(provider).districtController.dispose();
-    ref.watch(provider).townController.dispose();
-    ref.watch(provider).streetController.dispose();
-    ref.watch(provider).buildingController.dispose();
-    ref.watch(provider).postalCodeController.dispose();
+    countryController.dispose();
+    cityController.dispose();
+    regionController.dispose();
+    districtController.dispose();
+    townController.dispose();
+    streetController.dispose();
+    buildingController.dispose();
+    postalCodeController.dispose();
     super.dispose();
   }
 
@@ -207,6 +224,9 @@ class _UserAddressAddViewState extends ConsumerState<UserAddressAddView> {
                     children: [
                       _addressSummary(),
                       _customTextField(
+                          label: LocaleKeys.UserAddressAdd_address_header,
+                          formKey: "AdresBasligi"),
+                      _customTextField(
                           label: LocaleKeys.UserAddressAdd_country,
                           formKey: "Country",
                           controller: ref.read(provider).countryController),
@@ -239,9 +259,6 @@ class _UserAddressAddViewState extends ConsumerState<UserAddressAddView> {
                           formKey: "PostalCode",
                           keyboardType: TextInputType.number,
                           controller: ref.read(provider).postalCodeController),
-                      _customTextField(
-                          label: LocaleKeys.UserAddressAdd_address_header,
-                          formKey: "AdresBasligi"),
                       _customTextField(
                           label: LocaleKeys.UserAddressAdd_name_surname,
                           formKey: "RelatedPerson",
@@ -335,7 +352,7 @@ class _UserAddressAddViewState extends ConsumerState<UserAddressAddView> {
           maxLines: lines,
           style: CustomFonts.defaultField(CustomColors.primaryText),
           decoration: InputDecoration(
-            labelText: label,
+            labelText: label?.tr(),
             border: const OutlineInputBorder(borderSide: BorderSide.none),
             labelStyle: CustomFonts.bodyText2(CustomColors.primaryText),
             floatingLabelStyle: CustomFonts.bodyText2(CustomColors.primaryText),
