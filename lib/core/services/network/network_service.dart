@@ -9,15 +9,17 @@ import 'package:nlmmobile/product/constants/app_constants.dart';
 abstract class NetworkService {
   static late final Dio _dio;
   static const debug = true;
-
+  static String token = AppConstants.APP_TOKEN;
   static void init() {
-    _dio = Dio(
-      BaseOptions(
-          connectTimeout: 5000,
-          receiveTimeout: 5000,
-          contentType: Headers.jsonContentType,
-          baseUrl: AppConstants.APP_API,
-    );
+    Map<String, dynamic> headers = Map<String, dynamic>();
+    headers["Authorization"] = "Bearer $token";
+
+    _dio = Dio(BaseOptions(
+        connectTimeout: 5000,
+        receiveTimeout: 5000,
+        headers: headers,
+        contentType: Headers.jsonContentType,
+        baseUrl: AppConstants.APP_API));
   }
 
   static Future<ResponseModel<T>> get<T>(String url,
@@ -40,6 +42,7 @@ abstract class NetworkService {
       if (debug) {
         log("GET ERROR: $e");
       }
+
       return ResponseModel<T>.networkError();
     }
   }
