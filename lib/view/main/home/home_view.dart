@@ -256,7 +256,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          CustomText(LocaleKeys.Home_all,
+                          CustomText(LocaleKeys.Home_all.tr(),
                               style: CustomFonts.bodyText4(
                                   CustomColors.cardInnerText)),
                           CustomIcons.arrow_right_circle_icon

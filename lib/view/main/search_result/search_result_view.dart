@@ -504,4 +504,6 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
       ),
     );
   }
+
+  void addSearchWidget() {}
 }
