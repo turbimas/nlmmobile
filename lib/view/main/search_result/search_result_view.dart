@@ -17,11 +17,11 @@ import 'package:nlmmobile/product/models/category_model.dart';
 import 'package:nlmmobile/product/models/product_over_view_model.dart';
 import 'package:nlmmobile/product/widgets/custom_appbar.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
+import 'package:nlmmobile/product/widgets/custom_searchbar_view.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/main/main_view.dart';
 import 'package:nlmmobile/product/widgets/ok_cancel_prompt.dart';
 import 'package:nlmmobile/product/widgets/product_overview_view.dart';
-import 'package:nlmmobile/view/main/search/search_view.dart';
 import 'package:nlmmobile/view/main/search_result/search_result_view_model.dart';
 import 'package:nlmmobile/view/main/sub_categories/sub_categories_view.dart';
 
@@ -74,53 +74,22 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
     return Container(
       height: 110.smh,
       margin: EdgeInsets.symmetric(vertical: 10.smh, horizontal: 15.smw),
-      child: Row(
+      child: Column(
         children: [
-          Column(
-            children: [
-              AbsorbPointer(
-                absorbing: ref.watch(provider).products.isEmpty,
-                child: Row(
-                  children: [_order(), SizedBox(width: 10.smw), _filter()],
-                ),
-              ),
-              SizedBox(height: 10.smh),
-              _categories()
-            ],
+          AbsorbPointer(
+            absorbing: ref.watch(provider).products.isEmpty,
+            child: Row(
+              children: [_order(), SizedBox(width: 10.smw), _filter()],
+            ),
           ),
-          SizedBox(width: 10.smw),
-          _search(),
+          SizedBox(height: 10.smh),
+          _categories(),
+          SizedBox(height: 10.smh),
+          CustomSearchBarView(
+            hint: LocaleKeys.SearchResult_search.tr(),
+            onChanged: ref.read(provider).filterByName,
+          )
         ],
-      ),
-    );
-  }
-
-  InkWell _search() {
-    return InkWell(
-      onTap: () {
-        if (widget.isSearch) {
-          NavigationService.back();
-        } else {
-          NavigationService.navigateToPage(const SearchView());
-        }
-      },
-      child: Container(
-        height: 110.smh,
-        width: 60.smw,
-        decoration: BoxDecoration(
-            color: CustomColors.secondary,
-            borderRadius: CustomThemeData.fullRounded),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            CustomIcons.search_icon,
-            CustomTextLocale(
-              LocaleKeys.SearchResult_search,
-              maxLines: 1,
-              style: CustomFonts.bodyText2(CustomColors.secondaryText),
-            )
-          ],
-        ),
       ),
     );
   }
@@ -138,7 +107,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
         }
       },
       child: Container(
-        width: 260.smw,
+        width: 330.smw,
         height: 50.smh,
         decoration: BoxDecoration(
             color: CustomColors.secondary,
@@ -162,7 +131,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
     return InkWell(
       onTap: _showFilterPopup,
       child: Container(
-        width: 125.smw,
+        width: 160.smw,
         height: 50.smh,
         decoration: BoxDecoration(
             color: CustomColors.secondary,
@@ -186,7 +155,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
     return InkWell(
       onTap: _showOrderPopup,
       child: Container(
-        width: 125.smw,
+        width: 160.smw,
         height: 50.smh,
         decoration: BoxDecoration(
             color: CustomColors.secondary,
