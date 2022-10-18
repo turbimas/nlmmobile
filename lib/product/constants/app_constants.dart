@@ -15,7 +15,7 @@ class AppConstants {
   static const IOS_Version = "1.0.0";
   static const ANDROID_Version = "1.0.0";
 
-  static const APP_API = "http://api.goldenerp.com/api/";
+  static const APP_API = "https://api.koyevidogal.com/api/";
 
   static const APP_TOKEN =
       "cgDxpWsGsgJ70nNsz22Ay0mwa8PZICN27dagDv6r76TRPC3SlHrE1ZrLMkOqq-C0YwFV9elFpYVVM3jsW3mWTpajec2wS9ANsm9xaFV2KNlg6LPeDAExBZKImmYNNHeYTvDRb_uTT-XuRON4JaRoPfw6_B9tLCYxYyW551LcYsOK6AvMhPtRbBflM9WDSNdE0b0VGDOow9iBs75Se7eLrzWmtJBWgqTls1g024NBRiY";

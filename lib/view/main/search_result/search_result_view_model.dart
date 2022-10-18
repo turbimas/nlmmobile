@@ -98,10 +98,11 @@ class SearchResultViewModel extends ChangeNotifier {
   }
 
   void filterByName(String name) {
-    List<ProductOverViewModel> copy = filteredProducts.toList();
+    List<ProductOverViewModel> copy = products.toList();
     filteredProducts.clear();
     for (var element in copy) {
       if (element.name.toLowerCase().contains(name.toLowerCase())) {
+        filteredProducts.remove(element);
         filteredProducts.add(element);
       }
     }

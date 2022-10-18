@@ -31,7 +31,8 @@ class ProductQuestionsViewModel extends ChangeNotifier {
         questions = response.data
             .where((element) => element["Answer"] != null)
             .map<UserQuestionModel>((element) {
-          element["Product"] = product.toJson();
+          element["Product"] = element["Product"];
+
           return UserQuestionModel.fromJson(element);
         }).toList();
 

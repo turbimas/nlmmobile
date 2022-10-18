@@ -79,11 +79,15 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
           AbsorbPointer(
             absorbing: ref.watch(provider).products.isEmpty,
             child: Row(
-              children: [_order(), SizedBox(width: 10.smw), _filter()],
+              children: [
+                _order(),
+                SizedBox(width: 10.smw),
+                _filter(),
+                SizedBox(width: 10.smw),
+                _categories()
+              ],
             ),
           ),
-          SizedBox(height: 10.smh),
-          _categories(),
           SizedBox(height: 10.smh),
           CustomSearchBarView(
             hint: LocaleKeys.SearchResult_search.tr(),
@@ -107,7 +111,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
         }
       },
       child: Container(
-        width: 330.smw,
+        width: 130.smw,
         height: 50.smh,
         decoration: BoxDecoration(
             color: CustomColors.secondary,
@@ -119,7 +123,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
             CustomTextLocale(
               LocaleKeys.SearchResult_change_category,
               maxLines: 1,
-              style: CustomFonts.bodyText2(CustomColors.secondaryText),
+              style: CustomFonts.bodyText4(CustomColors.secondaryText),
             )
           ],
         ),
@@ -131,7 +135,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
     return InkWell(
       onTap: _showFilterPopup,
       child: Container(
-        width: 160.smw,
+        width: 90.smw,
         height: 50.smh,
         decoration: BoxDecoration(
             color: CustomColors.secondary,
@@ -143,7 +147,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
             CustomTextLocale(
               LocaleKeys.SearchResult_filter,
               maxLines: 1,
-              style: CustomFonts.bodyText2(CustomColors.secondaryText),
+              style: CustomFonts.bodyText4(CustomColors.secondaryText),
             )
           ],
         ),
@@ -155,7 +159,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
     return InkWell(
       onTap: _showOrderPopup,
       child: Container(
-        width: 160.smw,
+        width: 90.smw,
         height: 50.smh,
         decoration: BoxDecoration(
             color: CustomColors.secondary,
@@ -167,7 +171,7 @@ class _SearchResultViewState extends ConsumerState<SearchResultView> {
             CustomTextLocale(
               LocaleKeys.SearchResult_order,
               maxLines: 1,
-              style: CustomFonts.bodyText2(CustomColors.secondaryText),
+              style: CustomFonts.bodyText4(CustomColors.secondaryText),
             )
           ],
         ),
