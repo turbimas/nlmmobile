@@ -15,8 +15,8 @@ class AppConstants {
   static const IOS_Version = "1.0.0";
   static const ANDROID_Version = "1.0.0";
 
-  static const APP_API = "https://api.koyevidogal.com/api/";
+  static const APP_API = "http://api.goldenerp.com/api/";
 
   static const APP_TOKEN =
-      "cgDxpWsGsgJ70nNsz22Ay0mwa8PZICN27dagDv6r76TRPC3SlHrE1ZrLMkOqq-C0YwFV9elFpYVVM3jsW3mWTpajec2wS9ANsm9xaFV2KNlg6LPeDAExBZKImmYNNHeYTvDRb_uTT-XuRON4JaRoPfw6_B9tLCYxYyW551LcYsOK6AvMhPtRbBflM9WDSNdE0b0VGDOow9iBs75Se7eLrzWmtJBWgqTls1g024NBRiY";
+      "tRexzvlEFNl3sNgVdTjQ-C8xu0rB-GS2ZBqol8Kh9ECNLMgdEav_89p_HR1NOFWcmg_1uL09sWrJcVu2lFRJrwKZAzXTxkllVXuv2nDwYAvUTzaNOSAlz5O0zNxJlAKJm_NS9Nl2M4Tj5OxUiAktkQH3V0pbddL3u1-3pgz-9qdLZW9CMEROYOPj7WWde3ppYCCX8LfcTo19xihmBHOa-8s8RO5JTVnA5F7uNOkkQ7U";
 }
