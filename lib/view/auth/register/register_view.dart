@@ -56,7 +56,6 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
   Widget build(BuildContext context) {
     return CustomSafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: CustomAppBar.activeBack(LocaleKeys.Register_appbar_title.tr()),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,

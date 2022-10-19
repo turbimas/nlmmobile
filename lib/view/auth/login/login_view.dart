@@ -44,7 +44,6 @@ class _LoginViewState extends ConsumerState<LoginView> {
   Widget build(BuildContext context) {
     return CustomSafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: CustomAppBar.inactiveBack(LocaleKeys.Login_appbar_title.tr()),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
