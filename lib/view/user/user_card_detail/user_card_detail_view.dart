@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nlmmobile/core/services/theme/custom_colors.dart';
-import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
-import 'package:nlmmobile/product/widgets/custom_appbar.dart';
-import 'package:nlmmobile/product/widgets/custom_safearea.dart';
-import 'package:nlmmobile/product/widgets/ok_cancel_prompt.dart';
+import 'package:koyevi/core/services/theme/custom_colors.dart';
+import 'package:koyevi/core/utils/extensions/ui_extensions.dart';
+import 'package:koyevi/product/widgets/custom_appbar.dart';
+import 'package:koyevi/product/widgets/custom_safearea.dart';
+import 'package:koyevi/product/widgets/ok_cancel_prompt.dart';
 
 class UserCardDetailView extends ConsumerStatefulWidget {
   const UserCardDetailView({Key? key}) : super(key: key);

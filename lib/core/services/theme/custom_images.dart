@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:nlmmobile/core/services/theme/theme_manager.dart';
-import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
-import 'package:nlmmobile/product/widgets/custom_gif_viewer.dart';
+import 'package:koyevi/core/services/theme/theme_manager.dart';
+import 'package:koyevi/core/utils/extensions/ui_extensions.dart';
+import 'package:koyevi/product/widgets/custom_gif_viewer.dart';
 
 abstract class CustomImages {
   static late final Widget basket_empty;

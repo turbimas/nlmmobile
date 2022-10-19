@@ -1,4 +1,4 @@
-import 'package:nlmmobile/product/models/product_over_view_model.dart';
+import 'package:koyevi/product/models/product_over_view_model.dart';
 
 class LastViewedModel {
   int id;

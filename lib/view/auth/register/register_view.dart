@@ -1,21 +1,21 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
-import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
-import 'package:nlmmobile/core/services/theme/custom_colors.dart';
-import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
-import 'package:nlmmobile/core/services/theme/custom_icons.dart';
-import 'package:nlmmobile/core/services/theme/custom_images.dart';
-import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
-import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
-import 'package:nlmmobile/core/utils/validators/validators.dart';
-import 'package:nlmmobile/product/constants/app_constants.dart';
-import 'package:nlmmobile/product/widgets/custom_appbar.dart';
-import 'package:nlmmobile/product/widgets/custom_safearea.dart';
-import 'package:nlmmobile/product/widgets/custom_text.dart';
-import 'package:nlmmobile/product/widgets/terms/kayit_on_bilgilendirme_formu.dart';
-import 'package:nlmmobile/view/auth/register/register_view_model.dart';
+import 'package:koyevi/core/services/localization/locale_keys.g.dart';
+import 'package:koyevi/core/services/navigation/navigation_service.dart';
+import 'package:koyevi/core/services/theme/custom_colors.dart';
+import 'package:koyevi/core/services/theme/custom_fonts.dart';
+import 'package:koyevi/core/services/theme/custom_icons.dart';
+import 'package:koyevi/core/services/theme/custom_images.dart';
+import 'package:koyevi/core/services/theme/custom_theme_data.dart';
+import 'package:koyevi/core/utils/extensions/ui_extensions.dart';
+import 'package:koyevi/core/utils/validators/validators.dart';
+import 'package:koyevi/product/constants/app_constants.dart';
+import 'package:koyevi/product/widgets/custom_appbar.dart';
+import 'package:koyevi/product/widgets/custom_safearea.dart';
+import 'package:koyevi/product/widgets/custom_text.dart';
+import 'package:koyevi/product/widgets/terms/kayit_on_bilgilendirme_formu.dart';
+import 'package:koyevi/view/auth/register/register_view_model.dart';
 
 class RegisterView extends ConsumerStatefulWidget {
   const RegisterView({Key? key}) : super(key: key);

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
-import 'package:nlmmobile/core/services/theme/custom_colors.dart';
-import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
-import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
-import 'package:nlmmobile/product/widgets/custom_appbar.dart';
-import 'package:nlmmobile/product/widgets/custom_safearea.dart';
-import 'package:nlmmobile/view/user/user_promotions/user_promotions_view_model.dart';
+import 'package:koyevi/core/services/localization/locale_keys.g.dart';
+import 'package:koyevi/core/services/theme/custom_colors.dart';
+import 'package:koyevi/core/services/theme/custom_fonts.dart';
+import 'package:koyevi/core/utils/extensions/ui_extensions.dart';
+import 'package:koyevi/product/widgets/custom_appbar.dart';
+import 'package:koyevi/product/widgets/custom_safearea.dart';
+import 'package:koyevi/view/user/user_promotions/user_promotions_view_model.dart';
 
 class UserPromotionsView extends ConsumerStatefulWidget {
   const UserPromotionsView({Key? key}) : super(key: key);

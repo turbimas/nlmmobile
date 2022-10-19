@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
-import 'package:nlmmobile/core/services/network/response_model.dart';
-import 'package:nlmmobile/product/constants/app_constants.dart';
+import 'package:koyevi/core/services/navigation/navigation_service.dart';
+import 'package:koyevi/core/services/network/response_model.dart';
+import 'package:koyevi/product/constants/app_constants.dart';
 
 abstract class NetworkService {
   static late final Dio _dio;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nlmmobile/core/services/network/network_service.dart';
-import 'package:nlmmobile/core/services/network/response_model.dart';
-import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
-import 'package:nlmmobile/product/models/order/order_detail_row.dart';
-import 'package:nlmmobile/product/models/user/user_orders_model.dart';
+import 'package:koyevi/core/services/network/network_service.dart';
+import 'package:koyevi/core/services/network/response_model.dart';
+import 'package:koyevi/core/utils/helpers/popup_helper.dart';
+import 'package:koyevi/product/models/order/order_detail_row.dart';
+import 'package:koyevi/product/models/user/user_orders_model.dart';
 
 class UserOrderDetailsViewModel extends ChangeNotifier {
   UserOrdersModel orderTitle;
