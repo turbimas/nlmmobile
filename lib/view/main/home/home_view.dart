@@ -178,21 +178,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget _imageBanner(HomeBannerModel model) {
     return InkWell(
       onTap: () async {
-        ResponseModel response =
-            await NetworkService.post("products/ProductfromBarcodes", body: {
-          "CariID": AuthService.currentUser!.id,
-          "BarcodeArrays": model.barcodes
-        });
-        if (response.success) {
-          List<ProductOverViewModel> products = response.data
-              .map<ProductOverViewModel>(
-                  (e) => ProductOverViewModel.fromJson(e))
-              .toList();
-          NavigationService.navigateToPage(
-              SearchResultView(products: products, isSearch: false));
-        } else {
-          PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
-        }
+        NavigationService.navigateToPage(
+            SearchResultView(products: model.products, isSearch: false));
       },
       child: Container(
           margin: EdgeInsets.only(bottom: 10.smh),
