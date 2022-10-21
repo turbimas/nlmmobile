@@ -1,4 +1,4 @@
-package com.nlm.koyevitest
+package com.nlm.nlmmobile
 
 import io.flutter.embedding.android.FlutterActivity
 

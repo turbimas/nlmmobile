@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:koyevi/core/services/localization/locale_keys.g.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 
 mixin AuthValidators {
   String? fullNameValidator(String? value) {

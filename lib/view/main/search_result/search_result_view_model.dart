@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:koyevi/core/services/navigation/navigation_service.dart';
-import 'package:koyevi/product/models/category_model.dart';
-import 'package:koyevi/product/models/product_over_view_model.dart';
+import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
+import 'package:nlmmobile/product/models/category_model.dart';
+import 'package:nlmmobile/product/models/product_over_view_model.dart';
 
 class SearchResultViewModel extends ChangeNotifier {
   CategoryModel? categoryModel;

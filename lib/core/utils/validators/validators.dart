@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:koyevi/core/services/localization/locale_keys.g.dart';
-import 'package:koyevi/core/utils/validators/auth_validators.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
+import 'package:nlmmobile/core/utils/validators/auth_validators.dart';
 
 class Validators with AuthValidators {
   static final Validators _instance = Validators._();

@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_renaming_method_parameters, hash_and_equals
 
-import 'package:koyevi/product/models/product_over_view_model.dart';
+import 'package:nlmmobile/product/models/product_over_view_model.dart';
 
 class OrderLinesModel {
   late int id;

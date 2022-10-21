@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:koyevi/core/services/theme/theme_manager.dart';
+import 'package:nlmmobile/core/services/theme/theme_manager.dart';
 
 abstract class CustomColors {
   static late final Color primary;
