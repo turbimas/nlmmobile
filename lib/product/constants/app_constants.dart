@@ -18,5 +18,5 @@ class AppConstants {
   static const APP_API = "http://www.api.goldenerp.com/api/";
 
   static const APP_TOKEN =
-      "9MzVNwaodK-C0z1nizPmQBtsfqs83ZK9jccOlz1PtLM9vcflVTxefE895xkPkBV-F9HTTIwLmGizOzfAMsR_t7f3I0O1s6Y2yoixbNbenbB1oyrJiWJOVDFbm51OrO8eLKju7d0ZL6QnsaaX6YvQFjGcSnCffxqS2S50ek1e7pSh5hPE0kRPVWvS7iZnABYKX5NjE5PLRFlfCd9Sv2VmRQHKPl_OfIJKEe4I_2zAXBc";
+      "8pS13Hxe6ZCTU1wVue-PHhDqA4m0vl4JokWb1FTMxiGoGBGmow6Q5VJmT7W9ODmhcXuC-erH0qV9QjxseYwT7Rha096kJ7_gAgJ2sjLxSFvFCZ_-Vtu9QZq6nqztV72oJTef71aYACOb3AXrcgZDDPiPt8NxR1T5eT7n2oMFK7FLj2HSdrEys_0sLd0NfIWwEBrW6P06RodMSQTH-VBYfyNylr8JppGJrXe_6bT-NZw";
 }
