@@ -22,4 +22,6 @@ abstract class CustomFonts {
       GoogleFonts.inder(fontSize: 12.sp, color: color);
   static TextStyle bodyText5(Color color) =>
       GoogleFonts.inder(fontSize: 10.sp, color: color);
+  static TextStyle bodyText6(Color color) =>
+      GoogleFonts.inder(fontSize: 8.sp, color: color);
 }

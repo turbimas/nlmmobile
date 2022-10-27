@@ -23,8 +23,8 @@ class PopupHelper {
       {required String errorMessage,
       bool dismissible = true,
       Object? error,
-      Map<String, dynamic> actions = const {}}) async {
-    showDialog(
+      Map<String, Function> actions = const {}}) async {
+    await showDialog(
         context: _context,
         barrierDismissible: dismissible,
         builder: (context) => AlertDialog(

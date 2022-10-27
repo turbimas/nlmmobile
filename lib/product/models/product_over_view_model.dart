@@ -13,7 +13,7 @@ class ProductOverViewModel {
   // String beden
   final String aciklama;
   final String unitCode;
-  final String? _thumbnail;
+  String? _thumbnail;
   double? basketQuantity;
   double basketFactor;
   int _favoriteId;

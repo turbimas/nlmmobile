@@ -99,10 +99,10 @@ class SearchViewModel extends ChangeNotifier {
           "products/productsearch/${AuthService.currentUser!.id}/$searchKey");
 
       if (searchResults.success) {
-        var products = searchResults.data
+        var list = searchResults.data
             .map((e) => ProductOverViewModel.fromJson(e))
-            .toList()
-            .cast<ProductOverViewModel>();
+            .toList();
+        var products = list.cast<ProductOverViewModel>();
         NavigationService.navigateToPage(
                 SearchResultView(products: products, isSearch: true))
             .then((value) {

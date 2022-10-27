@@ -6,7 +6,6 @@ import 'package:nlmmobile/core/services/network/network_service.dart';
 import 'package:nlmmobile/core/services/theme/theme_manager.dart';
 
 void initSync() {
-  NetworkService.init();
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.transparent, // navigation bar color

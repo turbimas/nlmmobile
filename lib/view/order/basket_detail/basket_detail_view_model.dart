@@ -46,6 +46,13 @@ class BasketDetailViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _paymentTypeTerms = false;
+  bool get paymentTypeTerms => _paymentTypeTerms;
+  set paymentTypeTerms(bool value) {
+    _paymentTypeTerms = value;
+    notifyListeners();
+  }
+
   bool _ringBell = false;
   bool get doNotRingBell => _ringBell;
   set doNotRingBell(bool value) {
@@ -88,7 +95,14 @@ class BasketDetailViewModel extends ChangeNotifier {
                 "Sipariş oluşturabilmek için sipariş koşullarını kabul etmelisiniz");
         return;
       }
-
+/*
+      if (!paymentTypeTerms) {
+        await PopupHelper.showErrorDialog(
+            errorMessage:
+                "Sipariş oluşturabilmek için teslimat tarihi belirleyin.");
+        return;
+      }
+*/
       List<String> orderNotes = [];
       if (noteController.text.isNotEmpty) {
         orderNotes.add(noteController.text);

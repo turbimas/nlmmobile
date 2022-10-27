@@ -172,26 +172,35 @@ class _ProductOverviewViewVerticalState
   }
 
   Widget _favoriteChip() {
-    return Container(
-      decoration: BoxDecoration(
-          color: CustomColors.secondary,
-          borderRadius: CustomThemeData.fullInfiniteRounded),
-      constraints: BoxConstraints(minWidth: 30.smw, minHeight: 15.smh),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 5.smw),
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CustomIcons.star_chip_icon,
-              SizedBox(width: 5.smw),
-              CustomText(widget.product.evaluationAverage.toStringAsFixed(1),
-                  style: CustomFonts.bodyText5(CustomColors.secondaryText))
-            ],
+    bool isVisible = false;
+    if (widget.product.evaluationAverage > 0)
+      isVisible = true;
+    else
+      isVisible = false;
+
+    if (isVisible)
+      return Container(
+        decoration: BoxDecoration(
+            color: CustomColors.secondary,
+            borderRadius: CustomThemeData.fullInfiniteRounded),
+        constraints: BoxConstraints(minWidth: 30.smw, minHeight: 15.smh),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5.smw),
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomIcons.star_chip_icon,
+                SizedBox(width: 5.smw),
+                CustomText(widget.product.evaluationAverage.toStringAsFixed(1),
+                    style: CustomFonts.bodyText5(CustomColors.secondaryText))
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    else
+      return Container();
   }
 
   Future<void> _addBasket() async {

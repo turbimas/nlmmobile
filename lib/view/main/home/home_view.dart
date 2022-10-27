@@ -150,7 +150,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             category.groupName,
                             maxLines: 2,
                             textAlign: TextAlign.center,
-                            style: CustomFonts.bodyText4(CustomColors.cardText),
+                            style: CustomFonts.bodyText5(CustomColors.cardText),
                           ),
                         ),
                       ),
@@ -197,7 +197,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     alignment: Alignment.centerLeft,
                     child: CustomText(
                       model.title,
-                      style: CustomFonts.bodyText2(CustomColors.cardText),
+                      style: CustomFonts.bodyText4(CustomColors.cardText),
                     ),
                   )),
               ClipRRect(
@@ -227,7 +227,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 children: [
                   CustomText(
                     model.title,
-                    style: CustomFonts.bodyText2(CustomColors.cardText),
+                    style: CustomFonts.bodyText4(CustomColors.cardText),
                   ),
                   InkWell(
                     onTap: () {

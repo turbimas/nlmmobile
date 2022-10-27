@@ -155,88 +155,127 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
   }
 
   Widget _addressEquality() {
-    return InkWell(
-      onTap: () {
-        ref.read(provider).deliveryTaxSame =
-            !ref.read(provider).deliveryTaxSame;
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          ref.watch(provider).deliveryTaxSame
-              ? CustomIcons.checkbox_checked_icon
-              : CustomIcons.checkbox_unchecked_icon,
-          SizedBox(width: 10.smw),
-          CustomTextLocale(
-            LocaleKeys.BasketDetail_delivery_tax_separate,
-            style: CustomFonts.bodyText3(CustomColors.backgroundText),
-          ),
-        ],
+    return Container(
+      margin: const EdgeInsets.only(top: 5.0),
+      padding: const EdgeInsets.all(5.0),
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+          color: CustomColors.secondary,
+          spreadRadius: 5,
+          blurStyle: BlurStyle.outer,
+          blurRadius: 7,
+          offset: Offset(0, 0), // changes position of shadow
+        ),
+      ], borderRadius: BorderRadius.all(Radius.circular(15.0))),
+      child: InkWell(
+        onTap: () {
+          ref.read(provider).deliveryTaxSame =
+              !ref.read(provider).deliveryTaxSame;
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            ref.watch(provider).deliveryTaxSame
+                ? CustomIcons.checkbox_checked_icon
+                : CustomIcons.checkbox_unchecked_icon,
+            SizedBox(width: 10.smw),
+            CustomTextLocale(
+              LocaleKeys.BasketDetail_delivery_tax_separate,
+              style: CustomFonts.bodyText3(CustomColors.backgroundText),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _deliveryAddress() {
-    return SizedBox(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomTextLocale(LocaleKeys.BasketDetail_choice_address,
-                  style: CustomFonts.bodyText2(CustomColors.backgroundText)),
-              _editCard()
-            ],
-          ),
-          SizedBox(height: 10.smh),
-          ...ref
-              .watch(provider)
-              .addresses
-              .map((e) => InkWell(
-                    onTap: () {
-                      ref.read(provider).selectedDeliveryAddress = e;
-                    },
-                    child: _radioContainer(
-                        title: e.addressHeader,
-                        description: e.address,
-                        isSelected:
-                            ref.watch(provider).selectedDeliveryAddress == e),
-                  ))
-              .toList(),
-        ],
+    return Container(
+      margin: const EdgeInsets.only(top: 5.0),
+      padding: const EdgeInsets.all(5.0),
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+          color: CustomColors.secondary,
+          spreadRadius: 5,
+          blurStyle: BlurStyle.outer,
+          blurRadius: 7,
+          offset: Offset(0, 0), // changes position of shadow
+        ),
+      ], borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      child: SizedBox(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTextLocale(LocaleKeys.BasketDetail_choice_address,
+                    style: CustomFonts.bodyText3(CustomColors.backgroundText)),
+                _editCard()
+              ],
+            ),
+            SizedBox(height: 15.smh),
+            ...ref
+                .watch(provider)
+                .addresses
+                .map((e) => InkWell(
+                      onTap: () {
+                        ref.read(provider).selectedDeliveryAddress = e;
+                      },
+                      child: _radioContainer(
+                          title: e.addressHeader,
+                          description: e.address,
+                          isSelected:
+                              ref.watch(provider).selectedDeliveryAddress == e),
+                    ))
+                .toList(),
+          ],
+        ),
       ),
     );
   }
 
   Widget _taxAddress() {
-    return SizedBox(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomTextLocale(LocaleKeys.BasketDetail_choice_tax_address,
-                  style: CustomFonts.bodyText2(CustomColors.backgroundText)),
-            ],
-          ),
-          SizedBox(height: 10.smh),
-          ...ref
-              .watch(provider)
-              .addresses
-              .map((e) => InkWell(
-                    onTap: () {
-                      ref.read(provider).selectedTaxAddress = e;
-                    },
-                    child: _radioContainer(
-                        title: e.addressHeader,
-                        description: e.address,
-                        isSelected:
-                            ref.watch(provider).selectedTaxAddress == e),
-                  ))
-              .toList(),
-        ],
+    return Container(
+      margin: const EdgeInsets.only(top: 5.0),
+      padding: const EdgeInsets.all(5.0),
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+          color: CustomColors.secondary,
+          spreadRadius: 5,
+          blurStyle: BlurStyle.outer,
+          blurRadius: 7,
+          offset: Offset(0, 0), // changes position of shadow
+        ),
+      ], borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      child: SizedBox(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTextLocale(LocaleKeys.BasketDetail_choice_tax_address,
+                    style: CustomFonts.bodyText3(CustomColors.backgroundText)),
+              ],
+            ),
+            SizedBox(height: 10.smh),
+            ...ref
+                .watch(provider)
+                .addresses
+                .map((e) => InkWell(
+                      onTap: () {
+                        ref.read(provider).selectedTaxAddress = e;
+                      },
+                      child: _radioContainer(
+                          title: e.addressHeader,
+                          description: e.address,
+                          isSelected:
+                              ref.watch(provider).selectedTaxAddress == e),
+                    ))
+                .toList(),
+          ],
+        ),
       ),
     );
   }
@@ -249,41 +288,67 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
         return _teslimatSuresiSec(e);
       }
     }).toList();
-    return SizedBox(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomTextLocale(LocaleKeys.BasketDetail_choice_time,
-                  style: CustomFonts.bodyText2(CustomColors.backgroundText)),
-            ],
-          ),
-          SizedBox(height: 10.smh),
-          ...timesWidgets
-        ],
+    return Container(
+      margin: const EdgeInsets.only(top: 5.0),
+      padding: const EdgeInsets.all(5.0),
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+          color: CustomColors.secondary,
+          spreadRadius: 5,
+          blurStyle: BlurStyle.outer,
+          blurRadius: 7,
+          offset: Offset(0, 0), // changes position of shadow
+        ),
+      ], borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      child: SizedBox(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTextLocale(LocaleKeys.BasketDetail_choice_time,
+                    style: CustomFonts.bodyText3(CustomColors.backgroundText)),
+              ],
+            ),
+            SizedBox(height: 10.smh),
+            ...timesWidgets
+          ],
+        ),
       ),
     );
   }
 
   _paymentType() {
-    return SizedBox(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomTextLocale(LocaleKeys.BasketDetail_choice_payment_method,
-                  style: CustomFonts.bodyText2(CustomColors.backgroundText)),
-            ],
-          ),
-          SizedBox(height: 10.smh),
-          _radioContainer(
-              title: LocaleKeys.BasketDetail_pay_on_door,
-              isSelected: true,
-              description: LocaleKeys.BasketDetail_pay_on_door_or_card),
-        ],
+    return Container(
+      margin: const EdgeInsets.only(top: 5.0),
+      padding: const EdgeInsets.all(5.0),
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+          color: CustomColors.secondary,
+          spreadRadius: 5,
+          blurStyle: BlurStyle.outer,
+          blurRadius: 7,
+          offset: Offset(0, 0), // changes position of shadow
+        ),
+      ], borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      child: SizedBox(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomTextLocale(LocaleKeys.BasketDetail_choice_payment_method,
+                    style: CustomFonts.bodyText3(CustomColors.backgroundText)),
+              ],
+            ),
+            SizedBox(height: 10.smh),
+            _radioContainer(
+                title: LocaleKeys.BasketDetail_pay_on_door,
+                isSelected: true,
+                description: LocaleKeys.BasketDetail_pay_on_door_or_card),
+          ],
+        ),
       ),
     );
   }
@@ -363,7 +428,7 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
           Container(
             color: Colors.transparent,
             margin: EdgeInsets.symmetric(horizontal: 25.smw, vertical: 10.smh),
-            height: 80.smh,
+            height: 70.smh,
             width: AppConstants.designWidth.smw,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -441,7 +506,7 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
   Widget _radioContainer(
       {required String title, String? description, required bool isSelected}) {
     return Container(
-      constraints: BoxConstraints(minHeight: 60.smh),
+      constraints: BoxConstraints(minHeight: 70.smh),
       margin: EdgeInsets.only(bottom: 10.smh),
       decoration: BoxDecoration(
           color: CustomColors.primary, borderRadius: BorderRadius.circular(15)),
@@ -608,7 +673,7 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
             hintStyle: CustomFonts.defaultField(CustomColors.primaryText),
             border: InputBorder.none,
             contentPadding:
-                EdgeInsets.symmetric(horizontal: 20.smw, vertical: 20.smh)),
+                EdgeInsets.symmetric(horizontal: 20.smw, vertical: 30.smh)),
       ),
     );
   }
@@ -689,7 +754,7 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
         });
       },
       child: Container(
-        height: 60.smh,
+        height: 70.smh,
         width: 330.smw,
         decoration: BoxDecoration(
             borderRadius: CustomThemeData.fullRounded,
@@ -710,12 +775,12 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomText(deliveryTimeModel.typeName,
-                      style: CustomFonts.bodyText2(CustomColors.primaryText)),
-                  ref.watch(provider).hemenTeslimAl
-                      ? Container()
-                      : CustomText(ref.watch(provider).selectedHour!,
-                          style:
-                              CustomFonts.bodyText4(CustomColors.primaryText)),
+                      style: CustomFonts.bodyText4(CustomColors.primaryText)),
+                  CustomText(
+                      ref.watch(provider).selectedDate! +
+                          " | " +
+                          ref.watch(provider).selectedHour!,
+                      style: CustomFonts.bodyText4(CustomColors.primaryText)),
                 ],
               ),
             )
