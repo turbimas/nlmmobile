@@ -17,6 +17,5 @@ class AppConstants {
 
   static const APP_API = "http://api.goldenerp.com/api/";
 
-  static String APP_TOKEN =
-      "C6c0N8ReUHJO4XUxZH_BABC1XT9kaAWfVwaor6SJBWx_pyv-C_aXaa_9Myhdk9MZ2qH6riA-Wa2f6TcDxtjLt2fxaElybc_k5MNvfcz2G-RIychSG7UbNcnMJnUw6iEI2UvUqhMswmxsUuQYNcuklR-yBJzJyfLba8oNAx8GbWUabYEPKpwycFWSopI3NyJ7tWhgSZAqoTm6aYb-BZ4Zhyc4M3OjWcFFPSaZ1FRubNI";
+  static String APP_TOKEN = "";
 }

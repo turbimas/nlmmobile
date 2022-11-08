@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nlmmobile/core/services/theme/custom_colors.dart';
-import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
+import 'package:nlmdev/core/services/theme/custom_colors.dart';
+import 'package:nlmdev/core/services/theme/custom_fonts.dart';
 
 class CustomSnackBar extends StatelessWidget {
   final String text;

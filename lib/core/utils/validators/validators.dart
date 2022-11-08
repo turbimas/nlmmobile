@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
-import 'package:nlmmobile/core/utils/validators/auth_validators.dart';
+import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
+import 'package:nlmdev/core/utils/validators/auth_validators.dart';
 
 class Validators with AuthValidators {
   static final Validators _instance = Validators._();

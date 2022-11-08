@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nlmmobile/core/services/auth/authservice.dart';
-import 'package:nlmmobile/core/services/network/network_service.dart';
-import 'package:nlmmobile/core/services/network/response_model.dart';
-import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
-import 'package:nlmmobile/product/models/user/address_model.dart';
+import 'package:nlmdev/core/services/auth/authservice.dart';
+import 'package:nlmdev/core/services/network/network_service.dart';
+import 'package:nlmdev/core/services/network/response_model.dart';
+import 'package:nlmdev/core/utils/helpers/popup_helper.dart';
+import 'package:nlmdev/product/models/user/address_model.dart';
 
 class UserAddressesViewModel extends ChangeNotifier {
   UserAddressesViewModel();

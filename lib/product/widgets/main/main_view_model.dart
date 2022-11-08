@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nlmmobile/product/cubits/home_index_cubit/home_index_cubit.dart';
-import 'package:nlmmobile/view/auth/login/login_view.dart';
-import 'package:nlmmobile/view/main/categories/categories_view.dart';
-import 'package:nlmmobile/view/main/favorites/favorites_view.dart';
-import 'package:nlmmobile/view/main/home/home_view.dart';
-import 'package:nlmmobile/view/main/profile/profile_view.dart';
-import 'package:nlmmobile/view/order/basket/basket_view.dart';
+import 'package:nlmdev/product/cubits/home_index_cubit/home_index_cubit.dart';
+import 'package:nlmdev/view/auth/login/login_view.dart';
+import 'package:nlmdev/view/main/categories/categories_view.dart';
+import 'package:nlmdev/view/main/favorites/favorites_view.dart';
+import 'package:nlmdev/view/main/home/home_view.dart';
+import 'package:nlmdev/view/main/profile/profile_view.dart';
+import 'package:nlmdev/view/order/basket/basket_view.dart';
 
 class MainViewModel extends ChangeNotifier {
   Widget? activePage(BuildContext context) {

@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nlmmobile/core/services/cache/cache_manager.dart';
-import 'package:nlmmobile/core/services/network/network_service.dart';
-import 'package:nlmmobile/core/services/theme/theme_manager.dart';
+import 'package:nlmdev/core/services/cache/cache_manager.dart';
+import 'package:nlmdev/core/services/network/network_service.dart';
+import 'package:nlmdev/core/services/theme/theme_manager.dart';
 
 void initSync() {
   WidgetsFlutterBinding.ensureInitialized();

@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nlmmobile/core/services/theme/theme_manager.dart';
-import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmdev/core/services/theme/theme_manager.dart';
+import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
 
 abstract class CustomIcons {
   static late final Widget menu_search_icon;

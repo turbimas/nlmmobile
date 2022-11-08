@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nlmmobile/core/services/theme/custom_images.dart';
+import 'package:nlmdev/core/services/theme/custom_images.dart';
 
 class ProductRatingModel {
   int id;

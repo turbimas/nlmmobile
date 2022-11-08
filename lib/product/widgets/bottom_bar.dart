@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nlmmobile/core/services/theme/custom_colors.dart';
-import 'package:nlmmobile/core/services/theme/custom_icons.dart';
-import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
-import 'package:nlmmobile/product/cubits/home_index_cubit/home_index_cubit.dart';
+import 'package:nlmdev/core/services/theme/custom_colors.dart';
+import 'package:nlmdev/core/services/theme/custom_icons.dart';
+import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmdev/product/cubits/home_index_cubit/home_index_cubit.dart';
 
 class BottomBar extends StatelessWidget {
   static const double iconSize = 25;

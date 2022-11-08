@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nlmmobile/core/services/cache/cache_manager.dart';
-import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
-import 'package:nlmmobile/product/constants/cache_constants.dart';
-import 'package:nlmmobile/product/cubits/home_index_cubit/home_index_cubit.dart';
-import 'package:nlmmobile/product/models/user_model.dart';
-import 'package:nlmmobile/product/widgets/main/main_view.dart';
-import 'package:nlmmobile/view/auth/login/login_view.dart';
+import 'package:nlmdev/core/services/cache/cache_manager.dart';
+import 'package:nlmdev/core/services/navigation/navigation_service.dart';
+import 'package:nlmdev/product/constants/cache_constants.dart';
+import 'package:nlmdev/product/cubits/home_index_cubit/home_index_cubit.dart';
+import 'package:nlmdev/product/models/user_model.dart';
+import 'package:nlmdev/product/widgets/main/main_view.dart';
+import 'package:nlmdev/view/auth/login/login_view.dart';
 
 class AuthService {
   static UserModel? currentUser;
