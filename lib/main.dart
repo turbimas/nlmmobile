@@ -52,7 +52,7 @@ class _AppState extends State<App> {
                 designSize: AppConstants.designSize,
                 builder: (context, child) => child!,
                 child: MaterialApp(
-                    title: "NlmDev",
+                    title: "Doğmar",
                     builder: EasyLoading.init(),
                     darkTheme: ThemeData.light(),
                     debugShowCheckedModeBanner: false,
