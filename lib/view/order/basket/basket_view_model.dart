@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:nlmdev/core/services/auth/authservice.dart';
-import 'package:nlmdev/core/services/navigation/navigation_service.dart';
-import 'package:nlmdev/core/services/network/network_service.dart';
-import 'package:nlmdev/core/services/network/response_model.dart';
-import 'package:nlmdev/core/services/theme/custom_colors.dart';
-import 'package:nlmdev/core/services/theme/custom_fonts.dart';
-import 'package:nlmdev/core/utils/helpers/popup_helper.dart';
-import 'package:nlmdev/product/models/order/basket_data_model.dart';
-import 'package:nlmdev/product/models/order/basket_total_model.dart';
-import 'package:nlmdev/product/models/product_over_view_model.dart';
-import 'package:nlmdev/product/models/user/address_model.dart';
-import 'package:nlmdev/product/widgets/custom_text.dart';
-import 'package:nlmdev/view/order/basket_detail/basket_detail_view.dart';
-import 'package:nlmdev/view/user/user_address_add/user_address_add_view.dart';
+import 'package:dogmar/core/services/auth/authservice.dart';
+import 'package:dogmar/core/services/navigation/navigation_service.dart';
+import 'package:dogmar/core/services/network/network_service.dart';
+import 'package:dogmar/core/services/network/response_model.dart';
+import 'package:dogmar/core/services/theme/custom_colors.dart';
+import 'package:dogmar/core/services/theme/custom_fonts.dart';
+import 'package:dogmar/core/utils/helpers/popup_helper.dart';
+import 'package:dogmar/product/models/order/basket_data_model.dart';
+import 'package:dogmar/product/models/order/basket_total_model.dart';
+import 'package:dogmar/product/models/product_over_view_model.dart';
+import 'package:dogmar/product/models/user/address_model.dart';
+import 'package:dogmar/product/widgets/custom_text.dart';
+import 'package:dogmar/view/order/basket_detail/basket_detail_view.dart';
+import 'package:dogmar/view/user/user_address_add/user_address_add_view.dart';
 
 class BasketViewModel extends ChangeNotifier {
   BasketViewModel();

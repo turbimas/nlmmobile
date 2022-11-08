@@ -2,16 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
-import 'package:nlmdev/core/services/navigation/navigation_service.dart';
-import 'package:nlmdev/core/services/theme/custom_colors.dart';
-import 'package:nlmdev/core/services/theme/custom_fonts.dart';
-import 'package:nlmdev/core/services/theme/custom_icons.dart';
-import 'package:nlmdev/core/services/theme/custom_theme_data.dart';
-import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
-import 'package:nlmdev/product/models/product_over_view_model.dart';
-import 'package:nlmdev/product/widgets/custom_text.dart';
-import 'package:nlmdev/product/widgets/product_overview_view.dart';
+import 'package:dogmar/core/services/localization/locale_keys.g.dart';
+import 'package:dogmar/core/services/navigation/navigation_service.dart';
+import 'package:dogmar/core/services/theme/custom_colors.dart';
+import 'package:dogmar/core/services/theme/custom_fonts.dart';
+import 'package:dogmar/core/services/theme/custom_icons.dart';
+import 'package:dogmar/core/services/theme/custom_theme_data.dart';
+import 'package:dogmar/core/utils/extensions/ui_extensions.dart';
+import 'package:dogmar/product/models/product_over_view_model.dart';
+import 'package:dogmar/product/widgets/custom_text.dart';
+import 'package:dogmar/product/widgets/product_overview_view.dart';
 
 class PopupHelper {
   static BuildContext get _context => NavigationService.context;

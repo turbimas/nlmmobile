@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
-import 'package:nlmdev/core/services/network/network_service.dart';
-import 'package:nlmdev/core/services/theme/custom_images.dart';
-import 'package:nlmdev/product/widgets/custom_appbar.dart';
-import 'package:nlmdev/product/widgets/custom_safearea.dart';
-import 'package:nlmdev/product/widgets/try_again_widget.dart';
+import 'package:dogmar/core/services/localization/locale_keys.g.dart';
+import 'package:dogmar/core/services/network/network_service.dart';
+import 'package:dogmar/core/services/theme/custom_images.dart';
+import 'package:dogmar/product/widgets/custom_appbar.dart';
+import 'package:dogmar/product/widgets/custom_safearea.dart';
+import 'package:dogmar/product/widgets/try_again_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class OnBilgilendirmeFormuView extends StatefulWidget {

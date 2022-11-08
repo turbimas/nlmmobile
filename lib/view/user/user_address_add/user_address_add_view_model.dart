@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:nlmdev/core/services/auth/authservice.dart';
-import 'package:nlmdev/core/services/navigation/navigation_service.dart';
-import 'package:nlmdev/core/services/network/network_service.dart';
-import 'package:nlmdev/core/services/network/response_model.dart';
-import 'package:nlmdev/core/utils/helpers/popup_helper.dart';
-import 'package:nlmdev/product/models/user/google_address_model.dart';
+import 'package:dogmar/core/services/auth/authservice.dart';
+import 'package:dogmar/core/services/navigation/navigation_service.dart';
+import 'package:dogmar/core/services/network/network_service.dart';
+import 'package:dogmar/core/services/network/response_model.dart';
+import 'package:dogmar/core/utils/helpers/popup_helper.dart';
+import 'package:dogmar/product/models/user/google_address_model.dart';
 
 class UserAddressAddViewModel extends ChangeNotifier {
   late TextEditingController countryController;

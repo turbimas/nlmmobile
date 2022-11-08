@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nlmdev/core/services/theme/custom_colors.dart';
-import 'package:nlmdev/core/services/theme/custom_fonts.dart';
-import 'package:nlmdev/core/services/theme/custom_theme_data.dart';
-import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
+import 'package:dogmar/core/services/theme/custom_colors.dart';
+import 'package:dogmar/core/services/theme/custom_fonts.dart';
+import 'package:dogmar/core/services/theme/custom_theme_data.dart';
+import 'package:dogmar/core/utils/extensions/ui_extensions.dart';
 
 class CustomSearchBarView extends ConsumerStatefulWidget {
   final String hint;

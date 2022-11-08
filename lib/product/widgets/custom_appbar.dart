@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nlmdev/core/services/navigation/navigation_service.dart';
-import 'package:nlmdev/core/services/theme/custom_colors.dart';
-import 'package:nlmdev/core/services/theme/custom_fonts.dart';
-import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
-import 'package:nlmdev/product/widgets/custom_text.dart';
+import 'package:dogmar/core/services/navigation/navigation_service.dart';
+import 'package:dogmar/core/services/theme/custom_colors.dart';
+import 'package:dogmar/core/services/theme/custom_fonts.dart';
+import 'package:dogmar/core/utils/extensions/ui_extensions.dart';
+import 'package:dogmar/product/widgets/custom_text.dart';
 
 class CustomAppBar {
   static PreferredSize activeBack(String title) => PreferredSize(

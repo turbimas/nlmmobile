@@ -1,4 +1,4 @@
-import 'package:nlmdev/product/models/product_over_view_model.dart';
+import 'package:dogmar/product/models/product_over_view_model.dart';
 
 class BasketDataModel {
   late ProductOverViewModel product;

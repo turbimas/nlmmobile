@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nlmdev/core/services/auth/authservice.dart';
-import 'package:nlmdev/core/services/network/network_service.dart';
-import 'package:nlmdev/core/services/network/response_model.dart';
-import 'package:nlmdev/core/utils/helpers/popup_helper.dart';
-import 'package:nlmdev/product/models/user/user_orders_model.dart';
+import 'package:dogmar/core/services/auth/authservice.dart';
+import 'package:dogmar/core/services/network/network_service.dart';
+import 'package:dogmar/core/services/network/response_model.dart';
+import 'package:dogmar/core/utils/helpers/popup_helper.dart';
+import 'package:dogmar/product/models/user/user_orders_model.dart';
 
 class UserOrdersViewModel extends ChangeNotifier {
   List<UserOrdersModel> filtered = [];

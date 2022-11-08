@@ -1,15 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
-import 'package:nlmdev/core/services/theme/custom_colors.dart';
-import 'package:nlmdev/core/services/theme/custom_fonts.dart';
-import 'package:nlmdev/core/services/theme/custom_theme_data.dart';
-import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
-import 'package:nlmdev/product/models/user/delivery_time_model.dart';
-import 'package:nlmdev/product/widgets/custom_appbar.dart';
-import 'package:nlmdev/product/widgets/custom_safearea.dart';
-import 'package:nlmdev/product/widgets/custom_text.dart';
+import 'package:dogmar/core/services/localization/locale_keys.g.dart';
+import 'package:dogmar/core/services/theme/custom_colors.dart';
+import 'package:dogmar/core/services/theme/custom_fonts.dart';
+import 'package:dogmar/core/services/theme/custom_theme_data.dart';
+import 'package:dogmar/core/utils/extensions/ui_extensions.dart';
+import 'package:dogmar/product/models/user/delivery_time_model.dart';
+import 'package:dogmar/product/widgets/custom_appbar.dart';
+import 'package:dogmar/product/widgets/custom_safearea.dart';
+import 'package:dogmar/product/widgets/custom_text.dart';
 
 class DeliveryTimesView extends ConsumerStatefulWidget {
   final DeliveryTimeModel deliveryTimeModel;

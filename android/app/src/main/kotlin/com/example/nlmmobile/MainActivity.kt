@@ -1,4 +1,4 @@
-package nlm.nlmdev
+package nlm.dogmar
 
 import io.flutter.embedding.android.FlutterActivity
 

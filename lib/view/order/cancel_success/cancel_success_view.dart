@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
-import 'package:nlmdev/core/services/navigation/navigation_service.dart';
-import 'package:nlmdev/core/services/theme/custom_colors.dart';
-import 'package:nlmdev/core/services/theme/custom_fonts.dart';
-import 'package:nlmdev/core/services/theme/custom_images.dart';
-import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
-import 'package:nlmdev/product/widgets/custom_safearea.dart';
-import 'package:nlmdev/product/widgets/custom_text.dart';
-import 'package:nlmdev/product/widgets/main/main_view.dart';
+import 'package:dogmar/core/services/localization/locale_keys.g.dart';
+import 'package:dogmar/core/services/navigation/navigation_service.dart';
+import 'package:dogmar/core/services/theme/custom_colors.dart';
+import 'package:dogmar/core/services/theme/custom_fonts.dart';
+import 'package:dogmar/core/services/theme/custom_images.dart';
+import 'package:dogmar/core/utils/extensions/ui_extensions.dart';
+import 'package:dogmar/product/widgets/custom_safearea.dart';
+import 'package:dogmar/product/widgets/custom_text.dart';
+import 'package:dogmar/product/widgets/main/main_view.dart';
 
 class CancelSuccessView extends StatelessWidget {
   const CancelSuccessView({super.key});

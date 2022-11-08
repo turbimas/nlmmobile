@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nlmdev/core/services/navigation/navigation_service.dart';
-import 'package:nlmdev/view/auth/validation/validation_view.dart';
+import 'package:dogmar/core/services/navigation/navigation_service.dart';
+import 'package:dogmar/view/auth/validation/validation_view.dart';
 
 class RegisterViewModel extends ChangeNotifier {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
