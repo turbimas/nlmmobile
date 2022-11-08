@@ -11,8 +11,8 @@ import 'package:nlmdev/core/services/navigation/navigation_service.dart';
 import 'package:nlmdev/product/constants/app_constants.dart';
 import 'package:nlmdev/product/cubits/home_index_cubit/home_index_cubit.dart';
 import 'package:nlmdev/view/auth/splash/splash_view.dart';
-// import 'package:uni_links/uni_links.dart';
 
+// import 'package:uni_links/uni_links.dart';
 void main(List<String> args) async {
   initSync();
   await initAsync();
