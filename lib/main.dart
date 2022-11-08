@@ -6,11 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nlmdev/core/initializations.dart';
-import 'package:nlmdev/core/services/navigation/navigation_service.dart';
-import 'package:nlmdev/product/constants/app_constants.dart';
-import 'package:nlmdev/product/cubits/home_index_cubit/home_index_cubit.dart';
-import 'package:nlmdev/view/auth/splash/splash_view.dart';
+import 'package:koyevi/core/initializations.dart';
+import 'package:koyevi/core/services/navigation/navigation_service.dart';
+import 'package:koyevi/product/constants/app_constants.dart';
+import 'package:koyevi/product/cubits/home_index_cubit/home_index_cubit.dart';
+import 'package:koyevi/view/auth/splash/splash_view.dart';
 
 // import 'package:uni_links/uni_links.dart';
 
@@ -53,7 +53,7 @@ class _AppState extends State<App> {
                 designSize: AppConstants.designSize,
                 builder: (context, child) => child!,
                 child: MaterialApp(
-                    title: "NlmDev",
+                    title: "Köyevi",
                     builder: EasyLoading.init(),
                     darkTheme: ThemeData.light(),
                     debugShowCheckedModeBanner: false,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nlmdev/core/services/navigation/navigation_service.dart';
-import 'package:nlmdev/product/constants/app_constants.dart';
+import 'package:koyevi/core/services/navigation/navigation_service.dart';
+import 'package:koyevi/product/constants/app_constants.dart';
 
 extension UIExtension on num {
   get smh {

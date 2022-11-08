@@ -1,4 +1,4 @@
-package nlm.nlmdev
+package nlm.koyevi
 
 import io.flutter.embedding.android.FlutterActivity
 
