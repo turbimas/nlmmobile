@@ -12,7 +12,11 @@ import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/cubits/home_index_cubit/home_index_cubit.dart';
 import 'package:nlmmobile/view/auth/splash/splash_view.dart';
 // import 'package:uni_links/uni_links.dart';
-// deneme2
+
+// deneme
+// =======
+// deneme
+
 
 void main(List<String> args) async {
   initSync();
