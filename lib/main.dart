@@ -10,6 +10,7 @@ import 'package:dogmar/core/services/navigation/navigation_service.dart';
 import 'package:dogmar/product/constants/app_constants.dart';
 import 'package:dogmar/product/cubits/home_index_cubit/home_index_cubit.dart';
 import 'package:dogmar/view/auth/splash/splash_view.dart';
+
 // import 'package:uni_links/uni_links.dart';
 
 void main(List<String> args) async {
