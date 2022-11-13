@@ -11,7 +11,6 @@ import 'package:koyevi/core/services/navigation/navigation_service.dart';
 import 'package:koyevi/product/constants/app_constants.dart';
 import 'package:koyevi/product/cubits/home_index_cubit/home_index_cubit.dart';
 import 'package:koyevi/view/auth/splash/splash_view.dart';
-
 // import 'package:uni_links/uni_links.dart';
 
 void main(List<String> args) async {
