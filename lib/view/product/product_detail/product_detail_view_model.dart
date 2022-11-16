@@ -60,40 +60,31 @@ class ProductDetailViewModel extends ChangeNotifier {
 
   Future<void> addBasket() async {
     try {
-      productDetail!.basketQuantity ??= 0;
-      productDetail!.basketQuantity = productDetail!.basketQuantity! + 1;
+      productDetail!.addBasket();
       notifyListeners();
       ResponseModel response =
           await NetworkService.post("orders/addbasket", body: {
         "CariID": AuthService.currentUser!.id,
         "Barcode": productDetail!.barcode,
-        "Quantity": 1
+        "Quantity": productDetail!.basketFactor
       });
 
       if (!response.success) {
-        productDetail!.basketQuantity = productDetail!.basketQuantity! - 1;
-        if (productDetail!.basketQuantity == 0) {
-          productDetail!.basketQuantity = null;
-          notifyListeners();
-        }
+        productDetail!.removeBasket();
+        notifyListeners();
+
         PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
-      productDetail!.basketQuantity = productDetail!.basketQuantity! - 1;
-      if (productDetail!.basketQuantity == 0) {
-        productDetail!.basketQuantity = null;
-        notifyListeners();
-      }
+      productDetail!.removeBasket();
+      notifyListeners();
       PopupHelper.showErrorDialogWithCode(e);
     }
   }
 
   Future<void> updateBasket() async {
     try {
-      productDetail!.basketQuantity = productDetail!.basketQuantity! - 1;
-      if (productDetail!.basketQuantity! <= 0) {
-        productDetail!.basketQuantity = null;
-      }
+      productDetail!.removeBasket();
       notifyListeners();
       ResponseModel response =
           await NetworkService.post("orders/updatebasket", body: {
@@ -102,12 +93,13 @@ class ProductDetailViewModel extends ChangeNotifier {
         "Quantity": productDetail!.basketQuantity ?? 0
       });
       if (!response.success) {
-        productDetail!.basketQuantity =
-            (productDetail!.basketQuantity ?? 0) + 1;
+        productDetail!.addBasket();
+        notifyListeners();
         PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
-      productDetail!.basketQuantity = (productDetail!.basketQuantity ?? 0) + 1;
+      productDetail!.addBasket();
+      notifyListeners();
       PopupHelper.showErrorDialogWithCode(e);
     }
   }

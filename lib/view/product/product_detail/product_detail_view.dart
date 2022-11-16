@@ -151,8 +151,8 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
                               ref
                                   .watch(provider)
                                   .productDetail!
-                                  .basketQuantity
-                                  .toString(),
+                                  .basketQuantity!
+                                  .toStringAsFixed(2),
                               style: CustomFonts.bodyText1(
                                   CustomColors.secondaryText)),
                           InkWell(
@@ -424,7 +424,7 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.smw, vertical: 10.smh),
       child: CustomText(
-        product.productDetails.itemProperty * 100,
+        product.productDetails.itemProperty,
         style: CustomFonts.bodyText2(CustomColors.backgroundTextPale),
         maxLines: ref.watch(provider).infoExpanded ? 1000 : 3,
       ),

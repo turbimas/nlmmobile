@@ -16,6 +16,8 @@ class ProductOverViewModel {
   String? _thumbnail;
   double? basketQuantity;
   double basketFactor;
+  final bool inSale;
+  final bool canShipped;
   int _favoriteId;
   bool get isFavorite => _favoriteId > 0;
   set favoriteId(int id) {
@@ -54,6 +56,8 @@ class ProductOverViewModel {
         _thumbnail = json["MainImageThumbUrl"],
         basketQuantity = json["BasketQty"],
         basketFactor = json["BasketFactor"],
+        inSale = json["InSale"],
+        canShipped = json["CanShipped"],
         _favoriteId = json["FavoriteID"],
         _evaluationData = json["Evaluation"];
 

@@ -298,7 +298,7 @@ class _ProductOverviewViewVerticalState
         Container(color: CustomColors.secondaryText, width: 1),
         Expanded(
           child: Center(
-            child: CustomText(widget.product.basketQuantity.toString(),
+            child: CustomText(widget.product.basketQuantity!.toStringAsFixed(2),
                 style: CustomFonts.bodyText3(CustomColors.secondaryText)),
           ),
         ),
