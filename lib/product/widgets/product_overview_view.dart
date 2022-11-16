@@ -146,11 +146,18 @@ class _ProductOverviewViewVerticalState
             ),
             child: widget.product.basketQuantity == null
                 ? InkWell(
-                    onTap: _addBasket,
+                    onTap: widget.product.canShipped && widget.product.inSale
+                        ? _addBasket
+                        : () {},
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment:
+                          widget.product.canShipped && widget.product.inSale
+                              ? MainAxisAlignment.spaceEvenly
+                              : MainAxisAlignment.center,
                       children: [
-                        CustomIcons.add_basket_outlined_icon,
+                        widget.product.canShipped && widget.product.inSale
+                            ? CustomIcons.add_basket_outlined_icon
+                            : Container(),
                         CustomText(
                           statusMessage,
                           style:

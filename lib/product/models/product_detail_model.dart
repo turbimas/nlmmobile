@@ -12,7 +12,6 @@ class ProductDetailModel {
   // final double miktar;
   final String aciklama; // ürün ismi + açıklama
   final String unitCode;
-  String? imageUrl;
 
   double? basketQuantity;
 

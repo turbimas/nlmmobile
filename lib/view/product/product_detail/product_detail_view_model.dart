@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:nlmdev/core/services/auth/authservice.dart';
+import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
 import 'package:nlmdev/core/services/network/network_service.dart';
 import 'package:nlmdev/core/services/network/response_model.dart';
 import 'package:nlmdev/core/utils/helpers/popup_helper.dart';
@@ -7,6 +9,8 @@ import 'package:nlmdev/product/models/product_detail_model.dart';
 
 class ProductDetailViewModel extends ChangeNotifier {
   ProductDetailViewModel();
+
+  String statusMessage = "";
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -48,6 +52,13 @@ class ProductDetailViewModel extends ChangeNotifier {
               "products/productdetail/${AuthService.currentUser!.id}/$barcode");
       if (responseModel.success) {
         productDetail = ProductDetailModel.fromJson(responseModel.data!);
+        statusMessage = LocaleKeys.ProductDetail_add_to_basket;
+        if (!productDetail!.canShipped) {
+          statusMessage = LocaleKeys.ProductDetail_cant_shipped;
+        }
+        if (!productDetail!.inSale) {
+          statusMessage = LocaleKeys.ProductDetail_not_in_sale;
+        }
       } else {
         PopupHelper.showErrorDialog(errorMessage: responseModel.errorMessage!);
       }

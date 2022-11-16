@@ -31,7 +31,6 @@ class ProductDetailView extends ConsumerStatefulWidget {
 }
 
 class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
-  String statusMessage = "";
   late final PageController _pageController;
   late final ScrollController _scrollController;
   late final ChangeNotifierProvider<ProductDetailViewModel> provider;
@@ -44,13 +43,7 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
     Future.delayed(Duration.zero, () {
       ref.read(provider).getProductDetail(widget.productOverViewModel.barcode);
     });
-    statusMessage = LocaleKeys.ProductDetail_add_to_basket.tr();
-    if (ref.read(provider).productDetail!.canShipped) {
-      statusMessage = LocaleKeys.ProductDetail_cant_shipped.tr();
-    }
-    if (ref.read(provider).productDetail!.inSale) {
-      statusMessage = LocaleKeys.ProductDetail_not_in_sale.tr();
-    }
+
     super.initState();
   }
 
@@ -141,13 +134,25 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
             child: Center(
                 child: ref.watch(provider).productDetail!.basketQuantity == null
                     ? InkWell(
-                        onTap: ref.read(provider).addBasket,
+                        onTap: ref.watch(provider).productDetail!.canShipped &&
+                                ref.watch(provider).productDetail!.inSale
+                            ? ref.read(provider).addBasket
+                            : () {},
                         child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: ref
+                                        .watch(provider)
+                                        .productDetail!
+                                        .canShipped &&
+                                    ref.watch(provider).productDetail!.inSale
+                                ? MainAxisAlignment.spaceEvenly
+                                : MainAxisAlignment.center,
                             children: [
-                              CustomIcons.add_basket_icon,
+                              ref.watch(provider).productDetail!.canShipped &&
+                                      ref.watch(provider).productDetail!.inSale
+                                  ? CustomIcons.add_basket_icon
+                                  : Container(),
                               CustomTextLocale(
-                                  LocaleKeys.ProductDetail_add_to_basket,
+                                  ref.watch(provider).statusMessage,
                                   style: CustomFonts.bodyText1(
                                       CustomColors.secondaryText))
                             ]),

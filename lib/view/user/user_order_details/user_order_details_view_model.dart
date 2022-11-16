@@ -3,6 +3,7 @@ import 'package:nlmdev/core/services/network/network_service.dart';
 import 'package:nlmdev/core/services/network/response_model.dart';
 import 'package:nlmdev/core/utils/helpers/popup_helper.dart';
 import 'package:nlmdev/product/models/order/order_detail_row.dart';
+import 'package:nlmdev/product/models/product_detail_model.dart';
 import 'package:nlmdev/product/models/user/user_orders_model.dart';
 
 class UserOrderDetailsViewModel extends ChangeNotifier {
