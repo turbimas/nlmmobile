@@ -31,6 +31,7 @@ class ProductDetailView extends ConsumerStatefulWidget {
 }
 
 class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
+  String statusMessage = "";
   late final PageController _pageController;
   late final ScrollController _scrollController;
   late final ChangeNotifierProvider<ProductDetailViewModel> provider;
@@ -43,6 +44,13 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
     Future.delayed(Duration.zero, () {
       ref.read(provider).getProductDetail(widget.productOverViewModel.barcode);
     });
+    statusMessage = LocaleKeys.ProductDetail_add_to_basket.tr();
+    if (ref.read(provider).productDetail!.canShipped) {
+      statusMessage = LocaleKeys.ProductDetail_cant_shipped.tr();
+    }
+    if (ref.read(provider).productDetail!.inSale) {
+      statusMessage = LocaleKeys.ProductDetail_not_in_sale.tr();
+    }
     super.initState();
   }
 
@@ -125,7 +133,10 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
               style: CustomFonts.bodyText1(CustomColors.primaryText),
             ))),
         Container(
-            color: CustomColors.secondary,
+            color: ref.watch(provider).productDetail!.canShipped &&
+                    ref.watch(provider).productDetail!.inSale
+                ? CustomColors.secondary
+                : CustomColors.disabled,
             width: 155.smw,
             child: Center(
                 child: ref.watch(provider).productDetail!.basketQuantity == null

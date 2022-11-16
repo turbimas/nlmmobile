@@ -46,6 +46,14 @@ class _ProductOverviewViewVerticalState
 
   @override
   Widget build(BuildContext context) {
+    String statusMessage = LocaleKeys.ProductOverView_add_to_basket.tr();
+    if (!widget.product.canShipped) {
+      statusMessage = LocaleKeys.ProductOverView_cant_shipped.tr();
+    }
+    if (!widget.product.inSale) {
+      statusMessage = LocaleKeys.ProductOverView_not_in_sale.tr();
+    }
+
     return AnimatedContainer(
       duration: CustomThemeData.animationDurationMedium,
       constraints: BoxConstraints(minHeight: 250.smh, maxWidth: 160.smw),
@@ -132,7 +140,9 @@ class _ProductOverviewViewVerticalState
             width: 160.smw,
             decoration: BoxDecoration(
               borderRadius: CustomThemeData.bottomRounded,
-              color: CustomColors.secondary,
+              color: widget.product.canShipped && widget.product.inSale
+                  ? CustomColors.secondary
+                  : CustomColors.disabled,
             ),
             child: widget.product.basketQuantity == null
                 ? InkWell(
@@ -142,7 +152,7 @@ class _ProductOverviewViewVerticalState
                       children: [
                         CustomIcons.add_basket_outlined_icon,
                         CustomText(
-                          LocaleKeys.Components_add_to_basket.tr(),
+                          statusMessage,
                           style:
                               CustomFonts.bodyText4(CustomColors.secondaryText),
                         )
@@ -173,12 +183,13 @@ class _ProductOverviewViewVerticalState
 
   Widget _favoriteChip() {
     bool isVisible = false;
-    if (widget.product.evaluationAverage > 0)
+    if (widget.product.evaluationAverage > 0) {
       isVisible = true;
-    else
+    } else {
       isVisible = false;
+    }
 
-    if (isVisible)
+    if (isVisible) {
       return Container(
         decoration: BoxDecoration(
             color: CustomColors.secondary,
@@ -199,8 +210,9 @@ class _ProductOverviewViewVerticalState
           ),
         ),
       );
-    else
+    } else {
       return Container();
+    }
   }
 
   Future<void> _addBasket() async {

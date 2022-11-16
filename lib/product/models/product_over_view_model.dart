@@ -13,11 +13,12 @@ class ProductOverViewModel {
   // String beden
   final String aciklama;
   final String unitCode;
-  String? _thumbnail;
+  final String? _thumbnail;
   double? basketQuantity;
   double basketFactor;
   final bool inSale;
   final bool canShipped;
+
   int _favoriteId;
   bool get isFavorite => _favoriteId > 0;
   set favoriteId(int id) {
