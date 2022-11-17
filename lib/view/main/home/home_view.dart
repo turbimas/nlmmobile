@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,6 +20,7 @@ import 'package:nlmdev/product/constants/app_constants.dart';
 import 'package:nlmdev/product/models/category_model.dart';
 import 'package:nlmdev/product/models/home_banner_model.dart';
 import 'package:nlmdev/product/models/product_over_view_model.dart';
+import 'package:nlmdev/product/models/user/address_model.dart';
 import 'package:nlmdev/product/widgets/custom_searchbar_view.dart';
 import 'package:nlmdev/product/widgets/custom_text.dart';
 import 'package:nlmdev/product/widgets/product_overview_view.dart';
@@ -74,18 +77,51 @@ class _HomeViewState extends ConsumerState<HomeView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 10.smh),
-          child: InkWell(
-              onTap: () {
-                NavigationService.navigateToPage(const SearchView());
-              },
-              child: AbsorbPointer(
-                  child: CustomSearchBarView(
-                      hint: LocaleKeys.Home_search_hint.tr()))),
-        ),
+        _addressBar(),
+        _searchBar(),
         _bannersContent(),
       ],
+    );
+  }
+
+  Widget _addressBar() {
+    AddressModel? address = ref.watch(provider).address;
+    if (address == null) {
+      return Container();
+    }
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10.smh),
+      decoration: BoxDecoration(
+          borderRadius: CustomThemeData.bottomInfiniteRounded,
+          color: CustomColors.secondary),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Icon(Icons.home),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Data 1"),
+              Text("Data 2"),
+            ],
+          ),
+          Icon(Icons.arrow_drop_down)
+        ],
+      ),
+    );
+  }
+
+  Widget _searchBar() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10.smh),
+      child: InkWell(
+          onTap: () {
+            NavigationService.navigateToPage(const SearchView());
+          },
+          child: AbsorbPointer(
+              child:
+                  CustomSearchBarView(hint: LocaleKeys.Home_search_hint.tr()))),
     );
   }
 
