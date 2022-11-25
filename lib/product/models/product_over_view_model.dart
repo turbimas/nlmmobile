@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:nlmmobile/core/services/theme/custom_images.dart';
 import 'package:nlmmobile/product/models/product_detail_model.dart';
+=======
+import 'package:koyevi/core/services/theme/custom_images.dart';
+import 'package:koyevi/product/models/product_detail_model.dart';
+>>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
 
 class ProductOverViewModel {
   final int id;

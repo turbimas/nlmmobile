@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
+=======
+import 'package:koyevi/core/utils/extensions/ui_extensions.dart';
+>>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
 
 abstract class CustomThemeData {
   static double roundness = 15;

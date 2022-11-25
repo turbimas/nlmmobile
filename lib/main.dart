@@ -6,11 +6,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+<<<<<<< HEAD
 import 'package:nlmmobile/core/initializations.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/cubits/home_index_cubit/home_index_cubit.dart';
 import 'package:nlmmobile/view/auth/splash/splash_view.dart';
+=======
+import 'package:koyevi/core/initializations.dart';
+import 'package:koyevi/core/services/navigation/navigation_service.dart';
+import 'package:koyevi/product/constants/app_constants.dart';
+import 'package:koyevi/product/cubits/home_index_cubit/home_index_cubit.dart';
+import 'package:koyevi/view/auth/splash/splash_view.dart';
+>>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
 
 // import 'package:uni_links/uni_links.dart';
 
@@ -53,7 +61,11 @@ class _AppState extends State<App> {
                 designSize: AppConstants.designSize,
                 builder: (context, child) => child!,
                 child: MaterialApp(
+<<<<<<< HEAD
                     title: "nlmmobile",
+=======
+                    title: "koyevi",
+>>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
                     builder: EasyLoading.init(),
                     darkTheme: ThemeData.light(),
                     debugShowCheckedModeBanner: false,

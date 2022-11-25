@@ -1,11 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:nlmmobile/core/services/auth/authservice.dart';
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/network/network_service.dart';
 import 'package:nlmmobile/core/services/network/response_model.dart';
 import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
 import 'package:nlmmobile/product/models/product_detail_model.dart';
+=======
+import 'package:koyevi/core/services/auth/authservice.dart';
+import 'package:koyevi/core/services/localization/locale_keys.g.dart';
+import 'package:koyevi/core/services/network/network_service.dart';
+import 'package:koyevi/core/services/network/response_model.dart';
+import 'package:koyevi/core/utils/helpers/popup_helper.dart';
+import 'package:koyevi/product/models/product_detail_model.dart';
+>>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
 
 class ProductDetailViewModel extends ChangeNotifier {
   ProductDetailViewModel();

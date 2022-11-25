@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+<<<<<<< HEAD
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
 import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
 import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
+=======
+import 'package:koyevi/core/services/theme/custom_colors.dart';
+import 'package:koyevi/core/services/theme/custom_fonts.dart';
+import 'package:koyevi/core/services/theme/custom_theme_data.dart';
+import 'package:koyevi/core/utils/extensions/ui_extensions.dart';
+>>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
 
 class CustomSearchBarView extends ConsumerStatefulWidget {
   final String hint;

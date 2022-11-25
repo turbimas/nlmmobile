@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+<<<<<<< HEAD
 import 'package:nlmmobile/core/services/auth/authservice.dart';
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
@@ -19,6 +20,26 @@ import 'package:nlmmobile/product/widgets/custom_searchbar_view.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/try_again_widget.dart';
 import 'package:nlmmobile/view/product/product_questions/product_questions_view_model.dart';
+=======
+import 'package:koyevi/core/services/auth/authservice.dart';
+import 'package:koyevi/core/services/localization/locale_keys.g.dart';
+import 'package:koyevi/core/services/theme/custom_colors.dart';
+import 'package:koyevi/core/services/theme/custom_fonts.dart';
+import 'package:koyevi/core/services/theme/custom_icons.dart';
+import 'package:koyevi/core/services/theme/custom_images.dart';
+import 'package:koyevi/core/services/theme/custom_theme_data.dart';
+import 'package:koyevi/core/utils/extensions/ui_extensions.dart';
+import 'package:koyevi/product/constants/app_constants.dart';
+import 'package:koyevi/product/models/product_detail_model.dart';
+import 'package:koyevi/product/models/product_over_view_model.dart';
+import 'package:koyevi/product/models/user/user_question_model.dart';
+import 'package:koyevi/product/widgets/custom_appbar.dart';
+import 'package:koyevi/product/widgets/custom_safearea.dart';
+import 'package:koyevi/product/widgets/custom_searchbar_view.dart';
+import 'package:koyevi/product/widgets/custom_text.dart';
+import 'package:koyevi/product/widgets/try_again_widget.dart';
+import 'package:koyevi/view/product/product_questions/product_questions_view_model.dart';
+>>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
 
 class ProductQuestionsView extends ConsumerStatefulWidget {
   final ProductDetailModel product;

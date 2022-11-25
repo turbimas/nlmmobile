@@ -1,6 +1,10 @@
 // ignore_for_file: avoid_renaming_method_parameters, hash_and_equals
 
+<<<<<<< HEAD
 import 'package:nlmmobile/product/models/product_over_view_model.dart';
+=======
+import 'package:koyevi/product/models/product_over_view_model.dart';
+>>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
 
 class OrderLinesModel {
   late int id;
