@@ -2,17 +2,17 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nlmdev/core/services/auth/authservice.dart';
-import 'package:nlmdev/core/services/navigation/navigation_service.dart';
-import 'package:nlmdev/core/services/network/network_service.dart';
-import 'package:nlmdev/core/services/network/response_model.dart';
-import 'package:nlmdev/core/services/theme/custom_colors.dart';
-import 'package:nlmdev/core/services/theme/custom_icons.dart';
-import 'package:nlmdev/core/services/theme/custom_images.dart';
-import 'package:nlmdev/core/utils/helpers/popup_helper.dart';
-import 'package:nlmdev/product/constants/app_constants.dart';
-import 'package:nlmdev/product/models/user_model.dart';
-import 'package:nlmdev/view/auth/login/login_view.dart';
+import 'package:nlmmobile/core/services/auth/authservice.dart';
+import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
+import 'package:nlmmobile/core/services/network/network_service.dart';
+import 'package:nlmmobile/core/services/network/response_model.dart';
+import 'package:nlmmobile/core/services/theme/custom_colors.dart';
+import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/services/theme/custom_images.dart';
+import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
+import 'package:nlmmobile/product/constants/app_constants.dart';
+import 'package:nlmmobile/product/models/user_model.dart';
+import 'package:nlmmobile/view/auth/login/login_view.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class SplashView extends ConsumerStatefulWidget {

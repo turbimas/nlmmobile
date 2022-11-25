@@ -3,21 +3,21 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nlmdev/core/services/auth/authservice.dart';
-import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
-import 'package:nlmdev/core/services/navigation/navigation_service.dart';
-import 'package:nlmdev/core/services/network/network_service.dart';
-import 'package:nlmdev/core/services/network/response_model.dart';
-import 'package:nlmdev/core/services/theme/custom_colors.dart';
-import 'package:nlmdev/core/services/theme/custom_fonts.dart';
-import 'package:nlmdev/core/services/theme/custom_icons.dart';
-import 'package:nlmdev/core/services/theme/custom_theme_data.dart';
-import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
-import 'package:nlmdev/core/utils/helpers/popup_helper.dart';
-import 'package:nlmdev/product/models/product_detail_model.dart';
-import 'package:nlmdev/product/models/product_over_view_model.dart';
-import 'package:nlmdev/product/widgets/custom_text.dart';
-import 'package:nlmdev/view/product/product_detail/product_detail_view.dart';
+import 'package:nlmmobile/core/services/auth/authservice.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
+import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
+import 'package:nlmmobile/core/services/network/network_service.dart';
+import 'package:nlmmobile/core/services/network/response_model.dart';
+import 'package:nlmmobile/core/services/theme/custom_colors.dart';
+import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
+import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
+import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
+import 'package:nlmmobile/product/models/product_detail_model.dart';
+import 'package:nlmmobile/product/models/product_over_view_model.dart';
+import 'package:nlmmobile/product/widgets/custom_text.dart';
+import 'package:nlmmobile/view/product/product_detail/product_detail_view.dart';
 
 class ProductOverviewVerticalView extends ConsumerStatefulWidget {
   ProductOverViewModel product;

@@ -1,15 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
-import 'package:nlmdev/core/services/theme/custom_colors.dart';
-import 'package:nlmdev/core/services/theme/custom_fonts.dart';
-import 'package:nlmdev/core/services/theme/custom_theme_data.dart';
-import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
-import 'package:nlmdev/product/constants/app_constants.dart';
-import 'package:nlmdev/product/widgets/custom_appbar.dart';
-import 'package:nlmdev/product/widgets/custom_safearea.dart';
-import 'package:nlmdev/view/user/user_promotions/user_promotions_view_model.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
+import 'package:nlmmobile/core/services/theme/custom_colors.dart';
+import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
+import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
+import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmmobile/product/constants/app_constants.dart';
+import 'package:nlmmobile/product/widgets/custom_appbar.dart';
+import 'package:nlmmobile/product/widgets/custom_safearea.dart';
+import 'package:nlmmobile/view/user/user_promotions/user_promotions_view_model.dart';
 
 class UserPromotionsView extends ConsumerStatefulWidget {
   const UserPromotionsView({Key? key}) : super(key: key);

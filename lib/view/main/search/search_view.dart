@@ -1,20 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
-import 'package:nlmdev/core/services/theme/custom_colors.dart';
-import 'package:nlmdev/core/services/theme/custom_fonts.dart';
-import 'package:nlmdev/core/services/theme/custom_icons.dart';
-import 'package:nlmdev/core/services/theme/custom_images.dart';
-import 'package:nlmdev/core/services/theme/custom_theme_data.dart';
-import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
-import 'package:nlmdev/product/widgets/custom_appbar.dart';
-import 'package:nlmdev/product/widgets/custom_safearea.dart';
-import 'package:nlmdev/product/widgets/custom_searchbar_view.dart';
-import 'package:nlmdev/product/widgets/custom_text.dart';
-import 'package:nlmdev/product/widgets/product_overview_view.dart';
-import 'package:nlmdev/product/widgets/try_again_widget.dart';
-import 'package:nlmdev/view/main/search/search_view_model.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
+import 'package:nlmmobile/core/services/theme/custom_colors.dart';
+import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
+import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/services/theme/custom_images.dart';
+import 'package:nlmmobile/core/services/theme/custom_theme_data.dart';
+import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmmobile/product/widgets/custom_appbar.dart';
+import 'package:nlmmobile/product/widgets/custom_safearea.dart';
+import 'package:nlmmobile/product/widgets/custom_searchbar_view.dart';
+import 'package:nlmmobile/product/widgets/custom_text.dart';
+import 'package:nlmmobile/product/widgets/product_overview_view.dart';
+import 'package:nlmmobile/product/widgets/try_again_widget.dart';
+import 'package:nlmmobile/view/main/search/search_view_model.dart';
 
 class SearchView extends ConsumerStatefulWidget {
   const SearchView({Key? key}) : super(key: key);

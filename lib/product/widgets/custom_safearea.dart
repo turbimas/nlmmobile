@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nlmdev/core/services/theme/custom_colors.dart';
+import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 
 class CustomSafeArea extends StatelessWidget {
   final Widget child;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nlmdev/core/services/auth/authservice.dart';
-import 'package:nlmdev/core/services/network/network_service.dart';
-import 'package:nlmdev/core/services/network/response_model.dart';
-import 'package:nlmdev/product/models/product/product_rating_model.dart';
-import 'package:nlmdev/product/models/product_detail_model.dart';
+import 'package:nlmmobile/core/services/auth/authservice.dart';
+import 'package:nlmmobile/core/services/network/network_service.dart';
+import 'package:nlmmobile/core/services/network/response_model.dart';
+import 'package:nlmmobile/product/models/product/product_rating_model.dart';
+import 'package:nlmmobile/product/models/product_detail_model.dart';
 
 class ProductRatingsViewModel extends ChangeNotifier {
   ProductDetailModel product;

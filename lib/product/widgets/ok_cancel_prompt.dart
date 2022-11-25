@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
-import 'package:nlmdev/core/services/theme/custom_colors.dart';
-import 'package:nlmdev/core/services/theme/custom_fonts.dart';
-import 'package:nlmdev/core/services/theme/custom_icons.dart';
-import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
-import 'package:nlmdev/product/constants/app_constants.dart';
-import 'package:nlmdev/product/widgets/custom_text.dart';
+import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
+import 'package:nlmmobile/core/services/theme/custom_colors.dart';
+import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
+import 'package:nlmmobile/core/services/theme/custom_icons.dart';
+import 'package:nlmmobile/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmmobile/product/constants/app_constants.dart';
+import 'package:nlmmobile/product/widgets/custom_text.dart';
 
 class OkCancelPrompt extends StatelessWidget {
   final void Function() okCallBack;

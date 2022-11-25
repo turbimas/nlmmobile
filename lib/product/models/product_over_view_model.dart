@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nlmdev/core/services/theme/custom_images.dart';
-import 'package:nlmdev/product/models/product_detail_model.dart';
+import 'package:nlmmobile/core/services/theme/custom_images.dart';
+import 'package:nlmmobile/product/models/product_detail_model.dart';
 
 class ProductOverViewModel {
   final int id;

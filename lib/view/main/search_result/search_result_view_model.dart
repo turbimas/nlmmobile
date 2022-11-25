@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nlmdev/core/services/navigation/navigation_service.dart';
-import 'package:nlmdev/product/models/category_model.dart';
-import 'package:nlmdev/product/models/product_over_view_model.dart';
+import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
+import 'package:nlmmobile/product/models/category_model.dart';
+import 'package:nlmmobile/product/models/product_over_view_model.dart';
 
 class SearchResultViewModel extends ChangeNotifier {
   CategoryModel? categoryModel;

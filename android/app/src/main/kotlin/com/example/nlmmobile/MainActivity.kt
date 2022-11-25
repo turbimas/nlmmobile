@@ -1,4 +1,4 @@
-package nlm.nlmdev
+package nlm.nlmmobile
 
 import io.flutter.embedding.android.FlutterActivity
 
