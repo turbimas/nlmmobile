@@ -98,7 +98,7 @@ class ValidationViewModel extends ChangeNotifier {
   }
 
   Future<void> approve() async {
-    if (formKey.currentState!.validate()) formKey.currentState!.save();
+    //if (formKey.currentState!.validate()) formKey.currentState!.save();
     if (approvedValidationCode.trim() == validateCode) {
       late ResponseModel response;
       if (isUpdate) {

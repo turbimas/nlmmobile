@@ -24,7 +24,7 @@
         "term_condition_2":"Okudum, kabul ediyorum"
     },
     "Validation": {
-        "sent_message": "{} mail adresine bir onay kodu ilettik",
+        "sent_message": "{} numarasına bir onay kodu ilettik",
         "validation_hint": "Onay kodunu girin",
         "wrong_code": "Onay kodu yanlış!",
         "go_back": "Geri dön",
