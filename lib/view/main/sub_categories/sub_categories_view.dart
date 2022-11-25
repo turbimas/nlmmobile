@@ -1,19 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
-import 'package:nlmdev/core/services/theme/custom_colors.dart';
-import 'package:nlmdev/core/services/theme/custom_fonts.dart';
-import 'package:nlmdev/core/services/theme/custom_images.dart';
-import 'package:nlmdev/core/services/theme/custom_theme_data.dart';
-import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
-import 'package:nlmdev/product/constants/app_constants.dart';
-import 'package:nlmdev/product/models/category_model.dart';
-import 'package:nlmdev/product/widgets/custom_appbar.dart';
-import 'package:nlmdev/product/widgets/custom_safearea.dart';
-import 'package:nlmdev/product/widgets/custom_text.dart';
-import 'package:nlmdev/product/widgets/ok_cancel_prompt.dart';
-import 'package:nlmdev/view/main/sub_categories/sub_categories_view_model.dart';
+import 'package:koyevi/core/services/localization/locale_keys.g.dart';
+import 'package:koyevi/core/services/theme/custom_colors.dart';
+import 'package:koyevi/core/services/theme/custom_fonts.dart';
+import 'package:koyevi/core/services/theme/custom_images.dart';
+import 'package:koyevi/core/services/theme/custom_theme_data.dart';
+import 'package:koyevi/core/utils/extensions/ui_extensions.dart';
+import 'package:koyevi/product/constants/app_constants.dart';
+import 'package:koyevi/product/models/category_model.dart';
+import 'package:koyevi/product/widgets/custom_appbar.dart';
+import 'package:koyevi/product/widgets/custom_safearea.dart';
+import 'package:koyevi/product/widgets/custom_text.dart';
+import 'package:koyevi/product/widgets/ok_cancel_prompt.dart';
+import 'package:koyevi/view/main/sub_categories/sub_categories_view_model.dart';
 
 class SubCategoriesView extends ConsumerStatefulWidget {
   final CategoryModel? masterCategory;

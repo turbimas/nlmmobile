@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nlmdev/core/services/theme/custom_images.dart';
-import 'package:nlmdev/product/models/order/basket_total_model.dart';
-import 'package:nlmdev/product/models/order/order_delivery_address.dart';
-import 'package:nlmdev/product/models/order/order_invoice_address.dart';
+import 'package:koyevi/core/services/theme/custom_images.dart';
+import 'package:koyevi/product/models/order/basket_total_model.dart';
+import 'package:koyevi/product/models/order/order_delivery_address.dart';
+import 'package:koyevi/product/models/order/order_invoice_address.dart';
 
 class UserOrdersModel {
   late final int orderId;

@@ -2,13 +2,13 @@ import 'dart:math' as math;
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:nlmdev/core/services/auth/authservice.dart';
-import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
-import 'package:nlmdev/core/services/navigation/navigation_service.dart';
-import 'package:nlmdev/core/services/network/network_service.dart';
-import 'package:nlmdev/core/services/network/response_model.dart';
-import 'package:nlmdev/core/utils/helpers/popup_helper.dart';
-import 'package:nlmdev/product/models/user_model.dart';
+import 'package:koyevi/core/services/auth/authservice.dart';
+import 'package:koyevi/core/services/localization/locale_keys.g.dart';
+import 'package:koyevi/core/services/navigation/navigation_service.dart';
+import 'package:koyevi/core/services/network/network_service.dart';
+import 'package:koyevi/core/services/network/response_model.dart';
+import 'package:koyevi/core/utils/helpers/popup_helper.dart';
+import 'package:koyevi/product/models/user_model.dart';
 
 class ValidationViewModel extends ChangeNotifier {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
