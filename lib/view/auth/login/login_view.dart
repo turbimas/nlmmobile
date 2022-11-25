@@ -1,21 +1,21 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:koyevi/core/services/localization/locale_keys.g.dart';
-import 'package:koyevi/core/services/navigation/navigation_service.dart';
-import 'package:koyevi/core/services/theme/custom_colors.dart';
-import 'package:koyevi/core/services/theme/custom_fonts.dart';
-import 'package:koyevi/core/services/theme/custom_icons.dart';
-import 'package:koyevi/core/services/theme/custom_images.dart';
-import 'package:koyevi/core/services/theme/custom_theme_data.dart';
-import 'package:koyevi/core/utils/extensions/ui_extensions.dart';
-import 'package:koyevi/product/constants/app_constants.dart';
-import 'package:koyevi/product/widgets/custom_appbar.dart';
-import 'package:koyevi/product/widgets/custom_safearea.dart';
-import 'package:koyevi/product/widgets/custom_text.dart';
-import 'package:koyevi/view/auth/forgot_password/forgot_password_view.dart';
-import 'package:koyevi/view/auth/login/login_view_model.dart';
-import 'package:koyevi/view/auth/register/register_view.dart';
+import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
+import 'package:nlmdev/core/services/navigation/navigation_service.dart';
+import 'package:nlmdev/core/services/theme/custom_colors.dart';
+import 'package:nlmdev/core/services/theme/custom_fonts.dart';
+import 'package:nlmdev/core/services/theme/custom_icons.dart';
+import 'package:nlmdev/core/services/theme/custom_images.dart';
+import 'package:nlmdev/core/services/theme/custom_theme_data.dart';
+import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmdev/product/constants/app_constants.dart';
+import 'package:nlmdev/product/widgets/custom_appbar.dart';
+import 'package:nlmdev/product/widgets/custom_safearea.dart';
+import 'package:nlmdev/product/widgets/custom_text.dart';
+import 'package:nlmdev/view/auth/forgot_password/forgot_password_view.dart';
+import 'package:nlmdev/view/auth/login/login_view_model.dart';
+import 'package:nlmdev/view/auth/register/register_view.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -44,18 +44,21 @@ class _LoginViewState extends ConsumerState<LoginView> {
   Widget build(BuildContext context) {
     return CustomSafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: CustomAppBar.inactiveBack(LocaleKeys.Login_appbar_title.tr()),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _image(),
-            _form(),
-            _forgotPasswordText(),
-            _loginButton(),
-            _notRegisteredYet(),
-            _registerButton()
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _image(),
+              _form(),
+              _forgotPasswordText(),
+              _loginButton(),
+              _notRegisteredYet(),
+              _registerButton()
+            ],
+          ),
         ),
       ),
     );

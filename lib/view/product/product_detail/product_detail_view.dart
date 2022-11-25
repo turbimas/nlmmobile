@@ -1,24 +1,24 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:koyevi/core/services/localization/locale_keys.g.dart';
-import 'package:koyevi/core/services/navigation/navigation_service.dart';
-import 'package:koyevi/core/services/theme/custom_colors.dart';
-import 'package:koyevi/core/services/theme/custom_fonts.dart';
-import 'package:koyevi/core/services/theme/custom_icons.dart';
-import 'package:koyevi/core/services/theme/custom_images.dart';
-import 'package:koyevi/core/services/theme/custom_theme_data.dart';
-import 'package:koyevi/core/utils/extensions/ui_extensions.dart';
-import 'package:koyevi/product/constants/app_constants.dart';
-import 'package:koyevi/product/models/product_detail_model.dart';
-import 'package:koyevi/product/models/product_over_view_model.dart';
-import 'package:koyevi/product/widgets/custom_appbar.dart';
-import 'package:koyevi/product/widgets/custom_safearea.dart';
-import 'package:koyevi/product/widgets/custom_text.dart';
-import 'package:koyevi/product/widgets/try_again_widget.dart';
-import 'package:koyevi/view/product/product_detail/product_detail_view_model.dart';
-import 'package:koyevi/view/product/product_questions/product_questions_view.dart';
-import 'package:koyevi/view/product/product_ratings/product_ratings_view.dart';
+import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
+import 'package:nlmdev/core/services/navigation/navigation_service.dart';
+import 'package:nlmdev/core/services/theme/custom_colors.dart';
+import 'package:nlmdev/core/services/theme/custom_fonts.dart';
+import 'package:nlmdev/core/services/theme/custom_icons.dart';
+import 'package:nlmdev/core/services/theme/custom_images.dart';
+import 'package:nlmdev/core/services/theme/custom_theme_data.dart';
+import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmdev/product/constants/app_constants.dart';
+import 'package:nlmdev/product/models/product_detail_model.dart';
+import 'package:nlmdev/product/models/product_over_view_model.dart';
+import 'package:nlmdev/product/widgets/custom_appbar.dart';
+import 'package:nlmdev/product/widgets/custom_safearea.dart';
+import 'package:nlmdev/product/widgets/custom_text.dart';
+import 'package:nlmdev/product/widgets/try_again_widget.dart';
+import 'package:nlmdev/view/product/product_detail/product_detail_view_model.dart';
+import 'package:nlmdev/view/product/product_questions/product_questions_view.dart';
+import 'package:nlmdev/view/product/product_ratings/product_ratings_view.dart';
 
 class ProductDetailView extends ConsumerStatefulWidget {
   final ProductOverViewModel productOverViewModel;
@@ -43,6 +43,7 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
     Future.delayed(Duration.zero, () {
       ref.read(provider).getProductDetail(widget.productOverViewModel.barcode);
     });
+
     super.initState();
   }
 
@@ -125,18 +126,33 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
               style: CustomFonts.bodyText1(CustomColors.primaryText),
             ))),
         Container(
-            color: CustomColors.secondary,
+            color: ref.watch(provider).productDetail!.canShipped &&
+                    ref.watch(provider).productDetail!.inSale
+                ? CustomColors.secondary
+                : CustomColors.disabled,
             width: 155.smw,
             child: Center(
                 child: ref.watch(provider).productDetail!.basketQuantity == null
                     ? InkWell(
-                        onTap: ref.read(provider).addBasket,
+                        onTap: ref.watch(provider).productDetail!.canShipped &&
+                                ref.watch(provider).productDetail!.inSale
+                            ? ref.read(provider).addBasket
+                            : () {},
                         child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: ref
+                                        .watch(provider)
+                                        .productDetail!
+                                        .canShipped &&
+                                    ref.watch(provider).productDetail!.inSale
+                                ? MainAxisAlignment.spaceEvenly
+                                : MainAxisAlignment.center,
                             children: [
-                              CustomIcons.add_basket_icon,
+                              ref.watch(provider).productDetail!.canShipped &&
+                                      ref.watch(provider).productDetail!.inSale
+                                  ? CustomIcons.add_basket_icon
+                                  : Container(),
                               CustomTextLocale(
-                                  LocaleKeys.ProductDetail_add_to_basket,
+                                  ref.watch(provider).statusMessage,
                                   style: CustomFonts.bodyText1(
                                       CustomColors.secondaryText))
                             ]),
@@ -151,8 +167,8 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
                               ref
                                   .watch(provider)
                                   .productDetail!
-                                  .basketQuantity
-                                  .toString(),
+                                  .basketQuantity!
+                                  .toStringAsFixed(2),
                               style: CustomFonts.bodyText1(
                                   CustomColors.secondaryText)),
                           InkWell(
@@ -424,7 +440,7 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.smw, vertical: 10.smh),
       child: CustomText(
-        product.productDetails.itemProperty * 100,
+        product.productDetails.itemProperty,
         style: CustomFonts.bodyText2(CustomColors.backgroundTextPale),
         maxLines: ref.watch(provider).infoExpanded ? 1000 : 3,
       ),

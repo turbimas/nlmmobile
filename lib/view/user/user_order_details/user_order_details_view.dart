@@ -1,23 +1,23 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:koyevi/core/services/localization/locale_keys.g.dart';
-import 'package:koyevi/core/services/navigation/navigation_service.dart';
-import 'package:koyevi/core/services/theme/custom_colors.dart';
-import 'package:koyevi/core/services/theme/custom_fonts.dart';
-import 'package:koyevi/core/services/theme/custom_images.dart';
-import 'package:koyevi/core/services/theme/custom_theme_data.dart';
-import 'package:koyevi/core/utils/extensions/ui_extensions.dart';
-import 'package:koyevi/product/constants/app_constants.dart';
-import 'package:koyevi/product/models/order/order_detail_row.dart';
-import 'package:koyevi/product/models/user/user_orders_model.dart';
-import 'package:koyevi/product/widgets/custom_appbar.dart';
-import 'package:koyevi/product/widgets/custom_safearea.dart';
-import 'package:koyevi/product/widgets/custom_text.dart';
-import 'package:koyevi/product/widgets/product_overview_view.dart';
-import 'package:koyevi/product/widgets/try_again_widget.dart';
-import 'package:koyevi/view/order/order_cancel_return/order_cancel_return_view.dart';
-import 'package:koyevi/view/user/user_order_details/user_order_details_view_model.dart';
+import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
+import 'package:nlmdev/core/services/navigation/navigation_service.dart';
+import 'package:nlmdev/core/services/theme/custom_colors.dart';
+import 'package:nlmdev/core/services/theme/custom_fonts.dart';
+import 'package:nlmdev/core/services/theme/custom_images.dart';
+import 'package:nlmdev/core/services/theme/custom_theme_data.dart';
+import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmdev/product/constants/app_constants.dart';
+import 'package:nlmdev/product/models/order/order_detail_row.dart';
+import 'package:nlmdev/product/models/user/user_orders_model.dart';
+import 'package:nlmdev/product/widgets/custom_appbar.dart';
+import 'package:nlmdev/product/widgets/custom_safearea.dart';
+import 'package:nlmdev/product/widgets/custom_text.dart';
+import 'package:nlmdev/product/widgets/product_overview_view.dart';
+import 'package:nlmdev/product/widgets/try_again_widget.dart';
+import 'package:nlmdev/view/order/order_cancel_return/order_cancel_return_view.dart';
+import 'package:nlmdev/view/user/user_order_details/user_order_details_view_model.dart';
 
 class UserOrderDetailsView extends ConsumerStatefulWidget {
   final UserOrdersModel orderTitle;
@@ -102,7 +102,6 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
             width: 340.smw,
-            height: 40.smh,
             decoration: BoxDecoration(
               color: CustomColors.primary,
               borderRadius: CustomThemeData.topRounded,
@@ -202,7 +201,6 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
               padding:
                   EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
               width: 340.smw,
-              height: 40.smh,
               decoration: BoxDecoration(
                 color: CustomColors.primary,
                 borderRadius: CustomThemeData.topRounded,
@@ -233,10 +231,13 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.deliveryAddressDetail
-                                    ?.deliveryDate
-                                    .toString() ??
-                                "-",
+                            widget.orderTitle.deliveryAddressDetail!
+                                        .deliveryDate !=
+                                    null
+                                ? widget.orderTitle.deliveryAddressDetail!
+                                    .deliveryDate
+                                    .toString()
+                                : "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -259,8 +260,8 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
                             widget.orderTitle.realDeliveryDate != null
-                                ? "-"
-                                : widget.orderTitle.realDeliveryDate.toString(),
+                                ? widget.orderTitle.realDeliveryDate.toString()
+                                : "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -357,7 +358,6 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
               padding:
                   EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
               width: 340.smw,
-              height: 40.smh,
               decoration: BoxDecoration(
                 color: CustomColors.primary,
                 borderRadius: CustomThemeData.topRounded,
@@ -446,7 +446,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                   children: [
                     Expanded(
                       flex: 2,
-                      child: CustomText(
+                      child: CustomTextLocale(
                           widget.orderTitle.invoiceAddressDetail?.isPerson ??
                                   false
                               ? LocaleKeys.UserOrderDetails_identity_no
@@ -518,7 +518,6 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
               padding:
                   EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
               width: 340.smw,
-              height: 40.smh,
               decoration: BoxDecoration(
                 color: CustomColors.primary,
                 borderRadius: CustomThemeData.topRounded,

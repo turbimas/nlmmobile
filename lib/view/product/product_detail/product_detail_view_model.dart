@@ -1,12 +1,16 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:koyevi/core/services/auth/authservice.dart';
-import 'package:koyevi/core/services/network/network_service.dart';
-import 'package:koyevi/core/services/network/response_model.dart';
-import 'package:koyevi/core/utils/helpers/popup_helper.dart';
-import 'package:koyevi/product/models/product_detail_model.dart';
+import 'package:nlmdev/core/services/auth/authservice.dart';
+import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
+import 'package:nlmdev/core/services/network/network_service.dart';
+import 'package:nlmdev/core/services/network/response_model.dart';
+import 'package:nlmdev/core/utils/helpers/popup_helper.dart';
+import 'package:nlmdev/product/models/product_detail_model.dart';
 
 class ProductDetailViewModel extends ChangeNotifier {
   ProductDetailViewModel();
+
+  String statusMessage = "";
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -48,6 +52,13 @@ class ProductDetailViewModel extends ChangeNotifier {
               "products/productdetail/${AuthService.currentUser!.id}/$barcode");
       if (responseModel.success) {
         productDetail = ProductDetailModel.fromJson(responseModel.data!);
+        statusMessage = LocaleKeys.ProductDetail_add_to_basket;
+        if (!productDetail!.canShipped) {
+          statusMessage = LocaleKeys.ProductDetail_cant_shipped;
+        }
+        if (!productDetail!.inSale) {
+          statusMessage = LocaleKeys.ProductDetail_not_in_sale;
+        }
       } else {
         PopupHelper.showErrorDialog(errorMessage: responseModel.errorMessage!);
       }
@@ -60,40 +71,31 @@ class ProductDetailViewModel extends ChangeNotifier {
 
   Future<void> addBasket() async {
     try {
-      productDetail!.basketQuantity ??= 0;
-      productDetail!.basketQuantity = productDetail!.basketQuantity! + 1;
+      productDetail!.addBasket();
       notifyListeners();
       ResponseModel response =
           await NetworkService.post("orders/addbasket", body: {
         "CariID": AuthService.currentUser!.id,
         "Barcode": productDetail!.barcode,
-        "Quantity": 1
+        "Quantity": productDetail!.basketFactor
       });
 
       if (!response.success) {
-        productDetail!.basketQuantity = productDetail!.basketQuantity! - 1;
-        if (productDetail!.basketQuantity == 0) {
-          productDetail!.basketQuantity = null;
-          notifyListeners();
-        }
+        productDetail!.removeBasket();
+        notifyListeners();
+
         PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
-      productDetail!.basketQuantity = productDetail!.basketQuantity! - 1;
-      if (productDetail!.basketQuantity == 0) {
-        productDetail!.basketQuantity = null;
-        notifyListeners();
-      }
+      productDetail!.removeBasket();
+      notifyListeners();
       PopupHelper.showErrorDialogWithCode(e);
     }
   }
 
   Future<void> updateBasket() async {
     try {
-      productDetail!.basketQuantity = productDetail!.basketQuantity! - 1;
-      if (productDetail!.basketQuantity! <= 0) {
-        productDetail!.basketQuantity = null;
-      }
+      productDetail!.removeBasket();
       notifyListeners();
       ResponseModel response =
           await NetworkService.post("orders/updatebasket", body: {
@@ -102,12 +104,13 @@ class ProductDetailViewModel extends ChangeNotifier {
         "Quantity": productDetail!.basketQuantity ?? 0
       });
       if (!response.success) {
-        productDetail!.basketQuantity =
-            (productDetail!.basketQuantity ?? 0) + 1;
+        productDetail!.addBasket();
+        notifyListeners();
         PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
     } catch (e) {
-      productDetail!.basketQuantity = (productDetail!.basketQuantity ?? 0) + 1;
+      productDetail!.addBasket();
+      notifyListeners();
       PopupHelper.showErrorDialogWithCode(e);
     }
   }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:koyevi/core/services/auth/authservice.dart';
-import 'package:koyevi/core/services/network/network_service.dart';
-import 'package:koyevi/core/services/network/response_model.dart';
-import 'package:koyevi/core/utils/helpers/popup_helper.dart';
-import 'package:koyevi/product/models/user/user_question_model.dart';
+import 'package:nlmdev/core/services/auth/authservice.dart';
+import 'package:nlmdev/core/services/network/network_service.dart';
+import 'package:nlmdev/core/services/network/response_model.dart';
+import 'package:nlmdev/core/utils/helpers/popup_helper.dart';
+import 'package:nlmdev/product/models/user/user_question_model.dart';
 
 class UserQuestionsViewModel extends ChangeNotifier {
   List<UserQuestionModel> answered = [];

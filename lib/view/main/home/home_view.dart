@@ -1,31 +1,34 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:koyevi/core/services/auth/authservice.dart';
-import 'package:koyevi/core/services/localization/locale_keys.g.dart';
-import 'package:koyevi/core/services/navigation/navigation_service.dart';
-import 'package:koyevi/core/services/network/network_service.dart';
-import 'package:koyevi/core/services/network/response_model.dart';
-import 'package:koyevi/core/services/theme/custom_colors.dart';
-import 'package:koyevi/core/services/theme/custom_fonts.dart';
-import 'package:koyevi/core/services/theme/custom_icons.dart';
-import 'package:koyevi/core/services/theme/custom_images.dart';
-import 'package:koyevi/core/services/theme/custom_theme_data.dart';
-import 'package:koyevi/core/utils/extensions/ui_extensions.dart';
-import 'package:koyevi/core/utils/helpers/popup_helper.dart';
-import 'package:koyevi/product/constants/app_constants.dart';
-import 'package:koyevi/product/models/category_model.dart';
-import 'package:koyevi/product/models/home_banner_model.dart';
-import 'package:koyevi/product/models/product_over_view_model.dart';
-import 'package:koyevi/product/widgets/custom_searchbar_view.dart';
-import 'package:koyevi/product/widgets/custom_text.dart';
-import 'package:koyevi/product/widgets/product_overview_view.dart';
-import 'package:koyevi/product/widgets/try_again_widget.dart';
-import 'package:koyevi/view/main/home/home_view_model.dart';
-import 'package:koyevi/view/main/search/search_view.dart';
-import 'package:koyevi/view/main/search_result/search_result_view.dart';
-import 'package:koyevi/view/main/sub_categories/sub_categories_view.dart';
+import 'package:nlmdev/core/services/auth/authservice.dart';
+import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
+import 'package:nlmdev/core/services/navigation/navigation_service.dart';
+import 'package:nlmdev/core/services/network/network_service.dart';
+import 'package:nlmdev/core/services/network/response_model.dart';
+import 'package:nlmdev/core/services/theme/custom_colors.dart';
+import 'package:nlmdev/core/services/theme/custom_fonts.dart';
+import 'package:nlmdev/core/services/theme/custom_icons.dart';
+import 'package:nlmdev/core/services/theme/custom_images.dart';
+import 'package:nlmdev/core/services/theme/custom_theme_data.dart';
+import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmdev/core/utils/helpers/popup_helper.dart';
+import 'package:nlmdev/product/constants/app_constants.dart';
+import 'package:nlmdev/product/models/category_model.dart';
+import 'package:nlmdev/product/models/home_banner_model.dart';
+import 'package:nlmdev/product/models/product_over_view_model.dart';
+import 'package:nlmdev/product/models/user/address_model.dart';
+import 'package:nlmdev/product/widgets/custom_searchbar_view.dart';
+import 'package:nlmdev/product/widgets/custom_text.dart';
+import 'package:nlmdev/product/widgets/product_overview_view.dart';
+import 'package:nlmdev/product/widgets/try_again_widget.dart';
+import 'package:nlmdev/view/main/home/home_view_model.dart';
+import 'package:nlmdev/view/main/search/search_view.dart';
+import 'package:nlmdev/view/main/search_result/search_result_view.dart';
+import 'package:nlmdev/view/main/sub_categories/sub_categories_view.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -74,18 +77,69 @@ class _HomeViewState extends ConsumerState<HomeView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 10.smh),
-          child: InkWell(
-              onTap: () {
-                NavigationService.navigateToPage(const SearchView());
-              },
-              child: AbsorbPointer(
-                  child: CustomSearchBarView(
-                      hint: LocaleKeys.Home_search_hint.tr()))),
-        ),
+        //_addressBar(),
+        _searchBar(),
         _bannersContent(),
       ],
+    );
+  }
+
+  Widget _addressBar() {
+    AddressModel? address = ref.watch(provider).address;
+    if (address == null) {
+      return Container();
+    }
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10.smh),
+      decoration: BoxDecoration(
+          borderRadius: CustomThemeData.bottomInfiniteRounded,
+          color: CustomColors.secondary),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.home),
+            Padding(
+              padding: EdgeInsets.only(left: 30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    ref.watch(provider).address!.addressHeader.toString(),
+                    style: CustomFonts.bodyText4(CustomColors.cardInner),
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                    maxLines: 1,
+                  ),
+                  Text(
+                    ref.watch(provider).address!.address.toString(),
+                    style: CustomFonts.bodyText4(CustomColors.cardInner),
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                    maxLines: 1,
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.arrow_drop_down)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _searchBar() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10.smh),
+      child: InkWell(
+          onTap: () {
+            NavigationService.navigateToPage(const SearchView());
+          },
+          child: AbsorbPointer(
+              child:
+                  CustomSearchBarView(hint: LocaleKeys.Home_search_hint.tr()))),
     );
   }
 
@@ -178,8 +232,20 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget _imageBanner(HomeBannerModel model) {
     return InkWell(
       onTap: () async {
+        var _products = null;
+        ResponseModel response =
+            await NetworkService.post("products/ProductfromBarcodes", body: {
+          "CariID": AuthService.currentUser!.id,
+          "BarcodeArrays": model.barcodes
+        });
+
+        if (response.success) {
+          _products = (response.data as List)
+              .map((e) => ProductOverViewModel.fromJson(e))
+              .toList();
+        }
         NavigationService.navigateToPage(
-            SearchResultView(products: model.products, isSearch: false));
+            SearchResultView(products: _products, isSearch: false));
       },
       child: Container(
           margin: EdgeInsets.only(bottom: 10.smh),

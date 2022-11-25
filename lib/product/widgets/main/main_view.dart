@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:koyevi/product/widgets/bottom_bar.dart';
-import 'package:koyevi/product/widgets/custom_safearea.dart';
-import 'package:koyevi/product/widgets/main/main_view_model.dart';
+import 'package:nlmdev/product/widgets/bottom_bar.dart';
+import 'package:nlmdev/product/widgets/custom_safearea.dart';
+import 'package:nlmdev/product/widgets/main/main_view_model.dart';
 
 class MainView extends ConsumerStatefulWidget {
   const MainView({Key? key}) : super(key: key);

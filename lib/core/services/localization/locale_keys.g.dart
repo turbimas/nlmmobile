@@ -163,6 +163,8 @@ abstract class LocaleKeys {
   static const ProductDetail_add_to_basket = 'ProductDetail.add_to_basket';
   static const ProductDetail_rating_avg_count =
       'ProductDetail.rating_avg_count';
+  static const ProductDetail_cant_shipped = 'ProductDetail.cant_shipped';
+  static const ProductDetail_not_in_sale = 'ProductDetail.not_in_sale';
   static const ProductDetail = 'ProductDetail';
   static const ProductImage_appbar_title = 'ProductImage.appbar_title';
   static const ProductImage = 'ProductImage';
@@ -263,19 +265,6 @@ abstract class LocaleKeys {
   static const UserProfile_new_password_again =
       'UserProfile.new_password_again';
   static const UserProfile = 'UserProfile';
-  static const UserSettings_appbar_title = 'UserSettings.appbar_title';
-  static const UserSettings_personal_info = 'UserSettings.personal_info';
-  static const UserSettings_full_name_hint = 'UserSettings.full_name_hint';
-  static const UserSettings_birthday_hint = 'UserSettings.birthday_hint';
-  static const UserSettings_phone_hint = 'UserSettings.phone_hint';
-  static const UserSettings_email_hint = 'UserSettings.email_hint';
-  static const UserSettings_password_hint = 'UserSettings.password_hint';
-  static const UserSettings_password_confirm_hint =
-      'UserSettings.password_confirm_hint';
-  static const UserSettings_old_password_hint =
-      'UserSettings.old_password_hint';
-  static const UserSettings_forgot_password = 'UserSettings.forgot_password';
-  static const UserSettings = 'UserSettings';
   static const UserOrderDetails_appbar_title = 'UserOrderDetails.appbar_title';
   static const UserOrderDetails_order_info = 'UserOrderDetails.order_info';
   static const UserOrderDetails_no = 'UserOrderDetails.no';
@@ -309,24 +298,6 @@ abstract class LocaleKeys {
   static const UserOrderDetails = 'UserOrderDetails';
   static const UserPromotions_appbar_title = 'UserPromotions.appbar_title';
   static const UserPromotions = 'UserPromotions';
-  static const UserAddressDetail_appbar_title =
-      'UserAddressDetail.appbar_title';
-  static const UserAddressDetail_full_name_hint =
-      'UserAddressDetail.full_name_hint';
-  static const UserAddressDetail_address_title_hint =
-      'UserAddressDetail.address_title_hint';
-  static const UserAddressDetail_city_hint = 'UserAddressDetail.city_hint';
-  static const UserAddressDetail_district_hint =
-      'UserAddressDetail.district_hint';
-  static const UserAddressDetail_address_hint =
-      'UserAddressDetail.address_hint';
-  static const UserAddressDetail_add_invoice_address =
-      'UserAddressDetail.add_invoice_address';
-  static const UserAddressDetail_personal = 'UserAddressDetail.personal';
-  static const UserAddressDetail_company = 'UserAddressDetail.company';
-  static const UserAddressDetail_tax_no = 'UserAddressDetail.tax_no';
-  static const UserAddressDetail_tax_office = 'UserAddressDetail.tax_office';
-  static const UserAddressDetail = 'UserAddressDetail';
   static const UserCardDetail_appbar_title = 'UserCardDetail.appbar_title';
   static const UserCardDetail_card_title_hint =
       'UserCardDetail.card_title_hint';
@@ -361,12 +332,9 @@ abstract class LocaleKeys {
   static const Validators_tax_no = 'Validators.tax_no';
   static const Validators_tax_office = 'Validators.tax_office';
   static const Validators = 'Validators';
-  static const Components_ok_cancel_prompt_ok =
-      'Components.ok_cancel_prompt_ok';
-  static const Components_ok_cancel_prompt_cancel =
-      'Components.ok_cancel_prompt_cancel';
-  static const Components_add_to_basket = 'Components.add_to_basket';
-  static const Components = 'Components';
+  static const OkCancelPrompt_ok = 'OkCancelPrompt.ok';
+  static const OkCancelPrompt_cancel = 'OkCancelPrompt.cancel';
+  static const OkCancelPrompt = 'OkCancelPrompt';
   static const PopupHelper_rating_text_optional =
       'PopupHelper.rating_text_optional';
   static const PopupHelper_send_rating = 'PopupHelper.send_rating';
@@ -389,6 +357,10 @@ abstract class LocaleKeys {
       'ProductOverView.product_added_favorites';
   static const ProductOverView_product_removed_favorites =
       'ProductOverView.product_removed_favorites';
+  static const ProductOverView_add_to_basket = 'ProductOverView.add_to_basket';
+  static const ProductOverView_cant_shipped = 'ProductOverView.cant_shipped';
+  static const ProductOverView_not_in_sale = 'ProductOverView.not_in_sale';
   static const ProductOverView = 'ProductOverView';
   static const ERROR = 'ERROR';
+  static const NETWORK_ERROR = 'NETWORK_ERROR';
 }

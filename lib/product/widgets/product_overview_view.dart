@@ -3,21 +3,21 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:koyevi/core/services/auth/authservice.dart';
-import 'package:koyevi/core/services/localization/locale_keys.g.dart';
-import 'package:koyevi/core/services/navigation/navigation_service.dart';
-import 'package:koyevi/core/services/network/network_service.dart';
-import 'package:koyevi/core/services/network/response_model.dart';
-import 'package:koyevi/core/services/theme/custom_colors.dart';
-import 'package:koyevi/core/services/theme/custom_fonts.dart';
-import 'package:koyevi/core/services/theme/custom_icons.dart';
-import 'package:koyevi/core/services/theme/custom_theme_data.dart';
-import 'package:koyevi/core/utils/extensions/ui_extensions.dart';
-import 'package:koyevi/core/utils/helpers/popup_helper.dart';
-import 'package:koyevi/product/models/product_detail_model.dart';
-import 'package:koyevi/product/models/product_over_view_model.dart';
-import 'package:koyevi/product/widgets/custom_text.dart';
-import 'package:koyevi/view/product/product_detail/product_detail_view.dart';
+import 'package:nlmdev/core/services/auth/authservice.dart';
+import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
+import 'package:nlmdev/core/services/navigation/navigation_service.dart';
+import 'package:nlmdev/core/services/network/network_service.dart';
+import 'package:nlmdev/core/services/network/response_model.dart';
+import 'package:nlmdev/core/services/theme/custom_colors.dart';
+import 'package:nlmdev/core/services/theme/custom_fonts.dart';
+import 'package:nlmdev/core/services/theme/custom_icons.dart';
+import 'package:nlmdev/core/services/theme/custom_theme_data.dart';
+import 'package:nlmdev/core/utils/extensions/ui_extensions.dart';
+import 'package:nlmdev/core/utils/helpers/popup_helper.dart';
+import 'package:nlmdev/product/models/product_detail_model.dart';
+import 'package:nlmdev/product/models/product_over_view_model.dart';
+import 'package:nlmdev/product/widgets/custom_text.dart';
+import 'package:nlmdev/view/product/product_detail/product_detail_view.dart';
 
 class ProductOverviewVerticalView extends ConsumerStatefulWidget {
   ProductOverViewModel product;
@@ -46,6 +46,14 @@ class _ProductOverviewViewVerticalState
 
   @override
   Widget build(BuildContext context) {
+    String statusMessage = LocaleKeys.ProductOverView_add_to_basket.tr();
+    if (!widget.product.canShipped) {
+      statusMessage = LocaleKeys.ProductOverView_cant_shipped.tr();
+    }
+    if (!widget.product.inSale) {
+      statusMessage = LocaleKeys.ProductOverView_not_in_sale.tr();
+    }
+
     return AnimatedContainer(
       duration: CustomThemeData.animationDurationMedium,
       constraints: BoxConstraints(minHeight: 250.smh, maxWidth: 160.smw),
@@ -132,17 +140,26 @@ class _ProductOverviewViewVerticalState
             width: 160.smw,
             decoration: BoxDecoration(
               borderRadius: CustomThemeData.bottomRounded,
-              color: CustomColors.secondary,
+              color: widget.product.canShipped && widget.product.inSale
+                  ? CustomColors.secondary
+                  : CustomColors.disabled,
             ),
             child: widget.product.basketQuantity == null
                 ? InkWell(
-                    onTap: _addBasket,
+                    onTap: widget.product.canShipped && widget.product.inSale
+                        ? _addBasket
+                        : () {},
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment:
+                          widget.product.canShipped && widget.product.inSale
+                              ? MainAxisAlignment.spaceEvenly
+                              : MainAxisAlignment.center,
                       children: [
-                        CustomIcons.add_basket_outlined_icon,
+                        widget.product.canShipped && widget.product.inSale
+                            ? CustomIcons.add_basket_outlined_icon
+                            : Container(),
                         CustomText(
-                          LocaleKeys.Components_add_to_basket.tr(),
+                          statusMessage,
                           style:
                               CustomFonts.bodyText4(CustomColors.secondaryText),
                         )
@@ -173,12 +190,13 @@ class _ProductOverviewViewVerticalState
 
   Widget _favoriteChip() {
     bool isVisible = false;
-    if (widget.product.evaluationAverage > 0)
+    if (widget.product.evaluationAverage > 0) {
       isVisible = true;
-    else
+    } else {
       isVisible = false;
+    }
 
-    if (isVisible)
+    if (isVisible) {
       return Container(
         decoration: BoxDecoration(
             color: CustomColors.secondary,
@@ -199,8 +217,9 @@ class _ProductOverviewViewVerticalState
           ),
         ),
       );
-    else
+    } else {
       return Container();
+    }
   }
 
   Future<void> _addBasket() async {
@@ -298,7 +317,7 @@ class _ProductOverviewViewVerticalState
         Container(color: CustomColors.secondaryText, width: 1),
         Expanded(
           child: Center(
-            child: CustomText(widget.product.basketQuantity.toString(),
+            child: CustomText(widget.product.basketQuantity!.toStringAsFixed(2),
                 style: CustomFonts.bodyText3(CustomColors.secondaryText)),
           ),
         ),

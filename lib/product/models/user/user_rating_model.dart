@@ -1,4 +1,4 @@
-import 'package:koyevi/product/models/product_over_view_model.dart';
+import 'package:nlmdev/product/models/product_over_view_model.dart';
 
 class UserRatingModel {
   int id;

@@ -1,10 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:koyevi/core/services/auth/authservice.dart';
-import 'package:koyevi/core/services/network/network_service.dart';
-import 'package:koyevi/core/services/network/response_model.dart';
-import 'package:koyevi/core/utils/helpers/popup_helper.dart';
-import 'package:koyevi/product/models/category_model.dart';
-import 'package:koyevi/product/models/home_banner_model.dart';
+import 'package:nlmdev/core/services/auth/authservice.dart';
+import 'package:nlmdev/core/services/network/network_service.dart';
+import 'package:nlmdev/core/services/network/response_model.dart';
+import 'package:nlmdev/core/utils/helpers/popup_helper.dart';
+import 'package:nlmdev/product/models/category_model.dart';
+import 'package:nlmdev/product/models/home_banner_model.dart';
+import 'package:nlmdev/product/models/user/address_model.dart';
 
 class HomeViewModel extends ChangeNotifier {
   bool _homeLoading = true;
@@ -16,6 +19,7 @@ class HomeViewModel extends ChangeNotifier {
 
   List<CategoryModel>? categories;
   List<HomeBannerModel>? banners;
+  AddressModel? address;
   HomeViewModel();
 
   Future<void> getHomeData() async {
@@ -27,13 +31,26 @@ class HomeViewModel extends ChangeNotifier {
       ResponseModelList bannersResponse = await NetworkService.get(
           "main/homeviews/${AuthService.currentUser!.id}");
 
-      if (categoriesResponse.success && bannersResponse.success) {
+      ResponseModel addressesResponse = await NetworkService.get(
+          "users/adresses/${AuthService.currentUser!.id}");
+
+      // TODO : UserOrders çekilip ana ekrana eklenicek
+
+      if (categoriesResponse.success &&
+          bannersResponse.success &&
+          addressesResponse.success) {
         categories = (categoriesResponse.data)!
             .map((e) => CategoryModel.fromJson(e))
             .toList();
         banners = (bannersResponse.data!)
             .map((e) => HomeBannerModel.fromJson(e))
             .toList();
+        Map<String, dynamic>? addressData = (addressesResponse.data as List)
+            .firstWhere((element) => element["isDefault"] == true,
+                orElse: () => null);
+        if (addressData != null) {
+          address = AddressModel.fromJson(addressData);
+        }
       } else {
         PopupHelper.showErrorDialog(
             errorMessage: "İnternet bağlatınızı kontrol ediniz.");

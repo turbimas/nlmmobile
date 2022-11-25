@@ -27,6 +27,7 @@
         "cardInner":"FFFFFFFF",
         "cancel": "FFDD634E",
         "approve": "FF65AC59",
+        "disabled":"FF6A6A6A",
         "paymentCard": ["4BFFFFFF","FFCAFFE9"]
     }
 }

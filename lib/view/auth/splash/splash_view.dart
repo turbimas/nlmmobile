@@ -2,17 +2,17 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:koyevi/core/services/auth/authservice.dart';
-import 'package:koyevi/core/services/navigation/navigation_service.dart';
-import 'package:koyevi/core/services/network/network_service.dart';
-import 'package:koyevi/core/services/network/response_model.dart';
-import 'package:koyevi/core/services/theme/custom_colors.dart';
-import 'package:koyevi/core/services/theme/custom_icons.dart';
-import 'package:koyevi/core/services/theme/custom_images.dart';
-import 'package:koyevi/core/utils/helpers/popup_helper.dart';
-import 'package:koyevi/product/constants/app_constants.dart';
-import 'package:koyevi/product/models/user_model.dart';
-import 'package:koyevi/view/auth/login/login_view.dart';
+import 'package:nlmdev/core/services/auth/authservice.dart';
+import 'package:nlmdev/core/services/navigation/navigation_service.dart';
+import 'package:nlmdev/core/services/network/network_service.dart';
+import 'package:nlmdev/core/services/network/response_model.dart';
+import 'package:nlmdev/core/services/theme/custom_colors.dart';
+import 'package:nlmdev/core/services/theme/custom_icons.dart';
+import 'package:nlmdev/core/services/theme/custom_images.dart';
+import 'package:nlmdev/core/utils/helpers/popup_helper.dart';
+import 'package:nlmdev/product/constants/app_constants.dart';
+import 'package:nlmdev/product/models/user_model.dart';
+import 'package:nlmdev/view/auth/login/login_view.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class SplashView extends ConsumerStatefulWidget {
@@ -82,7 +82,8 @@ class _SplashViewState extends ConsumerState<SplashView>
       }
       if (AuthService.isLoggedIn) {
         try {
-          NetworkService.get("users/user_info/${AuthService.email}")
+          NetworkService.get(
+                  "users/user_info/${AuthService.email == "" ? AuthService.phone : AuthService.email}")
               .then((ResponseModel value) {
             if (value.success) {
               AuthService.login(UserModel.fromJson(value.data));

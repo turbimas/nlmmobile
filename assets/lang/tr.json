@@ -24,7 +24,7 @@
         "term_condition_2":"Okudum, kabul ediyorum"
     },
     "Validation": {
-        "sent_message": "{} mail adresine bir onay kodu ilettik",
+        "sent_message": "{} numarasına bir onay kodu ilettik",
         "validation_hint": "Onay kodunu girin",
         "wrong_code": "Onay kodu yanlış!",
         "go_back": "Geri dön",
@@ -137,7 +137,7 @@
         "continue":"Devam et"
     },
     "Promotions": {
-        "appbar_title":"Promosyonlar",
+        "appbar_title":"Promosyon ve Kampanyalar",
         "not_use":"Promosyon kullanmayacağım"
     },
     "BasketSuccess": {
@@ -163,7 +163,9 @@
         "show_all_ratings":"Tüm değerlendirmeleri göster",
         "show_all_questions":"Tüm soru & cevapları göster",
         "add_to_basket":"Sepete ekle",
-        "rating_avg_count": "{} Toplam değerlendirmeler ({})" 
+        "rating_avg_count": "{} Toplam değerlendirmeler ({})" ,
+        "cant_shipped":"Kargolanamaz",
+        "not_in_sale":"Satışta değil"
     },
     "ProductImage":{
         "appbar_title":"{}"
@@ -187,7 +189,7 @@
         "greeting": "Merhaba\n{}",
         "edit_profile": "Profilimi Düzenle",
         "orders":"Siparişlerim",
-        "promotions":"Promosyonlar",
+        "promotions":"Promosyon ve Kampanyalar",
         "addresses":"Adreslerim",
         "saved_cards":"Kartlarım",
         "ratings":"Değerlendirmelerim",
@@ -270,7 +272,7 @@
         "order_info":"Sipariş bilgileri",
         "no":"No",
         "date":"Tarih",
-        "status":"Durum: {}",
+        "status":"Durum: ",
         "order_total":"Sipariş tutarı",
         "delivery_info":"Teslimat bilgileri",
         "name":"Kişi",
@@ -293,7 +295,7 @@
         "cancel":"İptal et"
     },
     "UserPromotions":{
-        "appbar_title":"Promosyonlar"
+        "appbar_title":"Promosyon ve Kampanyalar"
     },
     "UserAddressDetail":{
         "appbar_title":"Adres detayları",
@@ -341,11 +343,6 @@
         "tax_no":"Vergi numarası giriniz",
         "tax_office":"Vergi dairesi giriniz"
     },
-    "Components": {
-        "ok_cancel_prompt_ok": "Onayla",
-        "ok_cancel_prompt_cancel": "İptal",
-        "add_to_basket": "Sepete Ekle"
-    },
     "PopupHelper": {
         "rating_text_optional":"Değerlendirme metni (isteğe bağlı)",
         "send_rating":"Değerlendirmeyi Gönder",
@@ -354,6 +351,10 @@
     },
     "TryAgainWidget": {
         "try_again":"Tekrar deneyin"
+    },
+    "OkCancelPrompt": {
+        "ok":"Onayla",
+        "cancel":"İptal"
     },
     "MesafeliSatisSozlesmesi": {
         "appbar_title":"Mesafeli Satış Sözleşmesi"
@@ -366,7 +367,11 @@
     },
     "ProductOverView": {
         "product_added_favorites":"Ürün favorilerinize eklendi",
-        "product_removed_favorites":"Ürün favorilerinizden kaldırıldı"
+        "product_removed_favorites":"Ürün favorilerinizden kaldırıldı",
+        "add_to_basket":"Sepete Ekle",
+        "cant_shipped":"Kargolanamaz",
+        "not_in_sale":"Satışta değil"
     },
-    "ERROR": "Bilinmeyen bir hata oluştu"
+    "ERROR": "Bilinmeyen bir hata oluştu",
+    "NETWORK_ERROR":"Bağlantı hatası"
 }

@@ -5,7 +5,7 @@ class OrderDeliveryAddress {
   String? phone;
   String? email;
   String? relatedPerson;
-  DateTime? deliveryDate;
+  DateTime? deliveryDate; // tahmini teslimat
 
   OrderDeliveryAddress.fromJson(Map<String, dynamic> json) {
     id = json['ID'];

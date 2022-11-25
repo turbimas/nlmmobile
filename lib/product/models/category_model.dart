@@ -1,7 +1,7 @@
 // ignore_for_file: hash_and_equals
 
 import 'package:flutter/material.dart';
-import 'package:koyevi/core/services/theme/custom_images.dart';
+import 'package:nlmdev/core/services/theme/custom_images.dart';
 
 class CategoryModel {
   late final int id;
@@ -38,6 +38,11 @@ class CategoryModel {
       'SiraNo': siraNo,
       'ImageUrl': _imageUrl
     };
+  }
+
+  @override
+  String toString() {
+    return 'CategoryModel{id: $id, upperGroupId: $upperGroupId, groupName: $groupName, siraNo: $siraNo, _imageUrl: $_imageUrl}';
   }
 
   // equal operator

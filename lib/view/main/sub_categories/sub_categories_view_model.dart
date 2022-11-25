@@ -1,12 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:koyevi/core/services/auth/authservice.dart';
-import 'package:koyevi/core/services/navigation/navigation_service.dart';
-import 'package:koyevi/core/services/network/network_service.dart';
-import 'package:koyevi/core/services/network/response_model.dart';
-import 'package:koyevi/core/utils/helpers/popup_helper.dart';
-import 'package:koyevi/product/models/category_model.dart';
-import 'package:koyevi/product/models/product_over_view_model.dart';
-import 'package:koyevi/view/main/search_result/search_result_view.dart';
+import 'package:nlmdev/core/services/auth/authservice.dart';
+import 'package:nlmdev/core/services/navigation/navigation_service.dart';
+import 'package:nlmdev/core/services/network/network_service.dart';
+import 'package:nlmdev/core/services/network/response_model.dart';
+import 'package:nlmdev/core/utils/helpers/popup_helper.dart';
+import 'package:nlmdev/product/models/category_model.dart';
+import 'package:nlmdev/product/models/product_over_view_model.dart';
+import 'package:nlmdev/view/main/search_result/search_result_view.dart';
 
 class SubCategoriesViewModel extends ChangeNotifier {
   ScrollController scrollController;
@@ -68,8 +70,13 @@ class SubCategoriesViewModel extends ChangeNotifier {
       if (response.success) {
         List<CategoryModel> responseList =
             response.data!.map((e) => CategoryModel.fromJson(e)).toList();
-        subCategories.add(responseList);
-        selectedCategories.add(model);
+        if (responseList.isEmpty) {
+          selectedCategories.add(model);
+          await approve();
+        } else {
+          subCategories.add(responseList);
+          selectedCategories.add(model);
+        }
       } else {
         PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }
