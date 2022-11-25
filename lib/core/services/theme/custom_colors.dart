@@ -28,6 +28,8 @@ abstract class CustomColors {
 
   static late final Color cancel;
   static late final Color approve;
+  static late final Color disabled;
+
   static late final List<Color> paymentCard;
 
   static void loadColors() {
@@ -74,6 +76,10 @@ abstract class CustomColors {
         Color(int.parse(AppTheme.colorData["Widget"]['cancel'], radix: 16));
     approve =
         Color(int.parse(AppTheme.colorData["Widget"]['approve'], radix: 16));
+
+    disabled =
+        Color(int.parse(AppTheme.colorData["Widget"]['disabled'], radix: 16));
+
     paymentCard = [
       Color(
           int.parse(AppTheme.colorData["Widget"]['paymentCard'][0], radix: 16)),

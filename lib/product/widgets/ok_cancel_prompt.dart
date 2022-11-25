@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:koyevi/core/services/localization/locale_keys.g.dart';
 import 'package:koyevi/core/services/theme/custom_colors.dart';
@@ -42,7 +41,7 @@ class OkCancelPrompt extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CustomIcons.cancel_icon__medium,
-                  CustomText(LocaleKeys.Components_ok_cancel_prompt_cancel.tr(),
+                  CustomTextLocale(LocaleKeys.OkCancelPrompt_cancel,
                       style: CustomFonts.bigButton(CustomColors.secondaryText)),
                 ],
               ),
@@ -60,7 +59,7 @@ class OkCancelPrompt extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CustomIcons.check_icon,
-                  CustomText(LocaleKeys.Components_ok_cancel_prompt_ok.tr(),
+                  CustomTextLocale(LocaleKeys.OkCancelPrompt_ok,
                       style: CustomFonts.bigButton(CustomColors.secondaryText)),
                 ],
               ),

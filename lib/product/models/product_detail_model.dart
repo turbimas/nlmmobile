@@ -12,7 +12,13 @@ class ProductDetailModel {
   // final double miktar;
   final String aciklama; // ürün ismi + açıklama
   final String unitCode;
+
   double? basketQuantity;
+
+  double basketFactor;
+  final bool inSale;
+  final bool canShipped;
+
   int favoriteId; // 0 ise favori değil, 0> ise favori buna göre getter oluşturulacak
   bool get isFavorite => favoriteId > 0;
   set isFavorite(bool value) {
@@ -51,10 +57,26 @@ class ProductDetailModel {
         aciklama = json['Aciklama'],
         unitCode = json['UnitCode'],
         basketQuantity = json['BasketQty'],
+        basketFactor = json['BasketFactor'],
+        inSale = json['InSale'],
+        canShipped = json['CanShipped'],
         favoriteId = json['FavoriteID'],
         evaluationData = json['Evaluation'],
         _images = json['Images'].cast<String>(),
         _thumbNails = json['Thumbnails'].cast<String>();
+
+  addBasket() {
+    basketQuantity =
+        (basketQuantity ?? 0).toPrecision(2) + basketFactor.toPrecision(2);
+  }
+
+  removeBasket() {
+    basketQuantity =
+        basketQuantity!.toPrecision(2) - basketFactor.toPrecision(2);
+    if (basketQuantity! <= 0) {
+      basketQuantity = null;
+    }
+  }
 
   toJson() {
     return {
@@ -70,6 +92,9 @@ class ProductDetailModel {
       'Aciklama': aciklama,
       'UnitCode': unitCode,
       'BasketQty': basketQuantity,
+      'BasketFactor': basketFactor,
+      'InSale': inSale,
+      'CanShipped': canShipped,
       'FavoriteID': favoriteId,
       'Evaluation': evaluationData,
       'Images': images,
@@ -87,4 +112,10 @@ class ProductPropertyModel {
       : itemProperty = json['ItemProperty'],
         value = json['Value'],
         forValue = json['ForValue'];
+}
+
+extension doubleExtention on double {
+  double toPrecision(int fractionDigits) {
+    return double.parse(this.toStringAsPrecision(fractionDigits));
+  }
 }

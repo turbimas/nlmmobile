@@ -162,7 +162,9 @@
     "show_all_ratings": "Show all ratings",
     "show_all_questions": "Show all answers & questions",
     "add_to_basket": "Add to Basket",
-    "rating_avg_count": "{} All ratings ({})"
+    "rating_avg_count": "{} All ratings ({})",
+    "cant_shipped": "Can't shipped",
+    "not_in_sale": "Not in sale"
   },
   "ProductImage": {
     "appbar_title": "{}"
@@ -327,10 +329,9 @@
     "tax_no": "Enter Tax Number",
     "tax_office": "Enter Tax Office"
   },
-  "Components": {
-    "ok_cancel_prompt_ok": "Approve",
-    "ok_cancel_prompt_cancel": "Cancel",
-    "add_to_basket": "Add to Basket"
+  "OkCancelPrompt": {
+    "ok": "Onayla",
+    "cancel": "İptal"
   },
   "PopupHelper": {
     "rating_text_optional": "Rating note (Optional)",
@@ -352,8 +353,11 @@
   },
   "ProductOverView": {
     "product_added_favorites": "Added to your product favorites",
-    "product_removed_favorites": "Removed from your product favorites"
+    "product_removed_favorites": "Removed from your product favorites",
+    "add_to_basket": "Add to Basket",
+    "cant_shipped": "Can't shipped",
+    "not_in_sale": "Not in sale"
   },
   "ERROR": "An unknown error occurred",
-  "NETWORK_ERROR":"Connection error"
+  "NETWORK_ERROR": "Connection error"
 }

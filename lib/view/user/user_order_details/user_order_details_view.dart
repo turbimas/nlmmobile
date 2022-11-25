@@ -102,7 +102,6 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
             width: 340.smw,
-            height: 40.smh,
             decoration: BoxDecoration(
               color: CustomColors.primary,
               borderRadius: CustomThemeData.topRounded,
@@ -202,7 +201,6 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
               padding:
                   EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
               width: 340.smw,
-              height: 40.smh,
               decoration: BoxDecoration(
                 color: CustomColors.primary,
                 borderRadius: CustomThemeData.topRounded,
@@ -233,10 +231,13 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
-                            widget.orderTitle.deliveryAddressDetail
-                                    ?.deliveryDate
-                                    .toString() ??
-                                "-",
+                            widget.orderTitle.deliveryAddressDetail!
+                                        .deliveryDate !=
+                                    null
+                                ? widget.orderTitle.deliveryAddressDetail!
+                                    .deliveryDate
+                                    .toString()
+                                : "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -259,8 +260,8 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                         padding: EdgeInsets.only(left: 30.smw),
                         child: CustomText(
                             widget.orderTitle.realDeliveryDate != null
-                                ? "-"
-                                : widget.orderTitle.realDeliveryDate.toString(),
+                                ? widget.orderTitle.realDeliveryDate.toString()
+                                : "-",
                             style:
                                 CustomFonts.bodyText4(CustomColors.card2Text)),
                       ),
@@ -357,7 +358,6 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
               padding:
                   EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
               width: 340.smw,
-              height: 40.smh,
               decoration: BoxDecoration(
                 color: CustomColors.primary,
                 borderRadius: CustomThemeData.topRounded,
@@ -446,7 +446,7 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
                   children: [
                     Expanded(
                       flex: 2,
-                      child: CustomText(
+                      child: CustomTextLocale(
                           widget.orderTitle.invoiceAddressDetail?.isPerson ??
                                   false
                               ? LocaleKeys.UserOrderDetails_identity_no
@@ -518,7 +518,6 @@ class _UserOrderDetailsViewState extends ConsumerState<UserOrderDetailsView> {
               padding:
                   EdgeInsets.symmetric(horizontal: 10.smw, vertical: 10.smh),
               width: 340.smw,
-              height: 40.smh,
               decoration: BoxDecoration(
                 color: CustomColors.primary,
                 borderRadius: CustomThemeData.topRounded,
