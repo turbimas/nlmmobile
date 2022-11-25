@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nlmdev/core/services/localization/locale_keys.g.dart';
 import 'package:nlmdev/core/services/navigation/navigation_service.dart';
@@ -143,14 +144,14 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                 keyboardType: TextInputType.phone,
                 hint: LocaleKeys.Register_phone_hint.tr(),
                 icon: CustomIcons.field_phone_icon),
-            _customTextField(
+            /* _customTextField(
                 focusScopeNode: _focusScopeNode3,
                 nextFocusScopeNode: _focusScopeNode4,
                 key: "Email",
                 validator: Validators.instance.emailValidator,
                 keyboardType: TextInputType.emailAddress,
                 hint: LocaleKeys.Register_email_hint.tr(),
-                icon: CustomIcons.field_mail_icon),
+                icon: CustomIcons.field_mail_icon),*/
             _customTextField(
                 focusScopeNode: _focusScopeNode4,
                 key: "Password",

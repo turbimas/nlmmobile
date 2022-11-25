@@ -2,7 +2,7 @@ class UserModel {
   late int id;
   late String nameSurname;
   late String email;
-  var phone;
+  late String phone;
   var password;
   var gender;
   DateTime? birthDate;

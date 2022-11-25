@@ -15,18 +15,24 @@ class AuthService {
 
   static String? get email => currentUser != null
       ? currentUser!.email
-      : CacheManager.instance.getString(CacheConstants.userEmail);
+      : CacheManager.instance.getString(CacheConstants.userMail);
+
+  static String? get phone => currentUser != null
+      ? currentUser!.phone
+      : CacheManager.instance.getString(CacheConstants.userPhone);
 
   static login(UserModel user) {
     currentUser = user;
     CacheManager.instance.setInt(CacheConstants.userId, user.id);
-    CacheManager.instance.setString(CacheConstants.userEmail, user.email);
+    CacheManager.instance.setString(CacheConstants.userMail, user.email);
+    CacheManager.instance.setString(CacheConstants.userPhone, user.phone);
     NavigationService.navigateToPageAndRemoveUntil(const MainView());
   }
 
   static void logout() {
     CacheManager.instance.remove(CacheConstants.userId);
-    CacheManager.instance.remove(CacheConstants.userEmail);
+    CacheManager.instance.remove(CacheConstants.userMail);
+    CacheManager.instance.remove(CacheConstants.userPhone);
     currentUser = null;
     NavigationService.context.read<HomeIndexCubit>().set(2);
     NavigationService.navigateToPageAndRemoveUntil(const LoginView());
@@ -34,7 +40,8 @@ class AuthService {
 
   static void update(UserModel user) {
     currentUser = user;
-    CacheManager.instance.setString(CacheConstants.userEmail, user.email);
+    CacheManager.instance.setString(CacheConstants.userMail, user.email);
+    CacheManager.instance.setString(CacheConstants.userPhone, user.phone);
     NavigationService.navigateToPageAndRemoveUntil(const MainView());
   }
 

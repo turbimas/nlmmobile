@@ -41,7 +41,7 @@ class OkCancelPrompt extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CustomIcons.cancel_icon__medium,
-                  CustomTextLocale(LocaleKeys.OkCancelPrompt_ok,
+                  CustomTextLocale(LocaleKeys.OkCancelPrompt_cancel,
                       style: CustomFonts.bigButton(CustomColors.secondaryText)),
                 ],
               ),
@@ -59,7 +59,7 @@ class OkCancelPrompt extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CustomIcons.check_icon,
-                  CustomTextLocale(LocaleKeys.OkCancelPrompt_cancel,
+                  CustomTextLocale(LocaleKeys.OkCancelPrompt_ok,
                       style: CustomFonts.bigButton(CustomColors.secondaryText)),
                 ],
               ),

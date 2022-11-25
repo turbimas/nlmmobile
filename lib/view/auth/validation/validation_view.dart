@@ -15,6 +15,7 @@ import 'package:nlmdev/product/widgets/custom_safearea.dart';
 import 'package:nlmdev/product/widgets/custom_text.dart';
 import 'package:nlmdev/product/widgets/ok_cancel_prompt.dart';
 import 'package:nlmdev/view/auth/validation/validation_view_model.dart';
+import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
 
 class ValidationView extends ConsumerStatefulWidget {
   Map<String, dynamic> registerData;
@@ -42,7 +43,7 @@ class _ValidationViewState extends ConsumerState<ValidationView> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: FutureBuilder<bool>(
-          future: ref.read(provider).sendMail(),
+          future: ref.read(provider).sendMessage(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!) {
@@ -88,30 +89,31 @@ class _ValidationViewState extends ConsumerState<ValidationView> {
     );
   }
 
-  Container _field() {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.smh),
-      padding: EdgeInsets.symmetric(horizontal: 30.smw),
-      decoration: BoxDecoration(
-          color: CustomColors.primary,
-          borderRadius: CustomThemeData.fullInfiniteRounded),
-      constraints: BoxConstraints(minHeight: 50.smh),
-      width: 300.smw,
-      child: Form(
-        key: ref.watch(provider).formKey,
-        child: TextFormField(
-          validator: Validators.instance.validationCodeValidator,
-          onSaved: (newValue) =>
-              ref.read(provider).approvedValidationCode = newValue ?? "",
-          keyboardType: TextInputType.number,
-          style: CustomFonts.defaultField(CustomColors.primaryText),
-          decoration: InputDecoration(
-              border: InputBorder.none,
-              errorStyle: CustomFonts.defaultField(CustomColors.primaryText),
-              hintStyle: CustomFonts.defaultField(CustomColors.primaryText),
-              hintText: LocaleKeys.Validation_validation_hint.tr()),
-        ),
+  Widget _field() {
+    return PinCodeFields(
+      fieldBorderStyle: FieldBorderStyle.square,
+      responsive: true,
+      padding: EdgeInsets.all(20),
+      borderWidth: 3.0,
+      activeBorderColor: CustomColors.secondary,
+      activeBackgroundColor: CustomColors.secondary,
+      borderRadius: BorderRadius.circular(20.0),
+      keyboardType: TextInputType.number,
+      autoHideKeyboard: true,
+      fieldBackgroundColor: CustomColors.card,
+      borderColor: CustomColors.cardInner,
+      textStyle: TextStyle(
+        fontSize: 20.0,
+        fontWeight: FontWeight.bold,
       ),
+      length: 6,
+      controller: null,
+      focusNode: null,
+      onComplete: (result) {
+        ref.read(provider).approvedValidationCode = result;
+        ref.read(provider).approve;
+        print(result);
+      },
     );
   }
 
@@ -121,7 +123,7 @@ class _ValidationViewState extends ConsumerState<ValidationView> {
       width: 300.smw,
       child: Center(
         child: CustomTextLocale(LocaleKeys.Validation_sent_message,
-            args: [widget.registerData["Email"]],
+            args: [widget.registerData["MobilePhone"]],
             style: CustomFonts.bodyText4(CustomColors.backgroundText)),
       ),
     );

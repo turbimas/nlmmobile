@@ -77,7 +77,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        _addressBar(),
+        //_addressBar(),
         _searchBar(),
         _bannersContent(),
       ],
@@ -94,20 +94,38 @@ class _HomeViewState extends ConsumerState<HomeView> {
       decoration: BoxDecoration(
           borderRadius: CustomThemeData.bottomInfiniteRounded,
           color: CustomColors.secondary),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Icon(Icons.home),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("Data 1"),
-              Text("Data 2"),
-            ],
-          ),
-          Icon(Icons.arrow_drop_down)
-        ],
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.home),
+            Padding(
+              padding: EdgeInsets.only(left: 30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    ref.watch(provider).address!.addressHeader.toString(),
+                    style: CustomFonts.bodyText4(CustomColors.cardInner),
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                    maxLines: 1,
+                  ),
+                  Text(
+                    ref.watch(provider).address!.address.toString(),
+                    style: CustomFonts.bodyText4(CustomColors.cardInner),
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                    maxLines: 1,
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.arrow_drop_down)
+          ],
+        ),
       ),
     );
   }
@@ -214,8 +232,20 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget _imageBanner(HomeBannerModel model) {
     return InkWell(
       onTap: () async {
+        var _products = null;
+        ResponseModel response =
+            await NetworkService.post("products/ProductfromBarcodes", body: {
+          "CariID": AuthService.currentUser!.id,
+          "BarcodeArrays": model.barcodes
+        });
+
+        if (response.success) {
+          _products = (response.data as List)
+              .map((e) => ProductOverViewModel.fromJson(e))
+              .toList();
+        }
         NavigationService.navigateToPage(
-            SearchResultView(products: model.products, isSearch: false));
+            SearchResultView(products: _products, isSearch: false));
       },
       child: Container(
           margin: EdgeInsets.only(bottom: 10.smh),

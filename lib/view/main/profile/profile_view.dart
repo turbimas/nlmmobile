@@ -16,6 +16,7 @@ import 'package:nlmdev/view/auth/login/login_view.dart';
 import 'package:nlmdev/view/user/user_addresses/user_addresses_view.dart';
 import 'package:nlmdev/view/user/user_orders/user_orders_view.dart';
 import 'package:nlmdev/view/user/user_profile/user_profile_view.dart';
+import 'package:nlmdev/view/user/user_promotions/promotions_view.dart';
 import 'package:nlmdev/view/user/user_questions/user_questions_view.dart';
 import 'package:nlmdev/view/user/user_ratings/user_ratings_view.dart';
 
@@ -156,10 +157,10 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
             title: LocaleKeys.Profile_orders.tr(),
             page: const UserOrdersView(),
             icon: CustomIcons.profile_delivery),
-        // _option(
-        //     title: LocaleKeys.Profile_promotions.tr(),
-        //     path: NavigationConstants.userPromotions,
-        //     icon: CustomIcons.profile_gift),
+        //_option(
+        //    title: LocaleKeys.Profile_promotions.tr(),
+        //  page: const UserPromotionsView(),
+        //icon: CustomIcons.profile_gift),
         _option(
             title: LocaleKeys.Profile_addresses.tr(),
             page: const UserAddressesView(),
