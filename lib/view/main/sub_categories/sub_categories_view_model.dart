@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:koyevi/core/services/auth/authservice.dart';
 import 'package:koyevi/core/services/navigation/navigation_service.dart';
@@ -70,13 +68,8 @@ class SubCategoriesViewModel extends ChangeNotifier {
       if (response.success) {
         List<CategoryModel> responseList =
             response.data!.map((e) => CategoryModel.fromJson(e)).toList();
-        if (responseList.isEmpty) {
-          selectedCategories.add(model);
-          await approve();
-        } else {
-          subCategories.add(responseList);
-          selectedCategories.add(model);
-        }
+        subCategories.add(responseList);
+        selectedCategories.add(model);
       } else {
         PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
       }

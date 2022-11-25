@@ -43,7 +43,6 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
     Future.delayed(Duration.zero, () {
       ref.read(provider).getProductDetail(widget.productOverViewModel.barcode);
     });
-
     super.initState();
   }
 
@@ -126,33 +125,18 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
               style: CustomFonts.bodyText1(CustomColors.primaryText),
             ))),
         Container(
-            color: ref.watch(provider).productDetail!.canShipped &&
-                    ref.watch(provider).productDetail!.inSale
-                ? CustomColors.secondary
-                : CustomColors.disabled,
+            color: CustomColors.secondary,
             width: 155.smw,
             child: Center(
                 child: ref.watch(provider).productDetail!.basketQuantity == null
                     ? InkWell(
-                        onTap: ref.watch(provider).productDetail!.canShipped &&
-                                ref.watch(provider).productDetail!.inSale
-                            ? ref.read(provider).addBasket
-                            : () {},
+                        onTap: ref.read(provider).addBasket,
                         child: Row(
-                            mainAxisAlignment: ref
-                                        .watch(provider)
-                                        .productDetail!
-                                        .canShipped &&
-                                    ref.watch(provider).productDetail!.inSale
-                                ? MainAxisAlignment.spaceEvenly
-                                : MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              ref.watch(provider).productDetail!.canShipped &&
-                                      ref.watch(provider).productDetail!.inSale
-                                  ? CustomIcons.add_basket_icon
-                                  : Container(),
+                              CustomIcons.add_basket_icon,
                               CustomTextLocale(
-                                  ref.watch(provider).statusMessage,
+                                  LocaleKeys.ProductDetail_add_to_basket,
                                   style: CustomFonts.bodyText1(
                                       CustomColors.secondaryText))
                             ]),
@@ -167,8 +151,8 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
                               ref
                                   .watch(provider)
                                   .productDetail!
-                                  .basketQuantity!
-                                  .toStringAsFixed(2),
+                                  .basketQuantity
+                                  .toString(),
                               style: CustomFonts.bodyText1(
                                   CustomColors.secondaryText)),
                           InkWell(
@@ -440,7 +424,7 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.smw, vertical: 10.smh),
       child: CustomText(
-        product.productDetails.itemProperty,
+        product.productDetails.itemProperty * 100,
         style: CustomFonts.bodyText2(CustomColors.backgroundTextPale),
         maxLines: ref.watch(provider).infoExpanded ? 1000 : 3,
       ),

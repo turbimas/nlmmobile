@@ -7,7 +7,6 @@ class AddressModel {
   String address;
   double lat;
   double lng;
-  bool isDefault;
 
   // from json
   AddressModel.fromJson(Map<String, dynamic> json)
@@ -18,23 +17,8 @@ class AddressModel {
         town = json['Town'],
         address = json['Adress'],
         lat = json['lat'],
-        lng = json['lng'],
-        isDefault = json['isDefault'];
+        lng = json['lng'];
 
   @override
   operator ==(o) => o is AddressModel && o.id == id;
-
-  toJson() => {
-        'ID': id,
-        'AdressHeader': addressHeader,
-        'Country': country,
-        'City': city,
-        'Town': town,
-        'Adress': address,
-        'lat': lat,
-        'lng': lng,
-        'isDefault': isDefault,
-      };
-
-  toString() => toJson().toString();
 }

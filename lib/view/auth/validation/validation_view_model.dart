@@ -64,77 +64,47 @@ class ValidationViewModel extends ChangeNotifier {
     }
   }
 
-  Future<bool> sendMessage() async {
-    try {
-      ResponseModel response =
-          await NetworkService.post("users/number_verification", body: {
-        "Number": registerData["MobilePhone"],
-        "Email": registerData["Email"],
-        "NameSurname": registerData["Name"],
-        "VerificationCode": validateCode
-      });
-      if (response.success) {
-        return true;
-      } else {
-        PopupHelper.showErrorDialog(
-            errorMessage: response.errorMessage!,
-            dismissible: false,
-            actions: {
-              LocaleKeys.Validation_go_back.tr(): () {
-                NavigationService.back(times: 2, data: false);
-              }
-            });
-        return false;
-      }
-    } catch (e) {
-      PopupHelper.showErrorDialogWithCode(e);
-      return false;
-    }
-  }
-
   Future<void> resend() async {
     generateValidateCode();
     resented = await sendMail();
   }
 
   Future<void> approve() async {
-    //if (formKey.currentState!.validate()) formKey.currentState!.save();
-    if (approvedValidationCode.trim() == validateCode) {
-      late ResponseModel response;
-      if (isUpdate) {
-        response = await NetworkService.post("users/user_edit", body: {
-          "ID": AuthService.currentUser!.id,
-          "Name": registerData["Name"],
-          "BornDate": registerData["BornDate"],
-          "MobilePhone": registerData["MobilePhone"],
-          "Email": registerData["Email"],
-          "Password": registerData["Password"],
-          "Cinsiyet": registerData["Gender"]
-        });
-      } else {
-        try {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      if (approvedValidationCode.trim() == validateCode) {
+        late ResponseModel response;
+        if (isUpdate) {
+          response = await NetworkService.post("users/user_edit", body: {
+            "ID": AuthService.currentUser!.id,
+            "Name": registerData["Name"],
+            "BornDate": registerData["BornDate"],
+            "MobilePhone": registerData["MobilePhone"],
+            "Email": registerData["Email"],
+            "Password": registerData["Password"],
+            "Cinsiyet": registerData["Gender"]
+          });
+        } else {
           response =
               await NetworkService.post("users/register", body: registerData);
-        } catch (e) {
+        }
+
+        if (response.success) {
+          ResponseModel userInfo = await NetworkService.get(
+              "users/user_info/${registerData["Email"]}");
+          if (userInfo.success) {
+            // formKey.currentState?.dispose();
+            await AuthService.login(UserModel.fromJson(userInfo.data));
+          } else {
+            PopupHelper.showErrorDialog(errorMessage: userInfo.errorMessage!);
+          }
+        } else {
           PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
         }
-      }
-
-      if (response.success) {
-        ResponseModel userInfo = await NetworkService.get(
-            "users/user_info/${registerData["Email"] == null ? registerData["MobilePhone"] : registerData["Email"]}");
-        if (userInfo.success) {
-          // formKey.currentState?.dispose();
-          await AuthService.login(UserModel.fromJson(userInfo.data));
-        } else {
-          PopupHelper.showErrorDialog(errorMessage: userInfo.errorMessage!);
-        }
       } else {
-        PopupHelper.showErrorDialog(errorMessage: response.errorMessage!);
+        PopupHelper.showErrorDialog(
+            errorMessage: LocaleKeys.Validation_wrong_code.tr());
       }
-    } else {
-      PopupHelper.showErrorDialog(
-          errorMessage: LocaleKeys.Validation_wrong_code.tr());
     }
   }
 }

@@ -164,9 +164,9 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
           spreadRadius: 5,
           blurStyle: BlurStyle.outer,
           blurRadius: 7,
-          offset: const Offset(0, 0), // changes position of shadow
+          offset: Offset(0, 0), // changes position of shadow
         ),
-      ], borderRadius: const BorderRadius.all(Radius.circular(15.0))),
+      ], borderRadius: BorderRadius.all(Radius.circular(15.0))),
       child: InkWell(
         onTap: () {
           ref.read(provider).deliveryTaxSame =
@@ -199,9 +199,9 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
           spreadRadius: 5,
           blurStyle: BlurStyle.outer,
           blurRadius: 7,
-          offset: const Offset(0, 0), // changes position of shadow
+          offset: Offset(0, 0), // changes position of shadow
         ),
-      ], borderRadius: const BorderRadius.all(Radius.circular(20.0))),
+      ], borderRadius: BorderRadius.all(Radius.circular(20.0))),
       child: SizedBox(
         child: Column(
           children: [
@@ -245,9 +245,9 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
           spreadRadius: 5,
           blurStyle: BlurStyle.outer,
           blurRadius: 7,
-          offset: const Offset(0, 0), // changes position of shadow
+          offset: Offset(0, 0), // changes position of shadow
         ),
-      ], borderRadius: const BorderRadius.all(Radius.circular(20.0))),
+      ], borderRadius: BorderRadius.all(Radius.circular(20.0))),
       child: SizedBox(
         child: Column(
           children: [
@@ -297,9 +297,9 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
           spreadRadius: 5,
           blurStyle: BlurStyle.outer,
           blurRadius: 7,
-          offset: const Offset(0, 0), // changes position of shadow
+          offset: Offset(0, 0), // changes position of shadow
         ),
-      ], borderRadius: const BorderRadius.all(Radius.circular(20.0))),
+      ], borderRadius: BorderRadius.all(Radius.circular(20.0))),
       child: SizedBox(
         child: Column(
           children: [
@@ -329,9 +329,9 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
           spreadRadius: 5,
           blurStyle: BlurStyle.outer,
           blurRadius: 7,
-          offset: const Offset(0, 0), // changes position of shadow
+          offset: Offset(0, 0), // changes position of shadow
         ),
-      ], borderRadius: const BorderRadius.all(Radius.circular(20.0))),
+      ], borderRadius: BorderRadius.all(Radius.circular(20.0))),
       child: SizedBox(
         child: Column(
           children: [
@@ -777,7 +777,9 @@ class _BasketDetailState extends ConsumerState<BasketDetailView> {
                   CustomText(deliveryTimeModel.typeName,
                       style: CustomFonts.bodyText4(CustomColors.primaryText)),
                   CustomText(
-                      "${ref.watch(provider).selectedDate!} | ${ref.watch(provider).selectedHour!}",
+                      ref.watch(provider).selectedDate! +
+                          " | " +
+                          ref.watch(provider).selectedHour!,
                       style: CustomFonts.bodyText4(CustomColors.primaryText)),
                 ],
               ),

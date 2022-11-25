@@ -41,8 +41,7 @@ class _OrderCancelReturnViewState extends ConsumerState<OrderCancelReturnView> {
           label: CustomTextLocale(widget.orderTitle.refundable
               ? LocaleKeys.OrderCancelReturn_return
               : LocaleKeys.OrderCancelReturn_cancel),
-          backgroundColor: CustomColors.secondary,
-          icon: Icon(Icons.check, color: CustomColors.secondaryText),
+          icon: const Icon(Icons.check),
         ),
         appBar: CustomAppBar.activeBack(widget.orderTitle.refundable
             ? LocaleKeys.OrderCancelReturn_return

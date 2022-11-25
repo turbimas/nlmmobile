@@ -82,8 +82,7 @@ class _SplashViewState extends ConsumerState<SplashView>
       }
       if (AuthService.isLoggedIn) {
         try {
-          NetworkService.get(
-                  "users/user_info/${AuthService.email == "" ? AuthService.phone : AuthService.email}")
+          NetworkService.get("users/user_info/${AuthService.email}")
               .then((ResponseModel value) {
             if (value.success) {
               AuthService.login(UserModel.fromJson(value.data));

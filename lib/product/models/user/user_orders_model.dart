@@ -7,8 +7,8 @@ import 'package:koyevi/product/models/order/order_invoice_address.dart';
 class UserOrdersModel {
   late final int orderId;
   late final String ficheNo;
-  late final DateTime orderDate; // siparişin verildiği tarih
-  DateTime? realDeliveryDate; // teslim edildiyse
+  late final DateTime orderDate;
+  DateTime? realDeliveryDate;
   late final String statusName;
   late final int lineCount;
   late final num total;

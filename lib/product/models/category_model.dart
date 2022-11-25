@@ -40,11 +40,6 @@ class CategoryModel {
     };
   }
 
-  @override
-  String toString() {
-    return 'CategoryModel{id: $id, upperGroupId: $upperGroupId, groupName: $groupName, siraNo: $siraNo, _imageUrl: $_imageUrl}';
-  }
-
   // equal operator
   @override
   bool operator ==(other) => other is CategoryModel && other.id == id;
