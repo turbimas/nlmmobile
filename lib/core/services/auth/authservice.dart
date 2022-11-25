@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-<<<<<<< HEAD
 import 'package:nlmmobile/core/services/cache/cache_manager.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/product/constants/cache_constants.dart';
@@ -8,15 +7,6 @@ import 'package:nlmmobile/product/cubits/home_index_cubit/home_index_cubit.dart'
 import 'package:nlmmobile/product/models/user_model.dart';
 import 'package:nlmmobile/product/widgets/main/main_view.dart';
 import 'package:nlmmobile/view/auth/login/login_view.dart';
-=======
-import 'package:koyevi/core/services/cache/cache_manager.dart';
-import 'package:koyevi/core/services/navigation/navigation_service.dart';
-import 'package:koyevi/product/constants/cache_constants.dart';
-import 'package:koyevi/product/cubits/home_index_cubit/home_index_cubit.dart';
-import 'package:koyevi/product/models/user_model.dart';
-import 'package:koyevi/product/widgets/main/main_view.dart';
-import 'package:koyevi/view/auth/login/login_view.dart';
->>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
 
 class AuthService {
   static UserModel? currentUser;

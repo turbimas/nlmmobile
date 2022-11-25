@@ -15,11 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "97C146ED1CF9000F007C117D"
-<<<<<<< HEAD
                BuildableName = "nlmmobile.app"
-=======
-               BuildableName = "koyevi.app"
->>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
                BlueprintName = "Runner"
                ReferencedContainer = "container:Runner.xcodeproj">
             </BuildableReference>
@@ -35,11 +31,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "97C146ED1CF9000F007C117D"
-<<<<<<< HEAD
             BuildableName = "nlmmobile.app"
-=======
-            BuildableName = "koyevi.app"
->>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
             BlueprintName = "Runner"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>
@@ -62,11 +54,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "97C146ED1CF9000F007C117D"
-<<<<<<< HEAD
             BuildableName = "nlmmobile.app"
-=======
-            BuildableName = "koyevi.app"
->>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
             BlueprintName = "Runner"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>
@@ -83,11 +71,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "97C146ED1CF9000F007C117D"
-<<<<<<< HEAD
             BuildableName = "nlmmobile.app"
-=======
-            BuildableName = "koyevi.app"
->>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
             BlueprintName = "Runner"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>

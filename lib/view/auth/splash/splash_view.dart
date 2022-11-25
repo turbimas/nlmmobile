@@ -2,7 +2,6 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-<<<<<<< HEAD
 import 'package:nlmmobile/core/services/auth/authservice.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/network/network_service.dart';
@@ -14,19 +13,6 @@ import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
 import 'package:nlmmobile/product/constants/app_constants.dart';
 import 'package:nlmmobile/product/models/user_model.dart';
 import 'package:nlmmobile/view/auth/login/login_view.dart';
-=======
-import 'package:koyevi/core/services/auth/authservice.dart';
-import 'package:koyevi/core/services/navigation/navigation_service.dart';
-import 'package:koyevi/core/services/network/network_service.dart';
-import 'package:koyevi/core/services/network/response_model.dart';
-import 'package:koyevi/core/services/theme/custom_colors.dart';
-import 'package:koyevi/core/services/theme/custom_icons.dart';
-import 'package:koyevi/core/services/theme/custom_images.dart';
-import 'package:koyevi/core/utils/helpers/popup_helper.dart';
-import 'package:koyevi/product/constants/app_constants.dart';
-import 'package:koyevi/product/models/user_model.dart';
-import 'package:koyevi/view/auth/login/login_view.dart';
->>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
 import 'package:url_launcher/url_launcher_string.dart';
 
 class SplashView extends ConsumerStatefulWidget {

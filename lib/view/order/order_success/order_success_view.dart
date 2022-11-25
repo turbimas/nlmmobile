@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-<<<<<<< HEAD
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
@@ -13,18 +12,6 @@ import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
 import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/main/main_view.dart';
-=======
-import 'package:koyevi/core/services/localization/locale_keys.g.dart';
-import 'package:koyevi/core/services/navigation/navigation_service.dart';
-import 'package:koyevi/core/services/theme/custom_colors.dart';
-import 'package:koyevi/core/services/theme/custom_fonts.dart';
-import 'package:koyevi/core/services/theme/custom_images.dart';
-import 'package:koyevi/core/utils/extensions/ui_extensions.dart';
-import 'package:koyevi/core/utils/helpers/popup_helper.dart';
-import 'package:koyevi/product/widgets/custom_safearea.dart';
-import 'package:koyevi/product/widgets/custom_text.dart';
-import 'package:koyevi/product/widgets/main/main_view.dart';
->>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
 
 class OrderSuccessView extends ConsumerStatefulWidget {
   final String orderId;

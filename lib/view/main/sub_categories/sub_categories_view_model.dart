@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:nlmmobile/core/services/auth/authservice.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
 import 'package:nlmmobile/core/services/network/network_service.dart';
@@ -10,16 +9,6 @@ import 'package:nlmmobile/core/utils/helpers/popup_helper.dart';
 import 'package:nlmmobile/product/models/category_model.dart';
 import 'package:nlmmobile/product/models/product_over_view_model.dart';
 import 'package:nlmmobile/view/main/search_result/search_result_view.dart';
-=======
-import 'package:koyevi/core/services/auth/authservice.dart';
-import 'package:koyevi/core/services/navigation/navigation_service.dart';
-import 'package:koyevi/core/services/network/network_service.dart';
-import 'package:koyevi/core/services/network/response_model.dart';
-import 'package:koyevi/core/utils/helpers/popup_helper.dart';
-import 'package:koyevi/product/models/category_model.dart';
-import 'package:koyevi/product/models/product_over_view_model.dart';
-import 'package:koyevi/view/main/search_result/search_result_view.dart';
->>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
 
 class SubCategoriesViewModel extends ChangeNotifier {
   ScrollController scrollController;

@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-<<<<<<< HEAD
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/theme/custom_colors.dart';
 import 'package:nlmmobile/core/services/theme/custom_fonts.dart';
@@ -15,21 +14,6 @@ import 'package:nlmmobile/product/widgets/custom_safearea.dart';
 import 'package:nlmmobile/product/widgets/custom_text.dart';
 import 'package:nlmmobile/product/widgets/ok_cancel_prompt.dart';
 import 'package:nlmmobile/view/main/sub_categories/sub_categories_view_model.dart';
-=======
-import 'package:koyevi/core/services/localization/locale_keys.g.dart';
-import 'package:koyevi/core/services/theme/custom_colors.dart';
-import 'package:koyevi/core/services/theme/custom_fonts.dart';
-import 'package:koyevi/core/services/theme/custom_images.dart';
-import 'package:koyevi/core/services/theme/custom_theme_data.dart';
-import 'package:koyevi/core/utils/extensions/ui_extensions.dart';
-import 'package:koyevi/product/constants/app_constants.dart';
-import 'package:koyevi/product/models/category_model.dart';
-import 'package:koyevi/product/widgets/custom_appbar.dart';
-import 'package:koyevi/product/widgets/custom_safearea.dart';
-import 'package:koyevi/product/widgets/custom_text.dart';
-import 'package:koyevi/product/widgets/ok_cancel_prompt.dart';
-import 'package:koyevi/view/main/sub_categories/sub_categories_view_model.dart';
->>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
 
 class SubCategoriesView extends ConsumerStatefulWidget {
   final CategoryModel? masterCategory;

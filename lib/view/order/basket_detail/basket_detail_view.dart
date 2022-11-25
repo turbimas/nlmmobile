@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-<<<<<<< HEAD
 import 'package:nlmmobile/core/services/auth/authservice.dart';
 import 'package:nlmmobile/core/services/localization/locale_keys.g.dart';
 import 'package:nlmmobile/core/services/navigation/navigation_service.dart';
@@ -27,31 +26,6 @@ import 'package:nlmmobile/product/widgets/try_again_widget.dart';
 import 'package:nlmmobile/view/order/basket_detail/basket_detail_view_model.dart';
 import 'package:nlmmobile/view/order/delivery_times/delivery_times.dart';
 import 'package:nlmmobile/view/user/user_addresses/user_addresses_view.dart';
-=======
-import 'package:koyevi/core/services/auth/authservice.dart';
-import 'package:koyevi/core/services/localization/locale_keys.g.dart';
-import 'package:koyevi/core/services/navigation/navigation_service.dart';
-import 'package:koyevi/core/services/theme/custom_colors.dart';
-import 'package:koyevi/core/services/theme/custom_fonts.dart';
-import 'package:koyevi/core/services/theme/custom_icons.dart';
-import 'package:koyevi/core/services/theme/custom_images.dart';
-import 'package:koyevi/core/services/theme/custom_theme_data.dart';
-import 'package:koyevi/core/utils/extensions/ui_extensions.dart';
-import 'package:koyevi/core/utils/helpers/popup_helper.dart';
-import 'package:koyevi/product/constants/app_constants.dart';
-import 'package:koyevi/product/models/order/basket_total_model.dart';
-import 'package:koyevi/product/models/user/address_model.dart';
-import 'package:koyevi/product/models/user/delivery_time_model.dart';
-import 'package:koyevi/product/widgets/custom_appbar.dart';
-import 'package:koyevi/product/widgets/custom_safearea.dart';
-import 'package:koyevi/product/widgets/custom_text.dart';
-import 'package:koyevi/product/widgets/terms/mesafeli_satis_sozlesmesi.dart';
-import 'package:koyevi/product/widgets/terms/on_bilgilendirme_formu.dart';
-import 'package:koyevi/product/widgets/try_again_widget.dart';
-import 'package:koyevi/view/order/basket_detail/basket_detail_view_model.dart';
-import 'package:koyevi/view/order/delivery_times/delivery_times.dart';
-import 'package:koyevi/view/user/user_addresses/user_addresses_view.dart';
->>>>>>> b93235d9667607c51079d8a94bbbb9f4b80d0a66
 
 class BasketDetailView extends ConsumerStatefulWidget {
   final BasketTotalModel basketTotal;
