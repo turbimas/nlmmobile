@@ -23,10 +23,7 @@ abstract class NetworkService {
             (X509Certificate cert, String host, int port) => true;
       };
       Response<Map<String, dynamic>> response = await _tempDio
-          .post<Map<String, dynamic>>(
-              AppConstants.APP_API +
-                  NavigationService.context.locale.languageCode +
-                  "/app/gettoken",
+          .post<Map<String, dynamic>>(AppConstants.APP_API + "/app/gettoken",
               data: {
             "grant_type": "password",
             "username": "admin",
@@ -63,7 +60,7 @@ abstract class NetworkService {
     while (notInited) {
       await init();
     }
-    String fullUrl = "${NavigationService.context.locale.languageCode}/$url";
+    String fullUrl = "$url";
     try {
       if (debug) {
         log("GET : $fullUrl");
@@ -92,7 +89,7 @@ abstract class NetworkService {
       await init();
     }
 
-    String fullUrl = "${NavigationService.context.locale.languageCode}/$url";
+    String fullUrl = "$url";
     try {
       if (debug) {
         log("POST: $fullUrl");
